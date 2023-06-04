@@ -8,9 +8,14 @@ public static class BkashDependencyInjection
         this IServiceCollection services,
         Func<BkashConfigurationOptions> configAction)
     {
-        services.Configure<BkashConfigurationOptions>(x => configAction.Invoke());
+        services.Configure<BkashConfigurationOptions>(
+            x => configAction.Invoke());
+
         services.AddHttpClient();
+
+        services.AddScoped<IBkashToken, BkashToken>();
         services.AddScoped<IDateTimeProvider, DateTimeProvider>();
+
         return services;
     }
 }

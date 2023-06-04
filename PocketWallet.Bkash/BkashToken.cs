@@ -1,9 +1,4 @@
-﻿using Microsoft.Extensions.Options;
-using PocketWallet.Bkash.Constants;
-using PocketWallet.Bkash.DependencyInjection;
-
-namespace PocketWallet.Bkash;
-
+﻿namespace PocketWallet.Bkash;
 internal class BkashToken : IBkashToken
 {
     private readonly IDateTimeProvider _dateTimeProvider;
@@ -25,7 +20,21 @@ internal class BkashToken : IBkashToken
         _dateTimeProvider = dateTimeProvider;
     }
 
-    public async Task<string> CreateToken()
+    public async Task<Dictionary<string, string>> GetSecurityTokenHeaders()
+    {
+        var token = await CreateToken();
+        var headers = new Dictionary<string, string>()
+        {
+            { "username", _bkashConfigurationOptions.UserName ?? string.Empty },
+            { "password", _bkashConfigurationOptions.Password ?? string.Empty },
+            { "authorization", token },
+            { "x-app-key", _bkashConfigurationOptions.Key ?? string.Empty}
+        };
+
+        return headers;
+    }
+
+    private async Task<string> CreateToken()
     {
         if (string.IsNullOrWhiteSpace(_token))
         {
@@ -67,7 +76,7 @@ internal class BkashToken : IBkashToken
 
     private async Task<TokenResponse?> CreateInitialToken()
     {
-        string requestURL = $"{_bkashConfigurationOptions.BaseURL}/{RequestConstants.TOKEN_REQUEST_URL}";
+        string requestURL = $"{_bkashConfigurationOptions.BaseURL}/{RequestConstants.TOKEN_URL}";
         var response = await _httpClient.PostAsync<TokenResponse>(
               requestURL,
               new
@@ -82,7 +91,7 @@ internal class BkashToken : IBkashToken
 
     private async Task<TokenResponse?> CreateRefreshToken(string refreshToken)
     {
-        string requestURL = $"{_bkashConfigurationOptions.BaseURL}/{RequestConstants.REFRESH_TOKEN_REQUEST_URL}";
+        string requestURL = $"{_bkashConfigurationOptions.BaseURL}/{RequestConstants.REFRESH_TOKEN_URL}";
         var response = await _httpClient.PostAsync<TokenResponse>(
               requestURL,
               new

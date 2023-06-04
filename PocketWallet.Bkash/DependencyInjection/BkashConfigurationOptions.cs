@@ -2,10 +2,7 @@
 
 public class BkashConfigurationOptions
 {
-    private BkashConfigurationOptions()
-    {
-
-    }
+    private BkashConfigurationOptions() { }
 
     private BkashConfigurationOptions(
     string baseURL,
