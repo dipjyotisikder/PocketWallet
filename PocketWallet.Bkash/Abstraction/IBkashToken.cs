@@ -1,5 +1,5 @@
 ﻿namespace PocketWallet.Bkash.Abstraction;
 internal interface IBkashToken
 {
-    internal Task<TokenResponse?> CreateInitialToken();
+    internal Task<string> CreateToken();
 }

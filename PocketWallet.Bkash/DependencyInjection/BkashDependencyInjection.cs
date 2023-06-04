@@ -10,6 +10,7 @@ public static class BkashDependencyInjection
     {
         services.Configure<BkashConfigurationOptions>(x => configAction.Invoke());
         services.AddHttpClient();
+        services.AddScoped<IDateTimeProvider, DateTimeProvider>();
         return services;
     }
 }
