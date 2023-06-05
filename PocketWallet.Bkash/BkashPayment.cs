@@ -18,30 +18,21 @@ public class BkashPayment : IBkashPayment
 
     public async Task<CreatePaymentResponse> CreatePayment(CreatePayment paymentRequest)
     {
-        var payload = new
-        {
-            amount = paymentRequest.Amount,
-            intent = paymentRequest.Intent,
-            currency = paymentRequest.Currency,
-            merchantInvoiceNumber = paymentRequest.OrderID,
-            merchantAssociationInfo = paymentRequest.MerchantAssociationInfo
-        };
-
-        var headers = await _bkashToken.GetAuthorizationHeaders();
+        var headers = await _bkashToken.GetSecurityTokenHeaders();
         var response = await _httpClient.PostAsync<CreatePaymentResponse>(
             $"{_bkashConfigurationOptions.BaseURL}/{RequestConstants.PAYMENT_CREATE_URL}",
-            payload,
+            paymentRequest,
             headers);
 
         return response.Response;
     }
 
-    public async Task<ExecutePaymentResponse> ExecutePayment(string paymentId)
+    public async Task<ExecutePaymentResponse> ExecutePayment(ExecutePayment executePayment)
     {
         var headers = await _bkashToken.GetAuthorizationHeaders();
         var response = await _httpClient.PostAsync<ExecutePaymentResponse>(
-            $"{_bkashConfigurationOptions.BaseURL}/{RequestConstants.PAYMENT_EXECUTE_URL(paymentId)}",
-            new { },
+            $"{_bkashConfigurationOptions.BaseURL}/{RequestConstants.PAYMENT_EXECUTE_URL}",
+            executePayment,
             headers);
 
         return response.Response;

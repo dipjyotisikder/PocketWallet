@@ -4,5 +4,5 @@ public interface IBkashPayment
 {
     Task<CreatePaymentResponse> CreatePayment(CreatePayment paymentRequest);
 
-    Task<ExecutePaymentResponse> ExecutePayment(string paymentId);
+    Task<ExecutePaymentResponse> ExecutePayment(ExecutePayment executePayment);
 }
