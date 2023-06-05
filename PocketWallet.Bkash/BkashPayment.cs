@@ -27,7 +27,7 @@ public class BkashPayment : IBkashPayment
             merchantAssociationInfo = paymentRequest.MerchantAssociationInfo
         };
 
-        var headers = await _bkashToken.GetSecurityTokenHeaders();
+        var headers = await _bkashToken.GetAuthorizationHeaders();
         var response = await _httpClient.PostAsync<CreatePaymentResponse>(
             $"{_bkashConfigurationOptions.BaseURL}/{RequestConstants.PAYMENT_CREATE_URL}",
             payload,
@@ -38,7 +38,7 @@ public class BkashPayment : IBkashPayment
 
     public async Task<ExecutePaymentResponse> ExecutePayment(string paymentId)
     {
-        var headers = await _bkashToken.GetSecurityTokenHeaders();
+        var headers = await _bkashToken.GetAuthorizationHeaders();
         var response = await _httpClient.PostAsync<ExecutePaymentResponse>(
             $"{_bkashConfigurationOptions.BaseURL}/{RequestConstants.PAYMENT_EXECUTE_URL(paymentId)}",
             new { },

@@ -20,7 +20,7 @@ internal class BkashToken : IBkashToken
         _dateTimeProvider = dateTimeProvider;
     }
 
-    public async Task<Dictionary<string, string>> GetSecurityTokenHeaders()
+    public async Task<Dictionary<string, string>> GetAuthorizationHeaders()
     {
         var token = await CreateToken();
         var headers = new Dictionary<string, string>()

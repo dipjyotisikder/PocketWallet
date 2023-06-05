@@ -1,5 +1,5 @@
 ﻿namespace PocketWallet.Bkash.Abstraction;
 internal interface IBkashToken
 {
-    internal Task<Dictionary<string, string>> GetSecurityTokenHeaders();
+    internal Task<Dictionary<string, string>> GetAuthorizationHeaders();
 }
