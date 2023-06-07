@@ -58,7 +58,7 @@ public class BkashPayment : IBkashPayment
             
             if (response.IsSuccessStatusCode)
             {
-                if (response.Response.StatusCode is "0000")
+                if (response.Response.StatusCode is RequestConstants.SUCCESS_RESPONSE_CODE)
                 {
                     return Result<ExecutePaymentResponse>.Create(response.Response!);
                 }

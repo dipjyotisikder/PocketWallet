@@ -10,4 +10,6 @@ internal static class RequestConstants
     internal const string PASSWORD_HEADER_KEY = "password";
     internal const string AUTHORIZATION_HEADER_KEY = "authorization";
     internal const string X_APP_KEY_HEADER_KEY = "x-app-key";
+
+    internal const string SUCCESS_RESPONSE_CODE = "0000";
 }
