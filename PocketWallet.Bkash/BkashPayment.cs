@@ -18,7 +18,7 @@ public class BkashPayment : IBkashPayment
 
     public async Task<CreatePaymentResponse> CreatePayment(CreatePayment paymentRequest)
     {
-        var headers = await _bkashToken.GetSecurityTokenHeaders();
+        var headers = await _bkashToken.GetAuthorizationHeaders();
         var response = await _httpClient.PostAsync<CreatePaymentResponse>(
             $"{_bkashConfigurationOptions.BaseURL}/{RequestConstants.PAYMENT_CREATE_URL}",
             paymentRequest,
