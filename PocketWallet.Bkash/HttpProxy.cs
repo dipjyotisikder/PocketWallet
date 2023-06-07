@@ -7,7 +7,7 @@ internal static class HttpProxy
     internal static async Task<HttpResponse<TOut>> GetAsync<TOut>(
         this HttpClient httpClient,
         string url,
-        Dictionary<string, string> headers = null)
+        Dictionary<string, string>? headers = null)
     {
         return await Request<TOut>(httpClient, HttpMethod.Get, url, headers);
     }
@@ -16,7 +16,7 @@ internal static class HttpProxy
         this HttpClient httpClient,
         string url,
         object body,
-        Dictionary<string, string> headers = null)
+        Dictionary<string, string>? headers = null)
     {
         return await Request<TOut>(httpClient, HttpMethod.Post, url, body, headers);
     }
@@ -25,7 +25,7 @@ internal static class HttpProxy
         this HttpClient httpClient,
         string url,
         object body,
-        Dictionary<string, string> headers = null)
+        Dictionary<string, string>? headers = null)
     {
         return await Request<TOut>(httpClient, HttpMethod.Put, url, body, headers);
     }
@@ -33,8 +33,8 @@ internal static class HttpProxy
     internal static async Task<HttpResponse<TOut>> DeleteAsync<TOut>(
         this HttpClient httpClient,
         string url,
-        object body = null,
-        Dictionary<string, string> headers = null)
+        object? body = null,
+        Dictionary<string, string>? headers = null)
     {
         return await Request<TOut>(httpClient, HttpMethod.Delete, url, body, headers);
     }
@@ -43,8 +43,8 @@ internal static class HttpProxy
         HttpClient httpClient,
         HttpMethod method,
         string url,
-        object body = null,
-        Dictionary<string, string> headers = null)
+        object? body = null,
+        Dictionary<string, string>? headers = null)
     {
 
         httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));

@@ -15,24 +15,24 @@ internal class HttpResponse<TOut>
         try
         {
             Response = JsonConvert.DeserializeObject<TOut>(responseContent)!;
-            IsParseSuccess = true;
+            IsParsedSuccessfully = true;
         }
         catch (Exception)
         {
             Response = default;
-            IsParseSuccess = false;
+            IsParsedSuccessfully = false;
         }
     }
 
     internal bool IsSuccessStatusCode { get; }
 
-    internal bool IsParseSuccess { get; }
+    internal bool IsParsedSuccessfully { get; }
 
     internal HttpStatusCode StatusCode { get; }
 
     internal string ResponseString { get; }
 
-    internal TOut Response { get; }
+    internal TOut? Response { get; }
 
     internal static HttpResponse<TOut> Create(
           bool isSuccessStatusCode,

@@ -1,4 +1,6 @@
-﻿namespace PocketWallet.Bkash;
+﻿using CONSTANTS = PocketWallet.Bkash.Constants.RequestConstants;
+
+namespace PocketWallet.Bkash;
 internal class BkashToken : IBkashToken
 {
     private readonly IDateTimeProvider _dateTimeProvider;
@@ -20,18 +22,25 @@ internal class BkashToken : IBkashToken
         _dateTimeProvider = dateTimeProvider;
     }
 
-    public async Task<Dictionary<string, string>> GetAuthorizationHeaders()
+    public async Task<Result<Dictionary<string, string>>> GetAuthorizationHeaders()
     {
-        var token = await CreateToken();
-        var headers = new Dictionary<string, string>()
+        try
         {
-            { "username", _bkashConfigurationOptions.UserName ?? string.Empty },
-            { "password", _bkashConfigurationOptions.Password ?? string.Empty },
-            { "authorization", token },
-            { "x-app-key", _bkashConfigurationOptions.Key ?? string.Empty}
-        };
+            var token = await CreateToken();
+            var headers = new Dictionary<string, string>()
+            {
+                { CONSTANTS.USERNAME_HEADER_KEY, _bkashConfigurationOptions.UserName ?? string.Empty },
+                { CONSTANTS.PASSWORD_HEADER_KEY, _bkashConfigurationOptions.Password ?? string.Empty },
+                { CONSTANTS.AUTHORIZATION_HEADER_KEY, token },
+                { CONSTANTS.X_APP_KEY_HEADER_KEY, _bkashConfigurationOptions.Key ?? string.Empty}
+            };
 
-        return headers;
+            return Result<Dictionary<string, string>>.Create(headers);
+        }
+        catch (Exception e)
+        {
+            return Result<Dictionary<string, string>>.Create(null, new List<Exception> { e });
+        }
     }
 
     private async Task<string> CreateToken()
@@ -41,10 +50,8 @@ internal class BkashToken : IBkashToken
             var token = await CreateInitialToken();
             if (token is null || token.Status is not null || token.Msg is not null)
             {
-                throw new Exception(
-                    "Attemp: New Token " +
-                    "Error Status: " + token?.Status +
-                    "Error Message: " + token?.Msg);
+                var exception = new Exception( $"Attemp: New Token, Error Status: { token?.Status }, Error Message: { token?.Msg}");
+                throw exception;
             }
             _token = token.IdToken!;
             _refreshToken = token.RefreshToken!;
@@ -76,7 +83,7 @@ internal class BkashToken : IBkashToken
 
     private async Task<TokenResponse?> CreateInitialToken()
     {
-        string requestURL = $"{_bkashConfigurationOptions.BaseURL}/{RequestConstants.TOKEN_URL}";
+        string requestURL = $"{_bkashConfigurationOptions.BaseURL}/{CONSTANTS.TOKEN_URL}";
         var response = await _httpClient.PostAsync<TokenResponse>(
               requestURL,
               new
@@ -91,7 +98,7 @@ internal class BkashToken : IBkashToken
 
     private async Task<TokenResponse?> CreateRefreshToken(string refreshToken)
     {
-        string requestURL = $"{_bkashConfigurationOptions.BaseURL}/{RequestConstants.REFRESH_TOKEN_URL}";
+        string requestURL = $"{_bkashConfigurationOptions.BaseURL}/{CONSTANTS.REFRESH_TOKEN_URL}";
         var response = await _httpClient.PostAsync<TokenResponse>(
               requestURL,
               new
@@ -103,11 +110,11 @@ internal class BkashToken : IBkashToken
               GetSecurityHeaders());
 
         return response.Response;
-    }
+    } 
 
     private Dictionary<string, string> GetSecurityHeaders() => new()
     {
-        {"username", _bkashConfigurationOptions.UserName??string.Empty },
-        {"password", _bkashConfigurationOptions.Password??string.Empty }
+        {CONSTANTS.USERNAME_HEADER_KEY, _bkashConfigurationOptions.UserName??string.Empty },
+        {CONSTANTS.PASSWORD_HEADER_KEY, _bkashConfigurationOptions.Password??string.Empty }
     };
 }

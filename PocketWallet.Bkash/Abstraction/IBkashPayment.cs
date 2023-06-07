@@ -2,7 +2,7 @@
 
 public interface IBkashPayment
 {
-    Task<CreatePaymentResponse> CreatePayment(CreatePayment paymentRequest);
+    Task<Result<CreatePaymentResponse>> CreatePayment(CreatePayment paymentRequest);
 
-    Task<ExecutePaymentResponse> ExecutePayment(ExecutePayment executePayment);
+    Task<Result<ExecutePaymentResponse>> ExecutePayment(ExecutePayment executePayment);
 }
