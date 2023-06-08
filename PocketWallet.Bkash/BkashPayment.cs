@@ -28,13 +28,13 @@ public class BkashPayment : IBkashPayment
 
             if (response.IsSuccessStatusCode)
             {
-                if (response.Response.StatusCode is "0000")
+                if (response.Data!.StatusCode is "0000")
                 {
-                    return Result<CreatePaymentResponse>.Create(response.Response!);
+                    return Result<CreatePaymentResponse>.Create(response.Data!);
                 }
 
                 return Result<CreatePaymentResponse>.Create(new List<Exception> {
-                    new Exception($"Bkash Error Code:{response.Response.ErrorCode}- Error Message: {response.Response.ErrorMessage}") 
+                    new Exception($"Bkash Error Code:{response.Data.ErrorCode}- Error Message: {response.Data.ErrorMessage}") 
                 });
             }
 
@@ -58,13 +58,13 @@ public class BkashPayment : IBkashPayment
             
             if (response.IsSuccessStatusCode)
             {
-                if (response.Response.StatusCode is RequestConstants.SUCCESS_RESPONSE_CODE)
+                if (response.Data!.StatusCode is RequestConstants.SUCCESS_RESPONSE_CODE)
                 {
-                    return Result<ExecutePaymentResponse>.Create(response.Response!);
+                    return Result<ExecutePaymentResponse>.Create(response.Data!);
                 }
 
                 return Result<ExecutePaymentResponse>.Create(new List<Exception> {
-                    new Exception($"Bkash Error Code:{response.Response.ErrorCode}- Error Message: {response.Response.ErrorMessage}")
+                    new Exception($"Bkash Error Code:{response.Data.ErrorCode}- Error Message: {response.Data.ErrorMessage}")
                 });
             }
 

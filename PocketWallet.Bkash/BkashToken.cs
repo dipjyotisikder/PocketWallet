@@ -93,7 +93,7 @@ internal class BkashToken : IBkashToken
               },
               GetSecurityHeaders());
 
-        return response.Response;
+        return response.Data;
     }
 
     private async Task<TokenResponse?> CreateRefreshToken(string refreshToken)
@@ -109,7 +109,7 @@ internal class BkashToken : IBkashToken
               },
               GetSecurityHeaders());
 
-        return response.Response;
+        return response.Data;
     } 
 
     private Dictionary<string, string> GetSecurityHeaders() => new()

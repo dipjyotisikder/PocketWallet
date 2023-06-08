@@ -14,12 +14,12 @@ internal class HttpResponse<TOut>
 
         try
         {
-            Response = JsonConvert.DeserializeObject<TOut>(responseContent)!;
+            Data = JsonConvert.DeserializeObject<TOut>(responseContent)!;
             IsParsedSuccessfully = true;
         }
         catch (Exception)
         {
-            Response = default;
+            Data = default;
             IsParsedSuccessfully = false;
         }
     }
@@ -32,7 +32,7 @@ internal class HttpResponse<TOut>
 
     internal string ResponseString { get; }
 
-    internal TOut? Response { get; }
+    internal TOut? Data { get; }
 
     internal static HttpResponse<TOut> Create(
           bool isSuccessStatusCode,
