@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-
-namespace PocketWallet.Bkash.Models;
+﻿namespace PocketWallet.Bkash.Models;
 
 public class CreatePayment
 {

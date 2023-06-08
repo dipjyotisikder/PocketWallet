@@ -20,6 +20,10 @@ namespace PocketWallet.Controllers
 
         public async Task<IActionResult> CreateBkashPayment()
         {
+            var result = await _bkashPayment.CreatePayment(new Bkash.Models.CreatePayment
+            {
+                
+            });
             return Ok(await Task.FromResult("Created"));
         }
     }
