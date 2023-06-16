@@ -15,14 +15,19 @@ public class Result<T>
 
     public ICollection<Exception>? Exceptions { get; set; }
 
-    public static Result<T> Create(T data, ICollection<Exception>? exceptions = null)
+    public static Result<T> Create(T data)
     {
-        return new Result<T>(data, exceptions);
+        return new Result<T>(data, null);
     }
 
-    public static Result<T> Create(ICollection<Exception>? exceptions = null)
+    public static Result<T> Create(ICollection<Exception> exceptions)
     {
         return new Result<T>(default, exceptions);
+    }
+
+    public static Result<T> Create(T data, ICollection<Exception> exceptions)
+    {
+        return new Result<T>(data, exceptions);
     }
 }
 

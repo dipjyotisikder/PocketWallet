@@ -1,46 +1,49 @@
 ﻿namespace PocketWallet.Bkash.DependencyInjection;
 
-public class BkashConfigurationOptions
+/// <summary>
+/// Configuration option to enable BKash API.
+/// </summary>
+public record BKashConfigurationOptions
 {
-    private BkashConfigurationOptions() { }
+    /// <summary>
+    /// Takes the value of BKash API mode.
+    /// </summary>
+    /// <remarks>
+    /// If the mode is set to true, app will run on production mode and real payment will happen.
+    /// </remarks>
+    public bool ProductionMode { get; init; } = false;
 
-    private BkashConfigurationOptions(
-    string baseURL,
-    string key,
-    string secret,
-    string userName,
-    string password)
-    {
-        BaseURL = baseURL;
-        Key = key;
-        Secret = secret;
-        UserName = userName;
-        Password = password;
-    }
+    /// <summary>
+    /// Takes the value of BKash API merchant key.
+    /// </summary>
+    /// <remarks>
+    /// Merchant key describes the key value that is found after being a merchant.
+    /// </remarks>
+    public string? MerchantKey { get; init; }
 
-    internal string? BaseURL;
+    /// <summary>
+    /// Takes the value of BKash API merchant secret.
+    /// </summary>
+    /// <remarks>
+    /// Merchant secret describes the secret value that is found after being a merchant.
+    /// </remarks>
+    public string? MerchantSecret { get; init; }
 
-    internal string? Key;
+    /// <summary>
+    /// Takes the value of BKash API merchant user name.
+    /// </summary>
+    /// <remarks>
+    /// Merchant user name describes the unique user name of merchant.
+    /// </remarks>
+    public string? MerchantUserName { get; init; }
 
-    internal string? Secret;
+    /// <summary>
+    /// Takes the value of BKash API merchant password.
+    /// </summary>
+    /// <remarks>
+    /// Merchant password describes the password value that is used to login by merchant.
+    /// </remarks>
+    public string? MerchantPassword { get; init; }
 
-    internal string? UserName;
-
-    internal string? Password;
-
-    public static BkashConfigurationOptions CreateOptions(
-    string baseURL,
-    string key,
-    string secret,
-    string userName,
-    string password)
-    {
-        return new BkashConfigurationOptions(
-            baseURL,
-            key,
-            secret,
-            userName,
-            password
-        );
-    }
+    public string BaseURL { get => ProductionMode ? CONSTANTS.LIVE_BASEURL : CONSTANTS.SANDBOX_BASEURL; }
 }

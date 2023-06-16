@@ -6,14 +6,14 @@ public static class BkashDependencyInjection
 {
     public static IServiceCollection AddBkash(
         this IServiceCollection services,
-        Func<BkashConfigurationOptions> configAction)
+        BKashConfigurationOptions bkashConfigurationOptions)
     {
-        services.Configure<BkashConfigurationOptions>(x => configAction.Invoke());
+        services.Configure<BKashConfigurationOptions>(x => x = bkashConfigurationOptions);
 
         services.AddHttpClient();
 
-        services.AddScoped<IBkashToken, BkashToken>();
-        services.AddScoped<IDateTimeProvider, DateTimeProvider>();
+        services.AddSingleton<IBkashToken, BkashToken>();
+        services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
         return services;
     }

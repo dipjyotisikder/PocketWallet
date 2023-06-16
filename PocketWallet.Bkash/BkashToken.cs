@@ -1,12 +1,10 @@
-﻿using CONSTANTS = PocketWallet.Bkash.Constants.RequestConstants;
-
-namespace PocketWallet.Bkash;
+﻿namespace PocketWallet.Bkash;
 internal class BkashToken : IBkashToken
 {
     private readonly IDateTimeProvider _dateTimeProvider;
 
     private readonly HttpClient _httpClient;
-    private readonly BkashConfigurationOptions _bkashConfigurationOptions;
+    private readonly BKashConfigurationOptions _bkashConfigurationOptions;
 
     private string _token = string.Empty;
     private string _refreshToken = string.Empty;
@@ -14,7 +12,7 @@ internal class BkashToken : IBkashToken
 
     internal BkashToken(
         HttpClient httpClient,
-        IOptionsMonitor<BkashConfigurationOptions> bkashConfigurationOptions,
+        IOptionsMonitor<BKashConfigurationOptions> bkashConfigurationOptions,
         IDateTimeProvider dateTimeProvider)
     {
         _httpClient = httpClient;
@@ -29,17 +27,17 @@ internal class BkashToken : IBkashToken
             var token = await CreateToken();
             var headers = new Dictionary<string, string>()
             {
-                { CONSTANTS.USERNAME_HEADER_KEY, _bkashConfigurationOptions.UserName ?? string.Empty },
-                { CONSTANTS.PASSWORD_HEADER_KEY, _bkashConfigurationOptions.Password ?? string.Empty },
+                { CONSTANTS.USERNAME_HEADER_KEY, _bkashConfigurationOptions.MerchantUserName ?? string.Empty },
+                { CONSTANTS.PASSWORD_HEADER_KEY, _bkashConfigurationOptions.MerchantPassword ?? string.Empty },
                 { CONSTANTS.AUTHORIZATION_HEADER_KEY, token },
-                { CONSTANTS.X_APP_KEY_HEADER_KEY, _bkashConfigurationOptions.Key ?? string.Empty}
+                { CONSTANTS.X_APP_KEY_HEADER_KEY, _bkashConfigurationOptions.MerchantKey ?? string.Empty}
             };
 
             return Result<Dictionary<string, string>>.Create(headers);
         }
         catch (Exception e)
         {
-            return Result<Dictionary<string, string>>.Create(null, new List<Exception> { e });
+            return Result<Dictionary<string, string>>.Create(new List<Exception> { e });
         }
     }
 
@@ -48,9 +46,9 @@ internal class BkashToken : IBkashToken
         if (string.IsNullOrWhiteSpace(_token))
         {
             var token = await CreateInitialToken();
-            if (token is null || token.Status is not null || token.Msg is not null)
+            if (token is null || token.Status is not null || token.Message is not null)
             {
-                var exception = new Exception( $"Attemp: New Token, Error Status: { token?.Status }, Error Message: { token?.Msg}");
+                var exception = new Exception($"Attempt: New Token, Error Status: {token?.Status}, Error Message: {token?.Message}");
                 throw exception;
             }
             _token = token.IdToken!;
@@ -67,12 +65,12 @@ internal class BkashToken : IBkashToken
         }
 
         var refreshedToken = await CreateRefreshToken(_refreshToken);
-        if (refreshedToken is null || refreshedToken.Status is not null || refreshedToken.Msg is not null)
+        if (refreshedToken is null || refreshedToken.Status is not null || refreshedToken.Message is not null)
         {
             throw new Exception(
-                "Attemp: Refresh Token " +
+                "Attempt: Refresh Token " +
                 "Error Status: " + refreshedToken?.Status +
-                "Error Message: " + refreshedToken?.Msg);
+                "Error Message: " + refreshedToken?.Message);
         }
         _token = refreshedToken.IdToken!;
         _refreshToken = refreshedToken.RefreshToken!;
@@ -88,8 +86,8 @@ internal class BkashToken : IBkashToken
               requestURL,
               new
               {
-                  app_key = _bkashConfigurationOptions.Key,
-                  app_secret = _bkashConfigurationOptions.Secret
+                  app_key = _bkashConfigurationOptions.MerchantKey,
+                  app_secret = _bkashConfigurationOptions.MerchantSecret
               },
               GetSecurityHeaders());
 
@@ -103,18 +101,18 @@ internal class BkashToken : IBkashToken
               requestURL,
               new
               {
-                  app_key = _bkashConfigurationOptions.Key,
-                  app_secret = _bkashConfigurationOptions.Secret,
+                  app_key = _bkashConfigurationOptions.MerchantKey,
+                  app_secret = _bkashConfigurationOptions.MerchantSecret,
                   refresh_token = refreshToken
               },
               GetSecurityHeaders());
 
         return response.Data;
-    } 
+    }
 
     private Dictionary<string, string> GetSecurityHeaders() => new()
     {
-        {CONSTANTS.USERNAME_HEADER_KEY, _bkashConfigurationOptions.UserName??string.Empty },
-        {CONSTANTS.PASSWORD_HEADER_KEY, _bkashConfigurationOptions.Password??string.Empty }
+        { CONSTANTS.USERNAME_HEADER_KEY, _bkashConfigurationOptions.MerchantUserName??string.Empty },
+        { CONSTANTS.PASSWORD_HEADER_KEY, _bkashConfigurationOptions.MerchantPassword??string.Empty }
     };
 }

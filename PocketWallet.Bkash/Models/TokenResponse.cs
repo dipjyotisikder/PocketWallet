@@ -23,5 +23,5 @@ internal class TokenResponse
     internal string? Status { get; set; }
 
     [JsonProperty("msg")]
-    internal string? Msg { get; set; }
+    internal string? Message { get; set; }
 }

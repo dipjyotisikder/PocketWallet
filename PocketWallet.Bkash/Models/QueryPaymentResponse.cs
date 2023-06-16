@@ -15,7 +15,7 @@ public class QueryPaymentResponse : ErrorResponse
     public string? StatusMessage { get; set; }
 
     /// <summary>
-    /// bKash generated payment ID for this payment creastion request.
+    /// bKash generated payment ID for this payment creation request.
     /// </summary>
     [JsonProperty("paymentID")]
     public string? PaymentID { get; set; }
@@ -73,7 +73,7 @@ public class QueryPaymentResponse : ErrorResponse
     /// </summary>
     [JsonProperty("verificationStatus")]
     public string? VerificationStatus { get; set; }
-    
+
     /// <summary>
     /// Current status of wallet user verification. If user's verification is not performed or in progress, then the value will be "Incomplete". If user has entered wallet number, OTP, PIN and finished verification, then the value will be "Complete".
     /// </summary>
@@ -91,5 +91,4 @@ public class QueryPaymentResponse : ErrorResponse
     /// </summary>
     [JsonProperty("trxID")]
     public string? TransactionId { get; set; }
-
 }
