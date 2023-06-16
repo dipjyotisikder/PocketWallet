@@ -11,7 +11,7 @@ public record BKashConfigurationOptions
     /// <remarks>
     /// If the mode is set to true, app will run on production mode and real payment will happen.
     /// </remarks>
-    public bool ProductionMode { get; init; } = false;
+    public bool ProductionMode { get; init; }
 
     /// <summary>
     /// Takes the value of BKash API merchant key.
@@ -45,5 +45,5 @@ public record BKashConfigurationOptions
     /// </remarks>
     public string? MerchantPassword { get; init; }
 
-    public string BaseURL { get => ProductionMode ? CONSTANTS.LIVE_BASEURL : CONSTANTS.SANDBOX_BASEURL; }
+    internal string BaseURL => ProductionMode ? CONSTANTS.LIVE_BASEURL : CONSTANTS.SANDBOX_BASEURL;
 }
