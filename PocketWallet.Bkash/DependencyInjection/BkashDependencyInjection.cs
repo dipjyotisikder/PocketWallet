@@ -6,9 +6,9 @@ public static class BkashDependencyInjection
 {
     public static IServiceCollection AddBkash(
         this IServiceCollection services,
-        BKashConfigurationOptions bkashConfigurationOptions)
+        BkashConfigurationOptions bkashConfigurationOptions)
     {
-        services.Configure<BKashConfigurationOptions>(x => x = bkashConfigurationOptions);
+        services.Configure<BkashConfigurationOptions>(x => x = bkashConfigurationOptions);
 
         services.AddHttpClient();
 

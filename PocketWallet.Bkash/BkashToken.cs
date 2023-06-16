@@ -4,7 +4,7 @@ internal class BkashToken : IBkashToken
     private readonly IDateTimeProvider _dateTimeProvider;
 
     private readonly HttpClient _httpClient;
-    private readonly BKashConfigurationOptions _bkashConfigurationOptions;
+    private readonly BkashConfigurationOptions _bkashConfigurationOptions;
 
     private string _token = string.Empty;
     private string _refreshToken = string.Empty;
@@ -12,7 +12,7 @@ internal class BkashToken : IBkashToken
 
     internal BkashToken(
         HttpClient httpClient,
-        IOptionsMonitor<BKashConfigurationOptions> bkashConfigurationOptions,
+        IOptionsMonitor<BkashConfigurationOptions> bkashConfigurationOptions,
         IDateTimeProvider dateTimeProvider)
     {
         _httpClient = httpClient;

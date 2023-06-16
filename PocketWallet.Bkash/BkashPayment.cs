@@ -4,12 +4,12 @@ public class BkashPayment : IBkashPayment
 {
     private readonly IBkashToken _bkashToken;
     private readonly HttpClient _httpClient;
-    private readonly BKashConfigurationOptions _bkashConfigurationOptions;
+    private readonly BkashConfigurationOptions _bkashConfigurationOptions;
 
     internal BkashPayment(
         IBkashToken bkashToken,
         HttpClient httpClient,
-        IOptionsMonitor<BKashConfigurationOptions> bkashConfigurationOptions)
+        IOptionsMonitor<BkashConfigurationOptions> bkashConfigurationOptions)
     {
         _bkashToken = bkashToken;
         _httpClient = httpClient;
@@ -44,7 +44,7 @@ public class BkashPayment : IBkashPayment
             });
         }
 
-        return Result<CreatePaymentResponse>.Create(headerResult.Exceptions);
+        return Result<CreatePaymentResponse>.Create(headerResult.Exceptions!);
     }
 
     /// <inheritdoc/>
@@ -75,7 +75,7 @@ public class BkashPayment : IBkashPayment
             });
         }
 
-        return Result<ExecutePaymentResponse>.Create(headerResult.Exceptions);
+        return Result<ExecutePaymentResponse>.Create(headerResult.Exceptions!);
     }
 
     /// <inheritdoc/>
@@ -106,6 +106,6 @@ public class BkashPayment : IBkashPayment
             });
         }
 
-        return Result<QueryPaymentResponse>.Create(headerResult.Exceptions);
+        return Result<QueryPaymentResponse>.Create(headerResult.Exceptions!);
     }
 }
