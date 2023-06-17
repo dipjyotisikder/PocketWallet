@@ -45,5 +45,8 @@ public record BkashConfigurationOptions
     /// </remarks>
     public string? MerchantPassword { get; init; }
 
+    /// <summary>
+    /// Returns the appropriate Base URL according to selected mode.
+    /// </summary>
     internal string BaseURL => ProductionMode ? CONSTANTS.LIVE_BASEURL : CONSTANTS.SANDBOX_BASEURL;
 }

@@ -46,9 +46,8 @@ internal static class HttpProxy
         object? body = null,
         Dictionary<string, string>? headers = null)
     {
-
         httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-        HttpRequestMessage requestMessage = new()
+        var requestMessage = new HttpRequestMessage()
         {
             RequestUri = new Uri(url),
             Method = method
@@ -68,7 +67,7 @@ internal static class HttpProxy
             }
         }
 
-        HttpResponseMessage httpResponse = await httpClient.SendAsync(requestMessage);
+        var httpResponse = await httpClient.SendAsync(requestMessage);
         string content = await httpResponse.Content.ReadAsStringAsync();
 
         return HttpResponse<TOut>.Create(
