@@ -23,9 +23,9 @@ public class BkashPayment : IBkashPayment
         if (headerResult.IsSucceeded)
         {
             var response = await _httpClient.PostAsync<CreatePaymentResponse>(
-                $"{_bkashConfigurationOptions.BaseURL}/{CONSTANTS.PAYMENT_CREATE_URL}",
-                paymentRequest,
-                headerResult.Data);
+                url: $"{_bkashConfigurationOptions.BaseURL}/{CONSTANTS.PAYMENT_CREATE_URL}",
+                body: paymentRequest,
+                headers: headerResult.Data);
 
             if (response.IsSuccessStatusCode)
             {
@@ -54,9 +54,9 @@ public class BkashPayment : IBkashPayment
         if (headerResult.IsSucceeded)
         {
             var response = await _httpClient.PostAsync<ExecutePaymentResponse>(
-                $"{_bkashConfigurationOptions.BaseURL}/{CONSTANTS.PAYMENT_EXECUTE_URL}",
-                executePayment,
-                headerResult.Data);
+                url: $"{_bkashConfigurationOptions.BaseURL}/{CONSTANTS.PAYMENT_EXECUTE_URL}",
+                body: executePayment,
+                headers: headerResult.Data);
 
             if (response.IsSuccessStatusCode)
             {
@@ -85,9 +85,9 @@ public class BkashPayment : IBkashPayment
         if (headerResult.IsSucceeded)
         {
             var response = await _httpClient.PostAsync<QueryPaymentResponse>(
-                $"{_bkashConfigurationOptions.BaseURL}/{CONSTANTS.PAYMENT_EXECUTE_URL}",
-                queryPayment,
-                headerResult.Data);
+                url: $"{_bkashConfigurationOptions.BaseURL}/{CONSTANTS.PAYMENT_EXECUTE_URL}",
+                body: queryPayment,
+                headers: headerResult.Data);
 
             if (response.IsSuccessStatusCode)
             {

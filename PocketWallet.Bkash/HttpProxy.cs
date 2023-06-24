@@ -9,7 +9,11 @@ internal static class HttpProxy
         string url,
         Dictionary<string, string>? headers = null)
     {
-        return await Request<TOut>(httpClient, HttpMethod.Get, url, headers);
+        return await Request<TOut>(
+            httpClient: httpClient,
+            method: HttpMethod.Get,
+            url: url,
+            headers: headers);
     }
 
     internal static async Task<HttpResponse<TOut>> PostAsync<TOut>(
@@ -18,7 +22,12 @@ internal static class HttpProxy
         object body,
         Dictionary<string, string>? headers = null)
     {
-        return await Request<TOut>(httpClient, HttpMethod.Post, url, body, headers);
+        return await Request<TOut>(
+            httpClient: httpClient,
+            method: HttpMethod.Post,
+            url: url,
+            body: body,
+            headers: headers);
     }
 
     internal static async Task<HttpResponse<TOut>> PutAsync<TOut>(
@@ -27,7 +36,12 @@ internal static class HttpProxy
         object body,
         Dictionary<string, string>? headers = null)
     {
-        return await Request<TOut>(httpClient, HttpMethod.Put, url, body, headers);
+        return await Request<TOut>(
+            httpClient: httpClient,
+            method: HttpMethod.Put,
+            url: url,
+            body: body,
+            headers: headers);
     }
 
     internal static async Task<HttpResponse<TOut>> DeleteAsync<TOut>(
@@ -36,7 +50,12 @@ internal static class HttpProxy
         object? body = null,
         Dictionary<string, string>? headers = null)
     {
-        return await Request<TOut>(httpClient, HttpMethod.Delete, url, body, headers);
+        return await Request<TOut>(
+            httpClient: httpClient,
+            method: HttpMethod.Delete,
+            url: url,
+            body: body,
+            headers: headers);
     }
 
     private static async Task<HttpResponse<TOut>> Request<TOut>(
@@ -47,7 +66,8 @@ internal static class HttpProxy
         Dictionary<string, string>? headers = null)
     {
         httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-        var requestMessage = new HttpRequestMessage()
+
+        var requestMessage = new HttpRequestMessage
         {
             RequestUri = new Uri(url),
             Method = method

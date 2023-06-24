@@ -83,13 +83,9 @@ internal class BkashToken : IBkashToken
     {
         string requestURL = $"{_bkashConfigurationOptions.BaseURL}/{CONSTANTS.TOKEN_URL}";
         var response = await _httpClient.PostAsync<TokenResponse>(
-              requestURL,
-              new
-              {
-                  app_key = _bkashConfigurationOptions.MerchantKey,
-                  app_secret = _bkashConfigurationOptions.MerchantSecret
-              },
-              GetSecurityHeaders());
+            url: requestURL,
+            body: new { app_key = _bkashConfigurationOptions.MerchantKey, app_secret = _bkashConfigurationOptions.MerchantSecret },
+            headers: GetSecurityHeaders());
 
         return response.Data;
     }
@@ -98,14 +94,9 @@ internal class BkashToken : IBkashToken
     {
         string requestURL = $"{_bkashConfigurationOptions.BaseURL}/{CONSTANTS.REFRESH_TOKEN_URL}";
         var response = await _httpClient.PostAsync<TokenResponse>(
-              requestURL,
-              new
-              {
-                  app_key = _bkashConfigurationOptions.MerchantKey,
-                  app_secret = _bkashConfigurationOptions.MerchantSecret,
-                  refresh_token = refreshToken
-              },
-              GetSecurityHeaders());
+              url: requestURL,
+              body: new { app_key = _bkashConfigurationOptions.MerchantKey, app_secret = _bkashConfigurationOptions.MerchantSecret, refresh_token = refreshToken },
+              headers: GetSecurityHeaders());
 
         return response.Data;
     }
