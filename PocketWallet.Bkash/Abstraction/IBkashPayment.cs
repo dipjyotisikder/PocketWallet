@@ -7,7 +7,7 @@ public interface IBkashPayment
     /// </summary>
     /// <param name="paymentRequest">Params for payment creation.</param>
     /// <returns>A response provided by bkash.</returns>
-    Task<Result<CreatePaymentResponse>> CreatePayment(CreatePayment paymentRequest);
+    Task<Result<CreateBkashPaymentResponse>> CreatePayment(CreateBkashPayment paymentRequest);
 
     /// <summary>
     /// API to provide the capability to execute Bkash Payment.

@@ -46,9 +46,9 @@ internal class BkashToken : IBkashToken
         if (string.IsNullOrWhiteSpace(_token))
         {
             var token = await CreateInitialToken();
-            if (token is null || token.Status is not null || token.Message is not null)
+            if (token is null || token.StatusCode is not null || token.StatusMessage is not null)
             {
-                var exception = new Exception($"Attempt: New Token, Error Status: {token?.Status}, Error Message: {token?.Message}");
+                var exception = new Exception($"Attempt: New Token, Error Status: {token?.StatusCode}, Error Message: {token?.StatusMessage}");
                 throw exception;
             }
             _token = token.IdToken!;
@@ -65,12 +65,12 @@ internal class BkashToken : IBkashToken
         }
 
         var refreshedToken = await CreateRefreshToken(_refreshToken);
-        if (refreshedToken is null || refreshedToken.Status is not null || refreshedToken.Message is not null)
+        if (refreshedToken is null || refreshedToken.StatusCode is not null || refreshedToken.StatusMessage is not null)
         {
             throw new Exception(
                 "Attempt: Refresh Token " +
-                "Error Status: " + refreshedToken?.Status +
-                "Error Message: " + refreshedToken?.Message);
+                "Error Status: " + refreshedToken?.StatusCode +
+                "Error Message: " + refreshedToken?.StatusMessage);
         }
         _token = refreshedToken.IdToken!;
         _refreshToken = refreshedToken.RefreshToken!;
@@ -81,9 +81,8 @@ internal class BkashToken : IBkashToken
 
     private async Task<TokenResponse?> CreateInitialToken()
     {
-        string requestURL = $"{_bkashConfigurationOptions.BaseURL}/{CONSTANTS.TOKEN_URL}";
         var response = await _httpClient.PostAsync<TokenResponse>(
-            url: requestURL,
+            endpoint: CONSTANTS.TOKEN_URL,
             body: new { app_key = _bkashConfigurationOptions.MerchantKey, app_secret = _bkashConfigurationOptions.MerchantSecret },
             headers: GetSecurityHeaders());
 
@@ -92,9 +91,8 @@ internal class BkashToken : IBkashToken
 
     private async Task<TokenResponse?> CreateRefreshToken(string refreshToken)
     {
-        string requestURL = $"{_bkashConfigurationOptions.BaseURL}/{CONSTANTS.REFRESH_TOKEN_URL}";
         var response = await _httpClient.PostAsync<TokenResponse>(
-              url: requestURL,
+              endpoint: CONSTANTS.REFRESH_TOKEN_URL,
               body: new { app_key = _bkashConfigurationOptions.MerchantKey, app_secret = _bkashConfigurationOptions.MerchantSecret, refresh_token = refreshToken },
               headers: GetSecurityHeaders());
 

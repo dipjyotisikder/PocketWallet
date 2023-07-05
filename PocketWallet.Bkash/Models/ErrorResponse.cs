@@ -6,11 +6,11 @@ public class ErrorResponse
     /// Unique code assigned to the occurred error.
     /// </summary>
     [JsonProperty("errorCode")]
-    public string? ErrorCode { get; set; }
+    public string? ErrorCode { get; init; }
 
     /// <summary>
     /// Message associated with the error, explaining the error reason.
     /// </summary>
     [JsonProperty("errorMessage")]
-    public string? ErrorMessage { get; set; }
+    public string? ErrorMessage { get; init; }
 }

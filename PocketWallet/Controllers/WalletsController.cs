@@ -11,7 +11,7 @@ namespace PocketWallet.Controllers
         private readonly IBkashPayment _bkashPayment;
 
         public WalletsController(
-            ILogger<WalletsController> logger, 
+            ILogger<WalletsController> logger,
             IBkashPayment bkashPayment)
         {
             _logger = logger;
@@ -20,9 +20,9 @@ namespace PocketWallet.Controllers
 
         public async Task<IActionResult> CreateBkashPayment()
         {
-            var result = await _bkashPayment.CreatePayment(new Bkash.Models.CreatePayment
+            var result = await _bkashPayment.CreatePayment(new Bkash.Models.CreateBkashPayment
             {
-                
+
             });
             return Ok(await Task.FromResult("Created"));
         }

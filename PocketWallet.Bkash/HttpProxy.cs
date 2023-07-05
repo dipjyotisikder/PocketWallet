@@ -1,59 +1,58 @@
-﻿using System.Net.Http.Headers;
-using System.Text;
+﻿using System.Text;
 
 namespace PocketWallet.Bkash;
 internal static class HttpProxy
 {
     internal static async Task<HttpResponse<TOut>> GetAsync<TOut>(
         this HttpClient httpClient,
-        string url,
+        string endpoint,
         Dictionary<string, string>? headers = null)
     {
         return await Request<TOut>(
             httpClient: httpClient,
             method: HttpMethod.Get,
-            url: url,
+            endpoint: endpoint,
             headers: headers);
     }
 
     internal static async Task<HttpResponse<TOut>> PostAsync<TOut>(
         this HttpClient httpClient,
-        string url,
+        string endpoint,
         object body,
         Dictionary<string, string>? headers = null)
     {
         return await Request<TOut>(
             httpClient: httpClient,
             method: HttpMethod.Post,
-            url: url,
+            endpoint: endpoint,
             body: body,
             headers: headers);
     }
 
     internal static async Task<HttpResponse<TOut>> PutAsync<TOut>(
         this HttpClient httpClient,
-        string url,
+        string endpoint,
         object body,
         Dictionary<string, string>? headers = null)
     {
         return await Request<TOut>(
             httpClient: httpClient,
             method: HttpMethod.Put,
-            url: url,
+            endpoint: endpoint,
             body: body,
             headers: headers);
     }
 
     internal static async Task<HttpResponse<TOut>> DeleteAsync<TOut>(
         this HttpClient httpClient,
-        string url,
+        string endpoint,
         object? body = null,
         Dictionary<string, string>? headers = null)
     {
         return await Request<TOut>(
             httpClient: httpClient,
             method: HttpMethod.Delete,
-            url: url,
+            endpoint: endpoint,
             body: body,
             headers: headers);
     }
@@ -61,15 +60,13 @@ internal static class HttpProxy
     private static async Task<HttpResponse<TOut>> Request<TOut>(
         HttpClient httpClient,
         HttpMethod method,
-        string url,
+        string endpoint,
         object? body = null,
         Dictionary<string, string>? headers = null)
     {
-        httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
         var requestMessage = new HttpRequestMessage
         {
-            RequestUri = new Uri(url),
+            RequestUri = new Uri(endpoint),
             Method = method
         };
 

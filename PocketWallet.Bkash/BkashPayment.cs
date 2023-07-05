@@ -4,26 +4,23 @@ public class BkashPayment : IBkashPayment
 {
     private readonly IBkashToken _bkashToken;
     private readonly HttpClient _httpClient;
-    private readonly BkashConfigurationOptions _bkashConfigurationOptions;
 
     internal BkashPayment(
         IBkashToken bkashToken,
-        HttpClient httpClient,
-        IOptionsMonitor<BkashConfigurationOptions> bkashConfigurationOptions)
+        HttpClient httpClient)
     {
         _bkashToken = bkashToken;
         _httpClient = httpClient;
-        _bkashConfigurationOptions = bkashConfigurationOptions.CurrentValue;
     }
 
     /// <inheritdoc/>
-    public async Task<Result<CreatePaymentResponse>> CreatePayment(CreatePayment paymentRequest)
+    public async Task<Result<CreateBkashPaymentResponse>> CreatePayment(CreateBkashPayment paymentRequest)
     {
         var headerResult = await _bkashToken.GetAuthorizationHeaders();
         if (headerResult.IsSucceeded)
         {
-            var response = await _httpClient.PostAsync<CreatePaymentResponse>(
-                url: $"{_bkashConfigurationOptions.BaseURL}/{CONSTANTS.PAYMENT_CREATE_URL}",
+            var response = await _httpClient.PostAsync<CreateBkashPaymentResponse>(
+                endpoint: CONSTANTS.PAYMENT_CREATE_URL,
                 body: paymentRequest,
                 headers: headerResult.Data);
 
@@ -31,20 +28,20 @@ public class BkashPayment : IBkashPayment
             {
                 if (response.Data!.StatusCode is CONSTANTS.SUCCESS_RESPONSE_CODE)
                 {
-                    return Result<CreatePaymentResponse>.Create(response.Data!);
+                    return Result<CreateBkashPaymentResponse>.Create(response.Data!);
                 }
 
-                return Result<CreatePaymentResponse>.Create(new List<Exception> {
+                return Result<CreateBkashPaymentResponse>.Create(new List<Exception> {
                     new Exception($"Bkash Operation: CreatePayment - Error Code:{response.Data.ErrorCode}- Error Message: {response.Data.ErrorMessage}")
                 });
             }
 
-            return Result<CreatePaymentResponse>.Create(new List<Exception> {
+            return Result<CreateBkashPaymentResponse>.Create(new List<Exception> {
                 new Exception("Request could not be processed.")
             });
         }
 
-        return Result<CreatePaymentResponse>.Create(headerResult.Exceptions!);
+        return Result<CreateBkashPaymentResponse>.Create(headerResult.Exceptions!);
     }
 
     /// <inheritdoc/>
@@ -54,7 +51,7 @@ public class BkashPayment : IBkashPayment
         if (headerResult.IsSucceeded)
         {
             var response = await _httpClient.PostAsync<ExecutePaymentResponse>(
-                url: $"{_bkashConfigurationOptions.BaseURL}/{CONSTANTS.PAYMENT_EXECUTE_URL}",
+                endpoint: CONSTANTS.PAYMENT_EXECUTE_URL,
                 body: executePayment,
                 headers: headerResult.Data);
 
@@ -85,7 +82,7 @@ public class BkashPayment : IBkashPayment
         if (headerResult.IsSucceeded)
         {
             var response = await _httpClient.PostAsync<QueryPaymentResponse>(
-                url: $"{_bkashConfigurationOptions.BaseURL}/{CONSTANTS.PAYMENT_EXECUTE_URL}",
+                endpoint: CONSTANTS.PAYMENT_STATUS_URL,
                 body: queryPayment,
                 headers: headerResult.Data);
 

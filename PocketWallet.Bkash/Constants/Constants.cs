@@ -5,6 +5,7 @@ internal static class Constants
     internal const string REFRESH_TOKEN_URL = "tokenized/token/refresh";
     internal const string PAYMENT_CREATE_URL = "tokenized/payment/create";
     internal const string PAYMENT_EXECUTE_URL = "tokenized/payment/execute";
+    internal const string PAYMENT_STATUS_URL = "tokenized/checkout/payment/status";
 
     internal const string USERNAME_HEADER_KEY = "username";
     internal const string PASSWORD_HEADER_KEY = "password";
