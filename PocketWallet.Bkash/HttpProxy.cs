@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.Net;
-using System.Net.Http;
-using System.Text;
+﻿using System.Text;
 
 namespace PocketWallet.Bkash;
 internal static class HttpProxy

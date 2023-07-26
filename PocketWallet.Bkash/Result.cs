@@ -6,10 +6,10 @@
 public class Result<T>
 {
     /// <summary>
-    /// Constractor that takes data and exceptions.
+    /// Constructor that takes data and exceptions.
     /// </summary>
     /// <param name="data">A result object of type <typeparamref name="T"/>.</param>
-    /// <param name="exceptions">Exceptions occured during the operation.</param>
+    /// <param name="exceptions">Exceptions occurred during the operation.</param>
     private Result(T? data = default, ICollection<Exception>? exceptions = null)
     {
         Data = data;
@@ -46,7 +46,7 @@ public class Result<T>
     /// <summary>
     /// Result object creator with exceptions.
     /// </summary>
-    /// <param name="exceptions">Exceptions occured during the operation.</param>
+    /// <param name="exceptions">Exceptions occurred during the operation.</param>
     /// <returns>A object of type <see cref="Result{T}"/>.</returns>
     public static Result<T> Create(ICollection<Exception> exceptions)
     {
@@ -70,7 +70,7 @@ public class Result<T>
 public class Result
 {
     /// <summary>
-    /// Constractor that takes exceptions.
+    /// Constructor that takes exceptions.
     /// </summary>
     /// <param name="exceptions"></param>
     private Result(ICollection<Exception>? exceptions = null)
@@ -85,7 +85,7 @@ public class Result
     public bool IsSucceeded { get; set; }
 
     /// <summary>
-    /// Exceptions occured during the operation.
+    /// Exceptions occurred during the operation.
     /// </summary>
     [JsonIgnore]
     public ICollection<Exception>? Exceptions { get; set; }
@@ -93,7 +93,7 @@ public class Result
     /// <summary>
     /// Result object creator with exceptions.
     /// </summary>
-    /// <param name="exceptions">Exceptions occured during the operation.</param>
+    /// <param name="exceptions">Exceptions occurred during the operation.</param>
     /// <returns>A object of type <see cref="Result"/>.</returns>
     public static Result Create(ICollection<Exception>? exceptions = null)
     {

@@ -17,7 +17,7 @@ public class CreateBkashPayment
     public string? PayerReference { get; set; }
 
     /// <summary>
-    /// The base URL of merchant's platform based on which bKash will generate seperate callback URLs for success, failure and cancelled transactions. bKash will send transaction verification result in these URLs based on the the result.
+    /// The base URL of merchant's platform based on which bKash will generate separate callback URLs for success, failure and canceled transactions. bKash will send transaction verification result in these URLs based on the result.
     /// </summary>
     [JsonProperty("callbackURL")]
     public string CallbackURL { get; set; } = string.Empty;

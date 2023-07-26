@@ -6,7 +6,7 @@ using PocketWallet.Bkash.Models;
 namespace PocketWallet.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/wallets")]
     public class WalletsController : ControllerBase
     {
         private readonly ILogger<WalletsController> _logger;

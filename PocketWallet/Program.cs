@@ -8,12 +8,13 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddBkash(new BkashConfigurationOptions
+
+builder.Services.AddBkash(option =>
 {
-    MerchantKey = "",
-    MerchantPassword = "password",
-    MerchantUserName = "username",
-    MerchantSecret = "password"
+    option.MerchantUserName = "";
+    option.MerchantPassword = "";
+    option.MerchantKey = "";
+    option.MerchantSecret = "";
 });
 
 WebApplication app = builder.Build();

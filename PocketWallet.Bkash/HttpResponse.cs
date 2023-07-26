@@ -10,15 +10,19 @@ internal class HttpResponse<TOut>
         StatusCode = httpResponse.StatusCode;
         Response = httpResponse.Content.ReadAsStringAsync().Result;
 
-        try
+        if (httpResponse.IsSuccessStatusCode)
         {
-            Data = JsonConvert.DeserializeObject<TOut>(Response)!;
-            Parsed = true;
-        }
-        catch (Exception)
-        {
-            Data = default;
-            Parsed = false;
+            try
+            {
+
+                Data = JsonConvert.DeserializeObject<TOut>(Response)!;
+                Parsed = true;
+            }
+            catch (Exception)
+            {
+                Data = default;
+                Parsed = false;
+            }
         }
     }
 
