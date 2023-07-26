@@ -4,6 +4,14 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+
+		<PackageId>Dipjyoti.PocketWallet.Bkash</PackageId>
+		<Authors>Dipjyoti Sikder</Authors>
+		<Company>Dipjyoti</Company>
+		<Description>Library that helps with Bkash Payment</Description>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageTags>E-Wallet, Wallet, Bkash, Money, Payment, Payment Gateway, Gateway</PackageTags>
+		<RepositoryUrl>https://github.com/jyotidips/PocketWallet</RepositoryUrl>
 	</PropertyGroup>
 
 	<ItemGroup>

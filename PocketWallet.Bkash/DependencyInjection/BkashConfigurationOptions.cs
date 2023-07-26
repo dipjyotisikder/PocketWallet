@@ -11,7 +11,7 @@ public record BkashConfigurationOptions
     /// <remarks>
     /// If the mode is set to true, app will run on production mode and real payment will happen.
     /// </remarks>
-    public bool ProductionMode { get; init; }
+    public bool ProductionMode { get; set; }
 
     /// <summary>
     /// Takes the value of Bkash API merchant user name.
@@ -19,7 +19,7 @@ public record BkashConfigurationOptions
     /// <remarks>
     /// Merchant user name describes the unique user name of merchant.
     /// </remarks>
-    public string MerchantUserName { get; init; } = string.Empty;
+    public string MerchantUserName { get; set; } = string.Empty;
 
     /// <summary>
     /// Takes the value of Bkash API merchant password.
@@ -27,7 +27,7 @@ public record BkashConfigurationOptions
     /// <remarks>
     /// Merchant password describes the password value that is used to login by merchant.
     /// </remarks>
-    public string MerchantPassword { get; init; } = string.Empty;
+    public string MerchantPassword { get; set; } = string.Empty;
 
     /// <summary>
     /// Takes the value of Bkash API merchant key.
@@ -35,7 +35,7 @@ public record BkashConfigurationOptions
     /// <remarks>
     /// Merchant key describes the key value that is found after being a merchant.
     /// </remarks>
-    public string MerchantKey { get; init; } = string.Empty;
+    public string MerchantKey { get; set; } = string.Empty;
 
     /// <summary>
     /// Takes the value of Bkash API merchant secret.
@@ -43,7 +43,7 @@ public record BkashConfigurationOptions
     /// <remarks>
     /// Merchant secret describes the secret value that is found after being a merchant.
     /// </remarks>
-    public string MerchantSecret { get; init; } = string.Empty;
+    public string MerchantSecret { get; set; } = string.Empty;
 
     /// <summary>
     /// Returns the appropriate Base URL according to selected mode.
