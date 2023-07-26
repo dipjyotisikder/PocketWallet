@@ -1,6 +1,6 @@
 ﻿namespace PocketWallet.Bkash.Models;
 
-public class QueryPayment
+public class QueryBkashPayment
 {
     /// <summary>
     /// bKash generated paymentID provided in the response of Create Payment API.

@@ -1,4 +1,7 @@
-﻿using System.Text;
+﻿using Microsoft.AspNetCore.Http;
+using System.Net;
+using System.Net.Http;
+using System.Text;
 
 namespace PocketWallet.Bkash;
 internal static class HttpProxy
@@ -66,13 +69,18 @@ internal static class HttpProxy
     {
         var requestMessage = new HttpRequestMessage
         {
-            RequestUri = new Uri(endpoint),
+            RequestUri = new Uri(httpClient.BaseAddress!, endpoint),
             Method = method
         };
 
+        foreach (var x in httpClient.DefaultRequestHeaders)
+        {
+            requestMessage.Headers.Add(x.Key, x.Value);
+        }
+
         if (body is not null)
         {
-            var jsonPayload = JsonConvert.SerializeObject(body, Formatting.Indented);
+            var jsonPayload = JsonConvert.SerializeObject(body);
             requestMessage.Content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
         }
 
@@ -84,6 +92,19 @@ internal static class HttpProxy
             }
         }
 
-        return HttpResponse<TOut>.Create(await httpClient.SendAsync(requestMessage));
+        return await HandleRequest<TOut>(httpClient, requestMessage);
+    }
+
+    private static async Task<HttpResponse<TOut>> HandleRequest<TOut>(HttpClient httpClient, HttpRequestMessage requestMessage)
+    {
+        try
+        {
+            return HttpResponse<TOut>.Create(await httpClient.SendAsync(requestMessage));
+        }
+        catch (Exception e)
+        {
+            var message = string.Format("Exception Message: {0} | Inner Exception Message: {1}", e.Message, e.InnerException?.Message);
+            return HttpResponse<TOut>.Create(success: false, response: message);
+        }
     }
 }

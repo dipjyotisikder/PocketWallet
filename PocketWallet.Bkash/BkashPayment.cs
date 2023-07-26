@@ -1,11 +1,11 @@
 ﻿namespace PocketWallet.Bkash;
 
-public class BkashPayment : IBkashPayment
+internal class BkashPayment : IBkashPayment
 {
     private readonly IBkashToken _bkashToken;
     private readonly HttpClient _httpClient;
 
-    internal BkashPayment(
+    public BkashPayment(
         IBkashToken bkashToken,
         HttpClient httpClient)
     {
@@ -24,7 +24,7 @@ public class BkashPayment : IBkashPayment
                 body: paymentRequest,
                 headers: headerResult.Data);
 
-            if (response.IsSuccessStatusCode)
+            if (response.Success)
             {
                 if (response.Data!.StatusCode is CONSTANTS.SUCCESS_RESPONSE_CODE)
                 {
@@ -32,7 +32,7 @@ public class BkashPayment : IBkashPayment
                 }
 
                 return Result<CreateBkashPaymentResponse>.Create(new List<Exception> {
-                    new Exception($"Bkash Operation: CreatePayment - Error Code:{response.Data.ErrorCode}- Error Message: {response.Data.ErrorMessage}")
+                    new Exception(string.Format("Bkash CreatePayment Failed | Error Code: {0} | Error Message: {1}", response.Data.ErrorCode, response.Data.ErrorMessage))
                 });
             }
 
@@ -45,64 +45,64 @@ public class BkashPayment : IBkashPayment
     }
 
     /// <inheritdoc/>
-    public async Task<Result<ExecutePaymentResponse>> ExecutePayment(ExecutePayment executePayment)
+    public async Task<Result<ExecuteBkashPaymentResponse>> ExecutePayment(ExecuteBkashPayment executePayment)
     {
         var headerResult = await _bkashToken.GetAuthorizationHeaders();
         if (headerResult.IsSucceeded)
         {
-            var response = await _httpClient.PostAsync<ExecutePaymentResponse>(
+            var response = await _httpClient.PostAsync<ExecuteBkashPaymentResponse>(
                 endpoint: CONSTANTS.PAYMENT_EXECUTE_URL,
                 body: executePayment,
                 headers: headerResult.Data);
 
-            if (response.IsSuccessStatusCode)
+            if (response.Success)
             {
                 if (response.Data!.StatusCode is CONSTANTS.SUCCESS_RESPONSE_CODE)
                 {
-                    return Result<ExecutePaymentResponse>.Create(response.Data!);
+                    return Result<ExecuteBkashPaymentResponse>.Create(response.Data!);
                 }
 
-                return Result<ExecutePaymentResponse>.Create(new List<Exception> {
-                    new Exception($"Bkash Operation: ExecutePayment - Error Code:{response.Data.ErrorCode}- Error Message: {response.Data.ErrorMessage}")
+                return Result<ExecuteBkashPaymentResponse>.Create(new List<Exception> {
+                    new Exception(string.Format("Bkash ExecutePayment Failed | Error Code: {0} | Error Message: {1}", response.Data.ErrorCode, response.Data.ErrorMessage))
                 });
             }
 
-            return Result<ExecutePaymentResponse>.Create(new List<Exception> {
+            return Result<ExecuteBkashPaymentResponse>.Create(new List<Exception> {
                 new Exception("Request could not be processed.")
             });
         }
 
-        return Result<ExecutePaymentResponse>.Create(headerResult.Exceptions!);
+        return Result<ExecuteBkashPaymentResponse>.Create(headerResult.Exceptions!);
     }
 
     /// <inheritdoc/>
-    public async Task<Result<QueryPaymentResponse>> QueryPayment(QueryPayment queryPayment)
+    public async Task<Result<QueryBkashPaymentResponse>> QueryPayment(QueryBkashPayment queryPayment)
     {
         var headerResult = await _bkashToken.GetAuthorizationHeaders();
         if (headerResult.IsSucceeded)
         {
-            var response = await _httpClient.PostAsync<QueryPaymentResponse>(
+            var response = await _httpClient.PostAsync<QueryBkashPaymentResponse>(
                 endpoint: CONSTANTS.PAYMENT_STATUS_URL,
                 body: queryPayment,
                 headers: headerResult.Data);
 
-            if (response.IsSuccessStatusCode)
+            if (response.Success)
             {
                 if (response.Data!.StatusCode is CONSTANTS.SUCCESS_RESPONSE_CODE)
                 {
-                    return Result<QueryPaymentResponse>.Create(response.Data!);
+                    return Result<QueryBkashPaymentResponse>.Create(response.Data!);
                 }
 
-                return Result<QueryPaymentResponse>.Create(new List<Exception> {
-                    new Exception($"Bkash Operation: QueryPayment - Error Code:{response.Data.ErrorCode} - Error Message: {response.Data.ErrorMessage}")
+                return Result<QueryBkashPaymentResponse>.Create(new List<Exception> {
+                    new Exception(string.Format("Bkash QueryPayment Failed | Error Code: {0} | Error Message: {1}", response.Data.ErrorCode, response.Data.ErrorMessage))
                 });
             }
 
-            return Result<QueryPaymentResponse>.Create(new List<Exception> {
+            return Result<QueryBkashPaymentResponse>.Create(new List<Exception> {
                 new Exception("Request could not be processed.")
             });
         }
 
-        return Result<QueryPaymentResponse>.Create(headerResult.Exceptions!);
+        return Result<QueryBkashPaymentResponse>.Create(headerResult.Exceptions!);
     }
 }

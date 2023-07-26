@@ -9,17 +9,30 @@ public static class BkashDependencyInjection
         this IServiceCollection services,
         BkashConfigurationOptions bkashConfigurationOptions)
     {
-        services.Configure<BkashConfigurationOptions>(x => x = bkashConfigurationOptions);
+        services.AddSingleton(bkashConfigurationOptions);
 
-        services.AddHttpClient<HttpClient>(x =>
+        services.AddHttpClient<IBkashToken, BkashToken>(x =>
         {
-            x.BaseAddress = new Uri(bkashConfigurationOptions.BaseURL);
+            x.BaseAddress = new Uri(bkashConfigurationOptions.BaseURL, UriKind.Absolute);
             x.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            x.DefaultRequestHeaders.Add(CONSTANTS.USERNAME_HEADER_KEY, bkashConfigurationOptions.MerchantUserName);
+            x.DefaultRequestHeaders.Add(CONSTANTS.PASSWORD_HEADER_KEY, bkashConfigurationOptions.MerchantPassword);
         });
 
-        services.AddSingleton<IBkashToken, BkashToken>();
-        services.AddSingleton<IBkashPayment, BkashPayment>();
+        services.AddHttpClient<IBkashPayment, BkashPayment>(x =>
+        {
+            x.BaseAddress = new Uri(bkashConfigurationOptions.BaseURL, UriKind.Absolute);
+            x.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            x.DefaultRequestHeaders.Add(CONSTANTS.USERNAME_HEADER_KEY, bkashConfigurationOptions.MerchantUserName);
+            x.DefaultRequestHeaders.Add(CONSTANTS.PASSWORD_HEADER_KEY, bkashConfigurationOptions.MerchantPassword);
+        });
+
+        /*services.AddScoped<IBkashToken, BkashToken>();
+        services.AddScoped<IBkashPayment, BkashPayment>();*/
+
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
+
+        services.AddSwaggerGenNewtonsoftSupport();
 
         return services;
     }

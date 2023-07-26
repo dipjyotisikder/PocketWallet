@@ -30,6 +30,7 @@ public class Result<T>
     /// <summary>
     /// Exceptions that indicates if the task has problem.
     /// </summary>
+    [JsonIgnore]
     public ICollection<Exception>? Exceptions { get; set; }
 
     /// <summary>
@@ -86,13 +87,14 @@ public class Result
     /// <summary>
     /// Exceptions occured during the operation.
     /// </summary>
+    [JsonIgnore]
     public ICollection<Exception>? Exceptions { get; set; }
 
     /// <summary>
     /// Result object creator with exceptions.
     /// </summary>
     /// <param name="exceptions">Exceptions occured during the operation.</param>
-    /// <returns>A object of type <see cref="Result"/></returns>
+    /// <returns>A object of type <see cref="Result"/>.</returns>
     public static Result Create(ICollection<Exception>? exceptions = null)
     {
         return new Result(exceptions);

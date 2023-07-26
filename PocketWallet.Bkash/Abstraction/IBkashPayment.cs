@@ -14,12 +14,12 @@ public interface IBkashPayment
     /// </summary>
     /// <param name="executePayment">Params for payment creation.</param>
     /// <returns>A response provided by bkash.</returns>
-    Task<Result<ExecutePaymentResponse>> ExecutePayment(ExecutePayment executePayment);
+    Task<Result<ExecuteBkashPaymentResponse>> ExecutePayment(ExecuteBkashPayment executePayment);
 
     /// <summary>
     /// API to provide the capability to query Bkash Payment.
     /// </summary>
     /// <param name="queryPayment">Params for payment creation.</param>
     /// <returns>A response provided by bkash.</returns>
-    Task<Result<QueryPaymentResponse>> QueryPayment(QueryPayment queryPayment);
+    Task<Result<QueryBkashPaymentResponse>> QueryPayment(QueryBkashPayment queryPayment);
 }

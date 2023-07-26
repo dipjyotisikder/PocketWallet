@@ -7,10 +7,14 @@ internal static class Constants
     internal const string PAYMENT_EXECUTE_URL = "tokenized/payment/execute";
     internal const string PAYMENT_STATUS_URL = "tokenized/checkout/payment/status";
 
+    internal const string ACCEPT_HEADER_KEY = "accept";
+    internal const string CONTENT_TYPE_HEADER_KEY = "content-type";
     internal const string USERNAME_HEADER_KEY = "username";
     internal const string PASSWORD_HEADER_KEY = "password";
     internal const string AUTHORIZATION_HEADER_KEY = "authorization";
     internal const string X_APP_KEY_HEADER_KEY = "x-app-key";
+
+    internal const string JSON_HEADER_VALUE = "application/json";
 
     internal const string SUCCESS_RESPONSE_CODE = "0000";
 

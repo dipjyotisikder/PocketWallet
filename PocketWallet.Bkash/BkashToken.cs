@@ -10,98 +10,98 @@ internal class BkashToken : IBkashToken
     private string _refreshToken = string.Empty;
     private DateTime _tokenExpiryTime;
 
-    internal BkashToken(
+    public BkashToken(
         HttpClient httpClient,
-        IOptionsMonitor<BkashConfigurationOptions> bkashConfigurationOptions,
+        BkashConfigurationOptions bkashConfigurationOptions,
         IDateTimeProvider dateTimeProvider)
     {
         _httpClient = httpClient;
-        _bkashConfigurationOptions = bkashConfigurationOptions.CurrentValue;
+        _bkashConfigurationOptions = bkashConfigurationOptions;
         _dateTimeProvider = dateTimeProvider;
     }
 
     public async Task<Result<Dictionary<string, string>>> GetAuthorizationHeaders()
     {
-        try
-        {
-            var token = await CreateToken();
-            var headers = new Dictionary<string, string>()
-            {
-                { CONSTANTS.USERNAME_HEADER_KEY, _bkashConfigurationOptions.MerchantUserName ?? string.Empty },
-                { CONSTANTS.PASSWORD_HEADER_KEY, _bkashConfigurationOptions.MerchantPassword ?? string.Empty },
-                { CONSTANTS.AUTHORIZATION_HEADER_KEY, token },
-                { CONSTANTS.X_APP_KEY_HEADER_KEY, _bkashConfigurationOptions.MerchantKey ?? string.Empty}
-            };
+        var tokenResult = await CreateToken();
 
-            return Result<Dictionary<string, string>>.Create(headers);
-        }
-        catch (Exception e)
+        if (tokenResult.IsSucceeded)
         {
-            return Result<Dictionary<string, string>>.Create(new List<Exception> { e });
+            return Result<Dictionary<string, string>>.Create(new Dictionary<string, string>()
+            {
+                { CONSTANTS.AUTHORIZATION_HEADER_KEY, tokenResult.Data! }
+            });
         }
+
+        return Result<Dictionary<string, string>>.Create(tokenResult.Exceptions!);
     }
 
-    private async Task<string> CreateToken()
+    private async Task<Result<string>> CreateToken()
     {
         if (string.IsNullOrWhiteSpace(_token))
         {
-            var token = await CreateInitialToken();
-            if (token is null || token.StatusCode is not null || token.StatusMessage is not null)
+            var tokenResponse = await CreateInitialToken();
+            if (!tokenResponse.IsSucceeded)
             {
-                var exception = new Exception($"Attempt: New Token, Error Status: {token?.StatusCode}, Error Message: {token?.StatusMessage}");
-                throw exception;
+                return Result<string>.Create(tokenResponse.Exceptions!);
             }
-            _token = token.IdToken!;
-            _refreshToken = token.RefreshToken!;
+
+            _token = tokenResponse.Data!.IdToken!;
+            _refreshToken = tokenResponse.Data!.RefreshToken!;
             _tokenExpiryTime = _dateTimeProvider.UtcNow.AddSeconds(3500);
 
-            return _token;
+            return Result<string>.Create(_token);
         }
 
         var result = DateTime.Compare(_tokenExpiryTime, _dateTimeProvider.UtcNow);
         if (result > 0)
         {
-            return _token;
+            return Result<string>.Create(_token);
         }
 
-        var refreshedToken = await CreateRefreshToken(_refreshToken);
-        if (refreshedToken is null || refreshedToken.StatusCode is not null || refreshedToken.StatusMessage is not null)
+        var refreshedTokenResponse = await CreateRefreshToken(_refreshToken);
+        if (!refreshedTokenResponse.IsSucceeded)
         {
-            throw new Exception(
-                "Attempt: Refresh Token " +
-                "Error Status: " + refreshedToken?.StatusCode +
-                "Error Message: " + refreshedToken?.StatusMessage);
+            return Result<string>.Create(refreshedTokenResponse.Exceptions!);
         }
-        _token = refreshedToken.IdToken!;
-        _refreshToken = refreshedToken.RefreshToken!;
+
+        _token = refreshedTokenResponse.Data!.IdToken!;
+        _refreshToken = refreshedTokenResponse.Data!.RefreshToken!;
         _tokenExpiryTime = _dateTimeProvider.UtcNow.AddSeconds(3500);
 
-        return _token;
+        return Result<string>.Create(_token);
     }
 
-    private async Task<TokenResponse?> CreateInitialToken()
+    private async Task<Result<BkashTokenResponse>> CreateInitialToken()
     {
-        var response = await _httpClient.PostAsync<TokenResponse>(
+        var response = await _httpClient.PostAsync<BkashTokenResponse>(
             endpoint: CONSTANTS.TOKEN_URL,
-            body: new { app_key = _bkashConfigurationOptions.MerchantKey, app_secret = _bkashConfigurationOptions.MerchantSecret },
-            headers: GetSecurityHeaders());
+            body: new { app_key = _bkashConfigurationOptions.MerchantKey, app_secret = _bkashConfigurationOptions.MerchantSecret });
 
-        return response.Data;
+        if (response.Success)
+        {
+            return Result<BkashTokenResponse>.Create(response.Data!);
+        }
+
+        return Result<BkashTokenResponse>.Create(
+            new List<Exception> {
+                new Exception(response.Response)
+            });
     }
 
-    private async Task<TokenResponse?> CreateRefreshToken(string refreshToken)
+    private async Task<Result<BkashTokenResponse>> CreateRefreshToken(string refreshToken)
     {
-        var response = await _httpClient.PostAsync<TokenResponse>(
+        var response = await _httpClient.PostAsync<BkashTokenResponse>(
               endpoint: CONSTANTS.REFRESH_TOKEN_URL,
-              body: new { app_key = _bkashConfigurationOptions.MerchantKey, app_secret = _bkashConfigurationOptions.MerchantSecret, refresh_token = refreshToken },
-              headers: GetSecurityHeaders());
+              body: new { app_key = _bkashConfigurationOptions.MerchantKey, app_secret = _bkashConfigurationOptions.MerchantSecret, refresh_token = refreshToken });
 
-        return response.Data;
+        if (response.Success)
+        {
+            return Result<BkashTokenResponse>.Create(response.Data!);
+        }
+
+        return Result<BkashTokenResponse>.Create(
+            new List<Exception> {
+                new Exception(response.Response)
+            });
     }
-
-    private Dictionary<string, string> GetSecurityHeaders() => new()
-    {
-        { CONSTANTS.USERNAME_HEADER_KEY, _bkashConfigurationOptions.MerchantUserName??string.Empty },
-        { CONSTANTS.PASSWORD_HEADER_KEY, _bkashConfigurationOptions.MerchantPassword??string.Empty }
-    };
 }

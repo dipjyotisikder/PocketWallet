@@ -1,5 +1,5 @@
 ﻿namespace PocketWallet.Bkash.Models;
-internal class TokenResponse
+internal class BkashTokenResponse
 {
     /// <summary>
     /// The expiry time of the token. By default the lifetime is 3600 seconds.

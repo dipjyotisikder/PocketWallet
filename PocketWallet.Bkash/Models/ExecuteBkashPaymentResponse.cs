@@ -1,6 +1,6 @@
 ﻿namespace PocketWallet.Bkash.Models;
 
-public class ExecutePaymentResponse : ErrorResponse
+public class ExecuteBkashPaymentResponse : ErrorResponse
 {
     /// <summary>
     /// Unique code assigned to the API call status.

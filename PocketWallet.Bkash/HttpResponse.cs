@@ -1,38 +1,70 @@
-﻿using System.Net;
+﻿using System.ComponentModel;
+using System.Net;
 
 namespace PocketWallet.Bkash;
 internal class HttpResponse<TOut>
 {
     private HttpResponse(HttpResponseMessage httpResponse)
     {
-        IsSuccessStatusCode = httpResponse.IsSuccessStatusCode;
+        Success = httpResponse.IsSuccessStatusCode;
         StatusCode = httpResponse.StatusCode;
-        ResponseString = httpResponse.Content.ReadAsStringAsync().Result;
+        Response = httpResponse.Content.ReadAsStringAsync().Result;
 
         try
         {
-            Data = JsonConvert.DeserializeObject<TOut>(ResponseString)!;
-            IsParsedSuccessfully = true;
+            Data = JsonConvert.DeserializeObject<TOut>(Response)!;
+            Parsed = true;
         }
         catch (Exception)
         {
             Data = default;
-            IsParsedSuccessfully = false;
+            Parsed = false;
         }
     }
 
-    internal bool IsSuccessStatusCode { get; }
+    private HttpResponse(bool success, string response, HttpStatusCode? httpStatusCode)
+    {
+        Success = success;
+        StatusCode = httpStatusCode;
 
-    internal bool IsParsedSuccessfully { get; }
+        if (!success)
+        {
+            Data = default;
+            Response = response;
+        }
 
-    internal HttpStatusCode StatusCode { get; }
+        try
+        {
+            Data = JsonConvert.DeserializeObject<TOut>(Response)!;
+            Parsed = true;
+        }
+        catch (Exception)
+        {
+            Data = default;
+            Parsed = false;
+        }
+    }
 
-    internal string ResponseString { get; }
+    [DefaultValue(false)]
+    internal bool Success { get; }
+
+    [DefaultValue(false)]
+    internal bool Parsed { get; }
+
+    [DefaultValue(null)]
+    internal HttpStatusCode? StatusCode { get; }
+
+    internal string Response { get; } = string.Empty;
 
     internal TOut? Data { get; }
 
     internal static HttpResponse<TOut> Create(HttpResponseMessage httpResponse)
     {
         return new(httpResponse);
+    }
+
+    internal static HttpResponse<TOut> Create(bool success, string response, HttpStatusCode? httpStatusCode = null)
+    {
+        return new(success, response, httpStatusCode);
     }
 }
