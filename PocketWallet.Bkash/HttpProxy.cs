@@ -84,12 +84,6 @@ internal static class HttpProxy
             }
         }
 
-        var httpResponse = await httpClient.SendAsync(requestMessage);
-        string content = await httpResponse.Content.ReadAsStringAsync();
-
-        return HttpResponse<TOut>.Create(
-            isSuccessStatusCode: httpResponse.IsSuccessStatusCode,
-            statusCode: httpResponse.StatusCode,
-            responseContent: content);
+        return HttpResponse<TOut>.Create(await httpClient.SendAsync(requestMessage));
     }
 }

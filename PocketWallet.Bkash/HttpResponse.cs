@@ -3,18 +3,15 @@
 namespace PocketWallet.Bkash;
 internal class HttpResponse<TOut>
 {
-    private HttpResponse(
-        bool isSuccessStatusCode,
-        HttpStatusCode statusCode,
-        string responseContent)
+    private HttpResponse(HttpResponseMessage httpResponse)
     {
-        IsSuccessStatusCode = isSuccessStatusCode;
-        StatusCode = statusCode;
-        ResponseString = responseContent;
+        IsSuccessStatusCode = httpResponse.IsSuccessStatusCode;
+        StatusCode = httpResponse.StatusCode;
+        ResponseString = httpResponse.Content.ReadAsStringAsync().Result;
 
         try
         {
-            Data = JsonConvert.DeserializeObject<TOut>(responseContent)!;
+            Data = JsonConvert.DeserializeObject<TOut>(ResponseString)!;
             IsParsedSuccessfully = true;
         }
         catch (Exception)
@@ -34,14 +31,8 @@ internal class HttpResponse<TOut>
 
     internal TOut? Data { get; }
 
-    internal static HttpResponse<TOut> Create(
-          bool isSuccessStatusCode,
-          HttpStatusCode statusCode,
-          string responseContent)
+    internal static HttpResponse<TOut> Create(HttpResponseMessage httpResponse)
     {
-        return new(
-            isSuccessStatusCode,
-            statusCode,
-            responseContent);
+        return new(httpResponse);
     }
 }
