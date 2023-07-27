@@ -35,7 +35,7 @@ public record BkashConfigurationOptions
     /// <remarks>
     /// Merchant key describes the key value that is found after being a merchant.
     /// </remarks>
-    public string MerchantKey { get; set; } = string.Empty;
+    public string AppKey { get; set; } = string.Empty;
 
     /// <summary>
     /// Takes the value of Bkash API merchant secret.
@@ -43,7 +43,7 @@ public record BkashConfigurationOptions
     /// <remarks>
     /// Merchant secret describes the secret value that is found after being a merchant.
     /// </remarks>
-    public string MerchantSecret { get; set; } = string.Empty;
+    public string AppSecret { get; set; } = string.Empty;
 
     /// <summary>
     /// Returns the appropriate Base URL according to selected mode.
