@@ -50,11 +50,13 @@ namespace PocketWallet.Controllers
             return Ok(result);
         }
 
-        [HttpPost("bkash/callback")]
+        [HttpGet("bkash/callback")]
         [ProducesResponseType(typeof(Result<CreateBkashPaymentResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult CreateBkashPaymentCallback([FromQuery] string paymentID, [FromQuery] string status)
+        public async Task<IActionResult> CreateBkashPaymentCallback(
+            [FromQuery] string paymentID,
+            [FromQuery] string status)
         {
             var data = new
             {
