@@ -28,7 +28,8 @@ internal class BkashToken : IBkashToken
         {
             return Result<Dictionary<string, string>>.Create(new Dictionary<string, string>()
             {
-                { CONSTANTS.AUTHORIZATION_HEADER_KEY, tokenResult.Data! }
+                { CONSTANTS.AUTHORIZATION_HEADER_KEY, tokenResult.Data! },
+                { CONSTANTS.X_APP_KEY_HEADER_KEY, _bkashConfigurationOptions.AppKey },
             });
         }
 
