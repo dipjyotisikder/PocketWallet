@@ -24,20 +24,13 @@ internal class BkashPayment : IBkashPayment
                 body: paymentRequest,
                 headers: headerResult.Data);
 
-            if (response.Success && response.Parsed)
+            if (response.Success)
             {
-                if (response.Data!.StatusCode is CONSTANTS.SUCCESS_RESPONSE_CODE)
-                {
-                    return Result<CreateBkashPaymentResponse>.Create(response.Data!);
-                }
-
-                return Result<CreateBkashPaymentResponse>.Create(new List<Exception> {
-                    new Exception(string.Format("Bkash CreatePayment Failed | Error Code: {0} | Error Message: {1}", response.Data.ErrorCode, response.Data.ErrorMessage))
-                });
+                return Result<CreateBkashPaymentResponse>.Create(response.Data!);
             }
 
             return Result<CreateBkashPaymentResponse>.Create(new List<Exception> {
-                new Exception("Request could not be processed.")
+                new Exception(string.Format("Bkash CreatePayment Failed | Error Code: {0} | Error Message: {1}", response.Data?.ErrorCode, response.Data?.ErrorMessage))
             });
         }
 
@@ -55,20 +48,13 @@ internal class BkashPayment : IBkashPayment
                 body: executePayment,
                 headers: headerResult.Data);
 
-            if (response.Success && response.Parsed)
+            if (response.Success)
             {
-                if (response.Data!.StatusCode is CONSTANTS.SUCCESS_RESPONSE_CODE)
-                {
-                    return Result<ExecuteBkashPaymentResponse>.Create(response.Data!);
-                }
-
-                return Result<ExecuteBkashPaymentResponse>.Create(new List<Exception> {
-                    new Exception(string.Format("Bkash ExecutePayment Failed | Error Code: {0} | Error Message: {1}", response.Data.ErrorCode, response.Data.ErrorMessage))
-                });
+                return Result<ExecuteBkashPaymentResponse>.Create(response.Data!);
             }
 
             return Result<ExecuteBkashPaymentResponse>.Create(new List<Exception> {
-                new Exception("Request could not be processed.")
+                new Exception(string.Format("Bkash ExecutePayment Failed | Error Code: {0} | Error Message: {1}", response.Data?.ErrorCode, response.Data?.ErrorMessage))
             });
         }
 
@@ -86,20 +72,13 @@ internal class BkashPayment : IBkashPayment
                 body: queryPayment,
                 headers: headerResult.Data);
 
-            if (response.Success && response.Parsed)
+            if (response.Success)
             {
-                if (response.Data!.StatusCode is CONSTANTS.SUCCESS_RESPONSE_CODE)
-                {
-                    return Result<QueryBkashPaymentResponse>.Create(response.Data!);
-                }
-
-                return Result<QueryBkashPaymentResponse>.Create(new List<Exception> {
-                    new Exception(string.Format("Bkash QueryPayment Failed | Error Code: {0} | Error Message: {1}", response.Data.ErrorCode, response.Data.ErrorMessage))
-                });
+                return Result<QueryBkashPaymentResponse>.Create(response.Data!);
             }
 
             return Result<QueryBkashPaymentResponse>.Create(new List<Exception> {
-                new Exception("Request could not be processed.")
+                new Exception(string.Format("Bkash QueryPayment Failed | Error Code: {0} | Error Message: {1}", response.Data?.ErrorCode, response.Data?.ErrorMessage))
             });
         }
 

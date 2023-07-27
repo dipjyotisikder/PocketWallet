@@ -1,19 +1,7 @@
 ﻿namespace PocketWallet.Bkash.Models;
 
-public class CreateBkashPaymentResponse : ErrorResponse
+public class CreateBkashPaymentResponse : BaseBkashResponse
 {
-    /// <summary>
-    /// Unique code assigned to the API call status.
-    /// </summary>
-    [JsonProperty("statusCode")]
-    public string? StatusCode { get; init; }
-
-    /// <summary>
-    /// Message associated with the status, explaining the status.
-    /// </summary>
-    [JsonProperty("statusMessage")]
-    public string? StatusMessage { get; init; }
-
     /// <summary>
     /// bKash generated payment ID for this payment creation request. This payment ID can be used later to track down the payment and in other payment related APIs.
     /// </summary>

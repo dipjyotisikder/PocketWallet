@@ -78,7 +78,7 @@ internal class BkashToken : IBkashToken
             endpoint: CONSTANTS.TOKEN_URL,
             body: new { app_key = _bkashConfigurationOptions.AppKey, app_secret = _bkashConfigurationOptions.AppSecret });
 
-        if (response.Success && response.Parsed)
+        if (response.Success)
         {
             return Result<BkashTokenResponse>.Create(response.Data!);
         }
@@ -95,7 +95,7 @@ internal class BkashToken : IBkashToken
               endpoint: CONSTANTS.REFRESH_TOKEN_URL,
               body: new { app_key = _bkashConfigurationOptions.AppKey, app_secret = _bkashConfigurationOptions.AppSecret, refresh_token = refreshToken });
 
-        if (response.Success && response.Parsed)
+        if (response.Success)
         {
             return Result<BkashTokenResponse>.Create(response.Data!);
         }

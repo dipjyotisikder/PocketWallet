@@ -1,59 +1,52 @@
-﻿using System.ComponentModel;
+﻿using Newtonsoft.Json.Linq;
+using System.ComponentModel;
 using System.Net;
 
 namespace PocketWallet.Bkash;
-internal class HttpResponse<TOut>
+internal class HttpResponse<TOut> where TOut : BaseBkashResponse
 {
     private HttpResponse(HttpResponseMessage httpResponse)
     {
-        Success = httpResponse.IsSuccessStatusCode;
         StatusCode = httpResponse.StatusCode;
         Response = httpResponse.Content.ReadAsStringAsync().Result;
 
         if (httpResponse.IsSuccessStatusCode)
         {
-            try
-            {
-                var value = JsonConvert.DeserializeObject<dynamic>(Response);
-                Data = (TOut)value!;
-                Parsed = true;
-            }
-            catch (Exception)
-            {
-                Data = default;
-                Parsed = false;
-            }
+            Data = JObject.Parse(Response).ToObject<TOut>();
+        }
+
+        if (httpResponse.IsSuccessStatusCode
+            && Data is not null
+            && !string.IsNullOrWhiteSpace(Data.StatusCode)
+            && Data.StatusCode is CONSTANTS.SUCCESS_RESPONSE_CODE
+            && string.IsNullOrWhiteSpace(Data.ErrorCode))
+        {
+            Success = true;
         }
     }
 
     private HttpResponse(bool success, string response, HttpStatusCode? httpStatusCode)
     {
-        Success = success;
         StatusCode = httpStatusCode;
+        Response = response;
 
-        if (!success)
+        if (success)
         {
-            Data = default;
-            Response = response;
+            Data = JObject.Parse(Response).ToObject<TOut>();
         }
 
-        try
+        if (success
+            && Data is not null
+            && !string.IsNullOrWhiteSpace(Data.StatusCode)
+            && Data.StatusCode is CONSTANTS.SUCCESS_RESPONSE_CODE
+            && string.IsNullOrWhiteSpace(Data.ErrorCode))
         {
-            Data = JsonConvert.DeserializeObject<TOut>(Response)!;
-            Parsed = true;
-        }
-        catch (Exception)
-        {
-            Data = default;
-            Parsed = false;
+            Success = true;
         }
     }
 
     [DefaultValue(false)]
     internal bool Success { get; }
-
-    [DefaultValue(false)]
-    internal bool Parsed { get; }
 
     [DefaultValue(null)]
     internal HttpStatusCode? StatusCode { get; }

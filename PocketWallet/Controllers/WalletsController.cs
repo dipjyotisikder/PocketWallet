@@ -58,14 +58,18 @@ namespace PocketWallet.Controllers
             [FromQuery] string paymentID,
             [FromQuery] string status)
         {
-            var data = new
+            if (status == "success")
             {
-                paymentID,
-                status
-            };
+                // Check if any other payment existed with this same paymentID
+                // If not
+                var result = await _bkashPayment.ExecutePayment(new ExecuteBkashPayment
+                {
+                    PaymentID = paymentID,
+                });
 
-            return Ok(data);
+                return Ok(result);
+            }
+            return Ok();
         }
-
     }
 }

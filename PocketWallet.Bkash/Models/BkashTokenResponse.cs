@@ -1,5 +1,5 @@
 ﻿namespace PocketWallet.Bkash.Models;
-internal class BkashTokenResponse
+internal class BkashTokenResponse : BaseBkashResponse
 {
     /// <summary>
     /// The expiry time of the token. By default the lifetime is 3600 seconds.
@@ -24,19 +24,4 @@ internal class BkashTokenResponse
     /// </summary>
     [JsonProperty("token_type")]
     internal string? TokenType { get; init; }
-
-    /// <summary>
-    /// The response code indicating response status.
-    /// </summary>
-    /// <remarks>
-    /// 'fail'
-    /// </remarks>
-    [JsonProperty("statusCode")]
-    internal string? StatusCode { get; init; }
-
-    /// <summary>
-    /// Response message corresponding to the statusCode.
-    /// </summary>
-    [JsonProperty("statusMessage")]
-    internal string? StatusMessage { get; init; }
 }

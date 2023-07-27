@@ -6,7 +6,7 @@ internal static class HttpProxy
     internal static async Task<HttpResponse<TOut>> GetAsync<TOut>(
         this HttpClient httpClient,
         string endpoint,
-        Dictionary<string, string>? headers = null)
+        Dictionary<string, string>? headers = null) where TOut : BaseBkashResponse
     {
         return await Request<TOut>(
             httpClient: httpClient,
@@ -19,7 +19,7 @@ internal static class HttpProxy
         this HttpClient httpClient,
         string endpoint,
         object body,
-        Dictionary<string, string>? headers = null)
+        Dictionary<string, string>? headers = null) where TOut : BaseBkashResponse
     {
         return await Request<TOut>(
             httpClient: httpClient,
@@ -33,7 +33,7 @@ internal static class HttpProxy
         this HttpClient httpClient,
         string endpoint,
         object body,
-        Dictionary<string, string>? headers = null)
+        Dictionary<string, string>? headers = null) where TOut : BaseBkashResponse
     {
         return await Request<TOut>(
             httpClient: httpClient,
@@ -47,7 +47,7 @@ internal static class HttpProxy
         this HttpClient httpClient,
         string endpoint,
         object? body = null,
-        Dictionary<string, string>? headers = null)
+        Dictionary<string, string>? headers = null) where TOut : BaseBkashResponse
     {
         return await Request<TOut>(
             httpClient: httpClient,
@@ -62,7 +62,7 @@ internal static class HttpProxy
         HttpMethod method,
         string endpoint,
         object? body = null,
-        Dictionary<string, string>? headers = null)
+        Dictionary<string, string>? headers = null) where TOut : BaseBkashResponse
     {
         var requestMessage = new HttpRequestMessage
         {
@@ -92,7 +92,7 @@ internal static class HttpProxy
         return await HandleRequest<TOut>(httpClient, requestMessage);
     }
 
-    private static async Task<HttpResponse<TOut>> HandleRequest<TOut>(HttpClient httpClient, HttpRequestMessage requestMessage)
+    private static async Task<HttpResponse<TOut>> HandleRequest<TOut>(HttpClient httpClient, HttpRequestMessage requestMessage) where TOut : BaseBkashResponse
     {
         try
         {
