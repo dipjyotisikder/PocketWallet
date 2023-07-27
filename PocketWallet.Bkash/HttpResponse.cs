@@ -60,7 +60,10 @@ internal class HttpResponse<TOut> where TOut : BaseBkashResponse
         return new(httpResponse);
     }
 
-    internal static HttpResponse<TOut> Create(bool success, string response, HttpStatusCode? httpStatusCode = null)
+    internal static HttpResponse<TOut> Create(
+        bool success,
+        string response,
+        HttpStatusCode? httpStatusCode = null)
     {
         return new(success, response, httpStatusCode);
     }

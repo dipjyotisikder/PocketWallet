@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
@@ -11,7 +11,10 @@
 		<Description>Library that helps with Bkash Payment</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageTags>E-Wallet, Wallet, Bkash, Money, Payment, Payment Gateway, Gateway</PackageTags>
-		<RepositoryUrl>https://github.com/jyotidips/PocketWallet</RepositoryUrl>
+		<RepositoryUrl>https://github.com/jyotidips/PocketWallet/tree/master/PocketWallet.Bkash</RepositoryUrl>
+		<Copyright>Copyright (c) Dipjyoti 2023.</Copyright>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -20,6 +23,7 @@
 		<PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.2.3" />
+		<None Include="README.md" Pack="true" PackagePath="\"/>
 	</ItemGroup>
 
 </Project>
