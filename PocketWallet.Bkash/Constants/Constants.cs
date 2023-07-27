@@ -1,11 +1,11 @@
 ﻿namespace PocketWallet.Bkash.Constants;
 internal static class Constants
 {
-    internal const string TOKEN_URL = "tokenized/token/grant";
-    internal const string REFRESH_TOKEN_URL = "tokenized/token/refresh";
-    internal const string PAYMENT_CREATE_URL = "tokenized/payment/create";
-    internal const string PAYMENT_EXECUTE_URL = "tokenized/payment/execute";
-    internal const string PAYMENT_STATUS_URL = "tokenized/checkout/payment/status";
+    internal const string TOKEN_URL = "checkout/token/grant";
+    internal const string REFRESH_TOKEN_URL = "checkout/token/refresh";
+    internal const string PAYMENT_CREATE_URL = "checkout/create";
+    internal const string PAYMENT_EXECUTE_URL = "checkout/execute";
+    internal const string PAYMENT_STATUS_URL = "checkout/payment/status";
 
     internal const string ACCEPT_HEADER_KEY = "accept";
     internal const string CONTENT_TYPE_HEADER_KEY = "content-type";
@@ -20,4 +20,5 @@ internal static class Constants
 
     internal const string LIVE_BASEURL = "https://pay.bka.sh/";
     internal const string SANDBOX_BASEURL = "https://checkout.sandbox.bka.sh/v1.2.0-beta/";
+    //internal const string SANDBOX_BASEURL = "https://tokenized.sandbox.bka.sh/v1.2.0-beta/";
 }

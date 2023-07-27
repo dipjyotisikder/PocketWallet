@@ -34,9 +34,6 @@ public static class BkashDependencyInjection
             x.DefaultRequestHeaders.Add(CONSTANTS.PASSWORD_HEADER_KEY, options.MerchantPassword);
         });
 
-        /*services.AddScoped<IBkashToken, BkashToken>();
-        services.AddScoped<IBkashPayment, BkashPayment>();*/
-
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
         services.AddSwaggerGenNewtonsoftSupport();

@@ -14,8 +14,8 @@ internal class HttpResponse<TOut>
         {
             try
             {
-
-                Data = JsonConvert.DeserializeObject<TOut>(Response)!;
+                var value = JsonConvert.DeserializeObject<dynamic>(Response);
+                Data = (TOut)value!;
                 Parsed = true;
             }
             catch (Exception)
