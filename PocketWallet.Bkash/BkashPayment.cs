@@ -24,7 +24,7 @@ internal class BkashPayment : IBkashPayment
                 body: paymentRequest,
                 headers: headerResult.Data);
 
-            if (response.Success)
+            if (response.Success && response.Parsed)
             {
                 if (response.Data!.StatusCode is CONSTANTS.SUCCESS_RESPONSE_CODE)
                 {
@@ -55,7 +55,7 @@ internal class BkashPayment : IBkashPayment
                 body: executePayment,
                 headers: headerResult.Data);
 
-            if (response.Success)
+            if (response.Success && response.Parsed)
             {
                 if (response.Data!.StatusCode is CONSTANTS.SUCCESS_RESPONSE_CODE)
                 {
@@ -86,7 +86,7 @@ internal class BkashPayment : IBkashPayment
                 body: queryPayment,
                 headers: headerResult.Data);
 
-            if (response.Success)
+            if (response.Success && response.Parsed)
             {
                 if (response.Data!.StatusCode is CONSTANTS.SUCCESS_RESPONSE_CODE)
                 {
