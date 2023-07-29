@@ -1,4 +1,4 @@
-﻿namespace PocketWallet.Bkash.DependencyInjection
+﻿namespace PocketWallet.Bkash.DependencyInjection.Options
 {
     public enum PaymentModes
     {

@@ -1,25 +1,25 @@
-﻿using PocketWallet.Bkash.Http;
+﻿using PocketWallet.Bkash.DependencyInjection.Options;
+using PocketWallet.Bkash.Http;
 
 namespace PocketWallet.Bkash.Concretes;
 internal class BkashToken : IBkashToken
 {
     private readonly IDateTimeProvider _dateTimeProvider;
+    private readonly ITokenStorage _tokenStorage;
 
     private readonly HttpClient _httpClient;
     private readonly BkashConfigurationOptions _bkashConfigurationOptions;
 
-    private string _token = string.Empty;
-    private string _refreshToken = string.Empty;
-    private DateTime _tokenExpiryTime;
-
     public BkashToken(
         HttpClient httpClient,
         BkashConfigurationOptions bkashConfigurationOptions,
-        IDateTimeProvider dateTimeProvider)
+        IDateTimeProvider dateTimeProvider,
+        ITokenStorage tokenStorage)
     {
         _httpClient = httpClient;
         _bkashConfigurationOptions = bkashConfigurationOptions;
         _dateTimeProvider = dateTimeProvider;
+        _tokenStorage = tokenStorage;
     }
 
     public async Task<Result<Dictionary<string, string>>> GetAuthorizationHeaders()
@@ -39,41 +39,41 @@ internal class BkashToken : IBkashToken
 
     private async Task<Result<string>> CreateToken()
     {
-        if (string.IsNullOrWhiteSpace(_token))
+        if (_tokenStorage.IsEmpty())
         {
-            var tokenResponse = await CreateInitialToken();
-            if (!tokenResponse.IsSucceeded)
+            var tokenResponse = await InitialToken();
+            if (tokenResponse.IsSucceeded)
             {
-                return Result<string>.Create(tokenResponse.Problem!);
+                _tokenStorage.Set(
+                    tokenResponse.Data!.IdToken!,
+                    tokenResponse.Data.RefreshToken!,
+                    _dateTimeProvider.UtcNow.AddSeconds(3500));
+
+                return Result<string>.Create(_tokenStorage.AccessToken);
             }
 
-            _token = tokenResponse.Data!.IdToken!;
-            _refreshToken = tokenResponse.Data!.RefreshToken!;
-            _tokenExpiryTime = _dateTimeProvider.UtcNow.AddSeconds(3500);
-
-            return Result<string>.Create(_token);
+            return Result<string>.Create(tokenResponse.Problem!);
         }
-
-        var result = DateTime.Compare(_tokenExpiryTime, _dateTimeProvider.UtcNow);
-        if (result > 0)
+        else if (_tokenStorage.IsExpired())
         {
-            return Result<string>.Create(_token);
-        }
+            var refreshedTokenResponse = await RefreshToken(_tokenStorage.RefreshToken);
+            if (refreshedTokenResponse.IsSucceeded)
+            {
+                _tokenStorage.Set(
+                    refreshedTokenResponse.Data!.IdToken!,
+                    refreshedTokenResponse.Data.RefreshToken!,
+                    _dateTimeProvider.UtcNow.AddSeconds(3500));
 
-        var refreshedTokenResponse = await CreateRefreshToken(_refreshToken);
-        if (!refreshedTokenResponse.IsSucceeded)
-        {
+                return Result<string>.Create(_tokenStorage.AccessToken);
+            }
+
             return Result<string>.Create(refreshedTokenResponse.Problem!);
         }
 
-        _token = refreshedTokenResponse.Data!.IdToken!;
-        _refreshToken = refreshedTokenResponse.Data!.RefreshToken!;
-        _tokenExpiryTime = _dateTimeProvider.UtcNow.AddSeconds(3500);
-
-        return Result<string>.Create(_token);
+        return Result<string>.Create(_tokenStorage.AccessToken);
     }
 
-    private async Task<Result<BkashTokenResponse>> CreateInitialToken()
+    private async Task<Result<BkashTokenResponse>> InitialToken()
     {
         var response = await _httpClient.PostAsync<BkashTokenResponse>(
             endpoint: CONSTANTS.TOKEN_URL,
@@ -85,10 +85,12 @@ internal class BkashToken : IBkashToken
         }
 
         return Result<BkashTokenResponse>.Create(
-                BkashProblem.Create(statusCode: response?.Data?.StatusCode!, message: response?.Data?.StatusMessage!));
+                BkashProblem.Create(
+                    statusCode: response?.Data?.StatusCode!,
+                    message: response?.Data?.StatusMessage!));
     }
 
-    private async Task<Result<BkashTokenResponse>> CreateRefreshToken(string refreshToken)
+    private async Task<Result<BkashTokenResponse>> RefreshToken(string refreshToken)
     {
         var response = await _httpClient.PostAsync<BkashTokenResponse>(
               endpoint: CONSTANTS.REFRESH_TOKEN_URL,

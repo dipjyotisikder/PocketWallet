@@ -1,4 +1,4 @@
-﻿namespace PocketWallet.Bkash.DependencyInjection;
+﻿namespace PocketWallet.Bkash.DependencyInjection.Options;
 
 /// <summary>
 /// Configuration option to enable Bkash API.
