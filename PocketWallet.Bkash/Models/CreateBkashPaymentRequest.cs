@@ -1,6 +1,6 @@
 ﻿namespace PocketWallet.Bkash.Models;
 
-public class CreateBkashPayment
+internal class CreateBkashPaymentRequest
 {
     /// <summary>
     /// This parameter indicates the mode of payment. For Checkout (URL based), the value of this parameter should be "0011".

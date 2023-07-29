@@ -6,15 +6,23 @@
 public class Result<T>
 {
     /// <summary>
-    /// Constructor that takes data and exceptions.
+    /// Constructor that takes data and Problem.
     /// </summary>
     /// <param name="data">A result object of type <typeparamref name="T"/>.</param>
-    /// <param name="exceptions">Exceptions occurred during the operation.</param>
-    private Result(T? data = default, ICollection<Exception>? exceptions = null)
+    private Result(T data)
     {
         Data = data;
-        Exceptions = exceptions;
-        IsSucceeded = exceptions == null || !exceptions.Any();
+        IsSucceeded = true;
+    }
+
+    /// <summary>
+    /// Constructor that takes data and Problem.
+    /// </summary>
+    /// <param name="problem">A result object of type <typeparamref name="T"/>.</param>
+    private Result(BkashProblem problem)
+    {
+        Problem = problem;
+        IsSucceeded = false;
     }
 
     /// <summary>
@@ -28,10 +36,9 @@ public class Result<T>
     public bool IsSucceeded { get; private set; }
 
     /// <summary>
-    /// Exceptions that indicates if the task has problem.
+    /// Problem that indicates if the task has problem.
     /// </summary>
-    [JsonIgnore]
-    public ICollection<Exception>? Exceptions { get; set; }
+    public BkashProblem? Problem { get; private set; }
 
     /// <summary>
     /// Result object creator with data, of type <typeparamref name="T"/>.
@@ -40,27 +47,17 @@ public class Result<T>
     /// <returns>A object of type <see cref="Result{T}"/>.</returns>
     public static Result<T> Create(T data)
     {
-        return new Result<T>(data, null);
+        return new Result<T>(data);
     }
 
     /// <summary>
-    /// Result object creator with exceptions.
+    /// Result object creator with Problem.
     /// </summary>
-    /// <param name="exceptions">Exceptions occurred during the operation.</param>
+    /// <param name="problem">BkashProblem occurred during the operation.</param>
     /// <returns>A object of type <see cref="Result{T}"/>.</returns>
-    public static Result<T> Create(ICollection<Exception> exceptions)
+    public static Result<T> Create(BkashProblem problem)
     {
-        return new Result<T>(default, exceptions);
-    }
-
-    /// <summary>
-    /// Result object creator with data and exceptions.
-    /// </summary>
-    /// <param name="data">A result object of type <typeparamref name="T"/>.</param>
-    /// <returns>A object of type <see cref="Result{T}"/>.</returns>
-    public static Result<T> Create(T data, ICollection<Exception> exceptions)
-    {
-        return new Result<T>(data, exceptions);
+        return new Result<T>(problem);
     }
 }
 
@@ -69,34 +66,44 @@ public class Result<T>
 /// </summary>
 public class Result
 {
+    private Result() => IsSucceeded = true;
+
     /// <summary>
-    /// Constructor that takes exceptions.
+    /// Constructor that takes Problem.
     /// </summary>
-    /// <param name="exceptions"></param>
-    private Result(ICollection<Exception>? exceptions = null)
+    /// <param name="problem">BkashProblem occurred during the operation.</param>
+    private Result(BkashProblem problem)
     {
-        Exceptions = exceptions;
-        IsSucceeded = exceptions == null || !exceptions.Any();
+        Problem = problem;
+        IsSucceeded = false;
     }
 
     /// <summary>
     /// A boolean result that indicates if the task is succeeded.
     /// </summary>
-    public bool IsSucceeded { get; set; }
+    public bool IsSucceeded { get; private set; }
 
     /// <summary>
-    /// Exceptions occurred during the operation.
+    /// Problem occurred during the operation.
     /// </summary>
-    [JsonIgnore]
-    public ICollection<Exception>? Exceptions { get; set; }
+    public BkashProblem? Problem { get; private set; }
 
     /// <summary>
-    /// Result object creator with exceptions.
+    /// Result object creator with problem.
     /// </summary>
-    /// <param name="exceptions">Exceptions occurred during the operation.</param>
     /// <returns>A object of type <see cref="Result"/>.</returns>
-    public static Result Create(ICollection<Exception>? exceptions = null)
+    public static Result Create()
     {
-        return new Result(exceptions);
+        return new Result();
+    }
+
+    /// <summary>
+    /// Result object creator with problem.
+    /// </summary>
+    /// <param name="problem">Problem occurred during the operation.</param>
+    /// <returns>A object of type <see cref="Result"/>.</returns>
+    public static Result Create(BkashProblem problem)
+    {
+        return new Result(problem);
     }
 }

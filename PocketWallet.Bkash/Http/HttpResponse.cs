@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Net;
 
-namespace PocketWallet.Bkash;
+namespace PocketWallet.Bkash.Http;
 internal class HttpResponse<TOut> where TOut : BaseBkashResponse
 {
     private HttpResponse(HttpResponseMessage httpResponse)

@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using PocketWallet.Bkash.Concretes;
+using PocketWallet.Bkash.Providers;
 using System.Net.Http.Headers;
 
 namespace PocketWallet.Bkash.DependencyInjection;
@@ -37,6 +39,8 @@ public static class BkashDependencyInjection
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
         services.AddSwaggerGenNewtonsoftSupport();
+
+        services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
         return services;
     }

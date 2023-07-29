@@ -1,4 +1,6 @@
-﻿namespace PocketWallet.Bkash;
+﻿using PocketWallet.Bkash.Http;
+
+namespace PocketWallet.Bkash.Concretes;
 internal class BkashToken : IBkashToken
 {
     private readonly IDateTimeProvider _dateTimeProvider;
@@ -23,7 +25,6 @@ internal class BkashToken : IBkashToken
     public async Task<Result<Dictionary<string, string>>> GetAuthorizationHeaders()
     {
         var tokenResult = await CreateToken();
-
         if (tokenResult.IsSucceeded)
         {
             return Result<Dictionary<string, string>>.Create(new Dictionary<string, string>()
@@ -33,7 +34,7 @@ internal class BkashToken : IBkashToken
             });
         }
 
-        return Result<Dictionary<string, string>>.Create(tokenResult.Exceptions!);
+        return Result<Dictionary<string, string>>.Create(tokenResult.Problem!);
     }
 
     private async Task<Result<string>> CreateToken()
@@ -43,7 +44,7 @@ internal class BkashToken : IBkashToken
             var tokenResponse = await CreateInitialToken();
             if (!tokenResponse.IsSucceeded)
             {
-                return Result<string>.Create(tokenResponse.Exceptions!);
+                return Result<string>.Create(tokenResponse.Problem!);
             }
 
             _token = tokenResponse.Data!.IdToken!;
@@ -62,7 +63,7 @@ internal class BkashToken : IBkashToken
         var refreshedTokenResponse = await CreateRefreshToken(_refreshToken);
         if (!refreshedTokenResponse.IsSucceeded)
         {
-            return Result<string>.Create(refreshedTokenResponse.Exceptions!);
+            return Result<string>.Create(refreshedTokenResponse.Problem!);
         }
 
         _token = refreshedTokenResponse.Data!.IdToken!;
@@ -84,9 +85,7 @@ internal class BkashToken : IBkashToken
         }
 
         return Result<BkashTokenResponse>.Create(
-            new List<Exception> {
-                new Exception(response.Response)
-            });
+                BkashProblem.Create(statusCode: response?.Data?.StatusCode!, message: response?.Data?.StatusMessage!));
     }
 
     private async Task<Result<BkashTokenResponse>> CreateRefreshToken(string refreshToken)
@@ -101,8 +100,6 @@ internal class BkashToken : IBkashToken
         }
 
         return Result<BkashTokenResponse>.Create(
-            new List<Exception> {
-                new Exception(response.Response)
-            });
+               BkashProblem.Create(statusCode: response?.Data?.StatusCode!, message: response?.Data?.StatusMessage!));
     }
 }

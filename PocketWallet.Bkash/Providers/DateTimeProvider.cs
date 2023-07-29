@@ -1,4 +1,4 @@
-﻿namespace PocketWallet.Bkash;
+﻿namespace PocketWallet.Bkash.Providers;
 
 internal class DateTimeProvider : IDateTimeProvider
 {

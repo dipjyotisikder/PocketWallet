@@ -18,6 +18,9 @@ internal static class Constants
 
     internal const string SUCCESS_RESPONSE_CODE = "0000";
 
+    internal const string AGREEMENT_CODE = "0001";
+    internal const string WITHOUT_AGREEMENT_CODE = "0011";
+
     internal const string LIVE_BASEURL = "https://pay.bka.sh/";
     internal const string SANDBOX_BASEURL = "https://tokenized.sandbox.bka.sh/v1.2.0-beta/";
 }

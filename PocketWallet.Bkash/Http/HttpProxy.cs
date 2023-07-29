@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace PocketWallet.Bkash;
+namespace PocketWallet.Bkash.Http;
 internal static class HttpProxy
 {
     internal static async Task<HttpResponse<TOut>> GetAsync<TOut>(

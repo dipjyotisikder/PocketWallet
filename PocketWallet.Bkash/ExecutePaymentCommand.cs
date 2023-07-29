@@ -1,10 +1,9 @@
-﻿namespace PocketWallet.Bkash.Models;
+﻿namespace PocketWallet.Bkash;
 
-public class ExecuteBkashPayment
+public class ExecutePaymentCommand
 {
     /// <summary>
     /// PaymentID returned in the response of Create Payment API.
     /// </summary>
-    [JsonProperty("paymentID")]
     public string PaymentID { get; set; } = string.Empty;
 }

@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using PocketWallet.Bkash;
-using PocketWallet.Bkash.Abstraction;
 using PocketWallet.Bkash.Models;
 
 namespace PocketWallet.Controllers
@@ -21,22 +20,12 @@ namespace PocketWallet.Controllers
         }
 
         [HttpPost("bkash/createPayment")]
-        [ProducesResponseType(typeof(Result<CreateBkashPaymentResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Result<CreatePaymentResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> CreateBkashPayment([FromBody] CreateBkashPayment request)
+        public async Task<IActionResult> CreateBkashPayment([FromBody] CreatePaymentCommand request)
         {
             var result = await _bkashPayment.CreatePayment(request);
-            return Ok(result);
-        }
-
-        [HttpPost("bkash/executePayment")]
-        [ProducesResponseType(typeof(Result<ExecuteBkashPaymentResponse>), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> ExecuteBkashPayment([FromBody] ExecuteBkashPayment request)
-        {
-            var result = await _bkashPayment.ExecutePayment(request);
             return Ok(result);
         }
 
@@ -44,14 +33,14 @@ namespace PocketWallet.Controllers
         [ProducesResponseType(typeof(Result<QueryBkashPaymentResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> QueryBkashPayment([FromQuery] QueryBkashPayment request)
+        public async Task<IActionResult> QueryBkashPayment([FromQuery] QueryBkashPaymentRequest request)
         {
             var result = await _bkashPayment.QueryPayment(request);
             return Ok(result);
         }
 
         [HttpGet("bkash/callback")]
-        [ProducesResponseType(typeof(Result<CreateBkashPaymentResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Result<ExecutePaymentResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> CreateBkashPaymentCallback(
@@ -62,9 +51,9 @@ namespace PocketWallet.Controllers
             {
                 // Check if any other payment existed with this same paymentID
                 // If not
-                var result = await _bkashPayment.ExecutePayment(new ExecuteBkashPayment
+                var result = await _bkashPayment.ExecutePayment(new ExecutePaymentCommand
                 {
-                    PaymentID = paymentID,
+                    PaymentID = paymentID
                 });
 
                 return Ok(result);
