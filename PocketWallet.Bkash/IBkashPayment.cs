@@ -7,19 +7,19 @@ public interface IBkashPayment
     /// </summary>
     /// <param name="request">Params for payment creation.</param>
     /// <returns>A response provided by bkash.</returns>
-    Task<Result<CreatePaymentResponse>> CreatePayment(CreatePaymentCommand request);
+    Task<Result<CreatePaymentResponse>> Create(CreatePaymentCommand request);
 
     /// <summary>
     /// API to provide the capability to execute Bkash Payment.
     /// </summary>
     /// <param name="request">Params for payment creation.</param>
     /// <returns>A response provided by bkash.</returns>
-    Task<Result<ExecutePaymentResponse>> ExecutePayment(ExecutePaymentCommand request);
+    Task<Result<ExecutePaymentResponse>> Execute(ExecutePaymentCommand request);
 
     /// <summary>
     /// API to provide the capability to query Bkash Payment.
     /// </summary>
-    /// <param name="queryPayment">Params for payment creation.</param>
+    /// <param name="query">Params for payment creation.</param>
     /// <returns>A response provided by bkash.</returns>
-    Task<Result<QueryBkashPaymentResponse>> QueryPayment(QueryBkashPaymentRequest queryPayment);
+    Task<Result<PaymentQueryResponse>> Query(PaymentQuery query);
 }

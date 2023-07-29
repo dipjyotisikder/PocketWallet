@@ -32,7 +32,7 @@ internal class BkashPayment : IBkashPayment
     }
 
     /// <inheritdoc/>
-    public async Task<Result<CreatePaymentResponse>> CreatePayment(CreatePaymentCommand request)
+    public async Task<Result<CreatePaymentResponse>> Create(CreatePaymentCommand request)
     {
         if (_bkashConfigurationOptions.PaymentMode == PaymentModes.WithoutAgreement
             && request.Mode != CONSTANTS.WITHOUT_AGREEMENT_CODE)
@@ -69,7 +69,7 @@ internal class BkashPayment : IBkashPayment
     }
 
     /// <inheritdoc/>
-    public async Task<Result<ExecutePaymentResponse>> ExecutePayment(ExecutePaymentCommand request)
+    public async Task<Result<ExecutePaymentResponse>> Execute(ExecutePaymentCommand request)
     {
         var headerResult = await _bkashToken.GetAuthorizationHeaders();
         if (headerResult.IsSucceeded)
@@ -92,25 +92,26 @@ internal class BkashPayment : IBkashPayment
     }
 
     /// <inheritdoc/>
-    public async Task<Result<QueryBkashPaymentResponse>> QueryPayment(QueryBkashPaymentRequest queryPayment)
+    public async Task<Result<PaymentQueryResponse>> Query(PaymentQuery request)
     {
         var headerResult = await _bkashToken.GetAuthorizationHeaders();
         if (headerResult.IsSucceeded)
         {
             var response = await _httpClient.PostAsync<QueryBkashPaymentResponse>(
                 endpoint: CONSTANTS.PAYMENT_STATUS_URL,
-                body: queryPayment,
+                body: _mapper.Map<QueryBkashPaymentRequest>(request),
                 headers: headerResult.Data);
 
             if (response.Success)
             {
-                return Result<QueryBkashPaymentResponse>.Create(response.Data!);
+                return Result<PaymentQueryResponse>.Create(
+                    _mapper.Map<PaymentQueryResponse>(response.Data!));
             }
 
-            return Result<QueryBkashPaymentResponse>.Create(
+            return Result<PaymentQueryResponse>.Create(
                 BkashProblem.Create(statusCode: response?.Data?.StatusCode!, message: response?.Data?.StatusMessage!));
         }
 
-        return Result<QueryBkashPaymentResponse>.Create(headerResult.Problem!);
+        return Result<PaymentQueryResponse>.Create(headerResult.Problem!);
     }
 }

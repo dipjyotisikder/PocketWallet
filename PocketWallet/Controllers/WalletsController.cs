@@ -25,17 +25,17 @@ namespace PocketWallet.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> CreateBkashPayment([FromBody] CreatePaymentCommand request)
         {
-            var result = await _bkashPayment.CreatePayment(request);
+            var result = await _bkashPayment.Create(request);
             return Ok(result);
         }
 
         [HttpPost("bkash/queryPayment")]
-        [ProducesResponseType(typeof(Result<QueryBkashPaymentResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Result<PaymentQueryResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> QueryBkashPayment([FromQuery] QueryBkashPaymentRequest request)
+        public async Task<IActionResult> QueryBkashPayment([FromBody] PaymentQuery request)
         {
-            var result = await _bkashPayment.QueryPayment(request);
+            var result = await _bkashPayment.Query(request);
             return Ok(result);
         }
 
@@ -43,7 +43,7 @@ namespace PocketWallet.Controllers
         [ProducesResponseType(typeof(Result<ExecutePaymentResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> CreateBkashPaymentCallback(
+        public async Task<IActionResult> PaymentCallback(
             [FromQuery] string paymentID,
             [FromQuery] string status)
         {
@@ -51,7 +51,7 @@ namespace PocketWallet.Controllers
             {
                 // Check if any other payment existed with this same paymentID
                 // If not
-                var result = await _bkashPayment.ExecutePayment(new ExecutePaymentCommand
+                var result = await _bkashPayment.Execute(new ExecutePaymentCommand
                 {
                     PaymentID = paymentID
                 });
