@@ -14,13 +14,11 @@
 		<RepositoryUrl>https://github.com/jyotidips/PocketWallet/tree/master/PocketWallet.Bkash</RepositoryUrl>
 		<Copyright>Copyright (c) Dipjyoti 2023.</Copyright>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<Version>1.0.1</Version>
+		<Version>1.0.2</Version>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Title>Dipjyoti.PocketWallet.Bkash</Title>
 		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
-
 	</PropertyGroup>
 
 	<ItemGroup>

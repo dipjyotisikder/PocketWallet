@@ -48,7 +48,7 @@ public class BkashOptions
 }
 ```
 
-Version 1.0.1
+Version 1.0.1+
 ```
 public class BkashOptions
 {
@@ -95,7 +95,7 @@ Version 1.0.0
 var result = await _bkashPayment.CreatePayment(new CreateBkashPayment{});
 
 ```
-Version 1.0.1
+Version 1.0.1+
 ```
 var result = await _bkashPayment.Create(new CreatePaymentCommand{});
 
