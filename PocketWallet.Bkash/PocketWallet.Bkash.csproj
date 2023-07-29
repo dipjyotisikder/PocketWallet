@@ -8,7 +8,7 @@
 		<PackageId>Dipjyoti.PocketWallet.Bkash</PackageId>
 		<Authors>Dipjyoti Sikder</Authors>
 		<Company>Dipjyoti</Company>
-		<Description>Library that helps with Bkash Payment</Description>
+		<Description>Library that helps with Bkash Payment.</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageTags>E-Wallet, Wallet, Bkash, Money, Payment, Payment Gateway, Gateway</PackageTags>
 		<RepositoryUrl>https://github.com/jyotidips/PocketWallet/tree/master/PocketWallet.Bkash</RepositoryUrl>
@@ -16,16 +16,15 @@
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<Version>1.0.1</Version>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Title>Dipjyoti.PocketWallet.Bkash</Title>
+		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
 
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="AutoMapper" Version="12.0.1" />
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.2.3" />
 		<None Include="README.md" Pack="true" PackagePath="\" />
 	</ItemGroup>

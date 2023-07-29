@@ -89,6 +89,7 @@ public WalletsController(IBkashPayment bkashPayment)
 ```
 
 - Call the payment method.
+
 Version 1.0.0
 ```
 var result = await _bkashPayment.CreatePayment(new CreateBkashPayment{});
