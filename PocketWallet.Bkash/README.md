@@ -35,16 +35,32 @@ Add this appsettings.json configuration block and provide appropriate values. No
 
 ### Dependency Injection
 1. Create a "BkashOptions" class matching with configuration files "BkashOptions" section.
+
+Version 1.0.0
 ```
 public class BkashOptions
 {
-    public string MerchantUserName { get; set; } = string.Empty;
-    public string MerchantPassword { get; set; } = string.Empty;
-    public string AppKey { get; set; } = string.Empty;
-    public string AppSecret { get; set; } = string.Empty;
+    public string MerchantUserName { get; set; }
+    public string MerchantPassword { get; set; }
+    public string AppKey { get; set; }
+    public string AppSecret { get; set; }
     public bool ProductionMode { get; set; }
 }
 ```
+
+Version 1.0.1
+```
+public class BkashOptions
+{
+    public string MerchantUserName { get; set; }
+    public string MerchantPassword { get; set; }
+    public string AppKey { get; set; }
+    public string AppSecret { get; set; }
+    public bool ProductionMode { get; set; }
+    public PaymentModes PaymentMode { get; set; }
+}
+```
+
 2. Add Bkash Dependency
 ```
 var bkashOptions = new BkashOptions();
@@ -62,6 +78,7 @@ builder.Services.AddBkash(option =>
 ### Payment Process
 
 To Create Payment:
+
 - Add "IBkashPayment" interface in the constructor of any class as follows,
 ```
 private readonly IBkashPayment _bkashPayment;
@@ -70,9 +87,16 @@ public WalletsController(IBkashPayment bkashPayment)
     _bkashPayment = bkashPayment;
 }
 ```
+
 - Call the payment method.
+Version 1.0.0
 ```
 var result = await _bkashPayment.CreatePayment(new CreateBkashPayment{});
+
+```
+Version 1.0.1
+```
+var result = await _bkashPayment.Create(new CreatePaymentCommand{});
 
 ```
 Please check property summary for better understanding about the responsibility of the property.
