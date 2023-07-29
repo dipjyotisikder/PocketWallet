@@ -6,18 +6,27 @@ using System.Net.Http.Headers;
 
 namespace PocketWallet.Bkash.DependencyInjection;
 
+/// <summary>
+/// Adds service dependencies.
+/// </summary>
 public static class BkashDependencyInjection
 {
+    /// <summary>
+    /// Adds bkash specific dependencies.
+    /// </summary>
+    /// <param name="services"><see cref="IServiceCollection"/> object.</param>
+    /// <param name="optionsAction">Action that helps to fill bkash options.</param>
+    /// <returns></returns>
     public static IServiceCollection AddBkash(
         this IServiceCollection services,
-        Action<BkashConfigurationOptions> optionsCall)
+        Action<BkashConfigurationOptions> optionsAction)
     {
         var options = new BkashConfigurationOptions
         {
             ProductionMode = false
         };
 
-        optionsCall.Invoke(options);
+        optionsAction.Invoke(options);
 
         services.AddSingleton(x => options);
 

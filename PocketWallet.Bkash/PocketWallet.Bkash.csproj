@@ -15,6 +15,7 @@
 		<Copyright>Copyright (c) Dipjyoti 2023.</Copyright>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<Version>1.0.1</Version>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 
 	</PropertyGroup>
 

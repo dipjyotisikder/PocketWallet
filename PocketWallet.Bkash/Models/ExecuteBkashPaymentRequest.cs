@@ -1,5 +1,8 @@
 ﻿namespace PocketWallet.Bkash.Models;
 
+/// <summary>
+/// Represents payment execution request object.
+/// </summary>
 internal class ExecuteBkashPaymentRequest
 {
     /// <summary>

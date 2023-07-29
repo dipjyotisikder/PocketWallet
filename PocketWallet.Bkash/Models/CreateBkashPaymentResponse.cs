@@ -1,5 +1,8 @@
 ﻿namespace PocketWallet.Bkash.Models;
 
+/// <summary>
+/// Represents payment creation response object.
+/// </summary>
 internal class CreateBkashPaymentResponse : BaseBkashResponse
 {
     /// <summary>
@@ -36,7 +39,7 @@ internal class CreateBkashPaymentResponse : BaseBkashResponse
     /// The canceled callback URL where bkash will inform merchant about the transaction result in case of a canceled transaction.
     /// </summary>
     [JsonProperty("cancelledCallbackURL")]
-    public string? CancelledCallbackURL { get; init; }
+    public string? CanceledCallbackURL { get; init; }
 
     /// <summary>
     /// Amount of the payment transaction.

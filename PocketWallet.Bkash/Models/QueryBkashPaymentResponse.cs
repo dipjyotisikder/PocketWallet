@@ -1,5 +1,8 @@
 ﻿namespace PocketWallet.Bkash.Models;
 
+/// <summary>
+/// Represents actual response received from Bkash.
+/// </summary>
 internal class QueryBkashPaymentResponse : BaseBkashResponse
 {
     /// <summary>

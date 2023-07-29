@@ -1,6 +1,9 @@
 ﻿namespace PocketWallet.Bkash;
 
-public class ExecutePaymentResponse
+/// <summary>
+/// Payment execution response after fully completed payment operation.
+/// </summary>
+public class ExecutePaymentResult
 {
     /// <summary>
     /// bKash generated payment ID for this payment creation request. This payment ID can be used later to track down the payment and in other payment related APIs.

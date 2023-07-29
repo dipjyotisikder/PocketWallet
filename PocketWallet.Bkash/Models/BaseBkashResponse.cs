@@ -1,5 +1,8 @@
 ﻿namespace PocketWallet.Bkash.Models
 {
+    /// <summary>
+    /// Represents common base bkash object.
+    /// </summary>
     internal class BaseBkashResponse
     {
         /// <summary>

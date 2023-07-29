@@ -2,6 +2,9 @@
 
 namespace PocketWallet.Bkash
 {
+    /// <summary>
+    /// Represents payment creation object.
+    /// </summary>
     public class CreatePaymentCommand
     {
         /// <summary>

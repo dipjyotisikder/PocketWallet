@@ -20,6 +20,7 @@ internal class BkashPayment : IBkashPayment
     /// <param name="bkashToken"><see cref="BkashToken"/> object created by Bkash.</param>
     /// <param name="httpClient"><see cref="HttpClient"/> object to call Bkash endpoints.</param>
     /// <param name="bkashConfigurationOptions"><see cref="BkashConfigurationOptions"/> object.</param>
+    /// <param name="mapper"><see cref="IMapper"/> object.</param>
     public BkashPayment(
         IBkashToken bkashToken,
         HttpClient httpClient,
@@ -33,19 +34,19 @@ internal class BkashPayment : IBkashPayment
     }
 
     /// <inheritdoc/>
-    public async Task<Result<CreatePaymentResponse>> Create(CreatePaymentCommand request)
+    public async Task<Result<CreatePaymentResult>> Create(CreatePaymentCommand request)
     {
         if (_bkashConfigurationOptions.PaymentMode == PaymentModes.WithoutAgreement
             && request.Mode != CONSTANTS.WITHOUT_AGREEMENT_CODE)
         {
-            return Result<CreatePaymentResponse>.Create(
+            return Result<CreatePaymentResult>.Create(
                BkashProblem.Create(statusCode: "9999", message: "Payment mode is invalid."));
         }
 
         if (_bkashConfigurationOptions.PaymentMode == PaymentModes.WithAgreement
             && request.Mode != CONSTANTS.AGREEMENT_CODE)
         {
-            return Result<CreatePaymentResponse>.Create(
+            return Result<CreatePaymentResult>.Create(
                BkashProblem.Create(statusCode: "9999", message: "Payment mode is invalid."));
         }
 
@@ -59,18 +60,18 @@ internal class BkashPayment : IBkashPayment
 
             if (response.Success)
             {
-                return Result<CreatePaymentResponse>.Create(_mapper.Map<CreatePaymentResponse>(response.Data!));
+                return Result<CreatePaymentResult>.Create(_mapper.Map<CreatePaymentResult>(response.Data!));
             }
 
-            return Result<CreatePaymentResponse>.Create(
+            return Result<CreatePaymentResult>.Create(
                 BkashProblem.Create(statusCode: response?.Data?.StatusCode!, message: response?.Data?.StatusMessage!));
         }
 
-        return Result<CreatePaymentResponse>.Create(headerResult.Problem!);
+        return Result<CreatePaymentResult>.Create(headerResult.Problem!);
     }
 
     /// <inheritdoc/>
-    public async Task<Result<ExecutePaymentResponse>> Execute(ExecutePaymentCommand request)
+    public async Task<Result<ExecutePaymentResult>> Execute(ExecutePaymentCommand request)
     {
         var headerResult = await _bkashToken.GetAuthorizationHeaders();
         if (headerResult.IsSucceeded)
@@ -82,18 +83,18 @@ internal class BkashPayment : IBkashPayment
 
             if (response.Success)
             {
-                return Result<ExecutePaymentResponse>.Create(_mapper.Map<ExecutePaymentResponse>(response.Data!));
+                return Result<ExecutePaymentResult>.Create(_mapper.Map<ExecutePaymentResult>(response.Data!));
             }
 
-            return Result<ExecutePaymentResponse>.Create(
+            return Result<ExecutePaymentResult>.Create(
               BkashProblem.Create(statusCode: response?.Data?.StatusCode!, message: response?.Data?.StatusMessage!));
         }
 
-        return Result<ExecutePaymentResponse>.Create(headerResult.Problem!);
+        return Result<ExecutePaymentResult>.Create(headerResult.Problem!);
     }
 
     /// <inheritdoc/>
-    public async Task<Result<PaymentQueryResponse>> Query(PaymentQuery request)
+    public async Task<Result<QueryPaymentResult>> Query(PaymentQuery request)
     {
         var headerResult = await _bkashToken.GetAuthorizationHeaders();
         if (headerResult.IsSucceeded)
@@ -105,14 +106,14 @@ internal class BkashPayment : IBkashPayment
 
             if (response.Success)
             {
-                return Result<PaymentQueryResponse>.Create(
-                    _mapper.Map<PaymentQueryResponse>(response.Data!));
+                return Result<QueryPaymentResult>.Create(
+                    _mapper.Map<QueryPaymentResult>(response.Data!));
             }
 
-            return Result<PaymentQueryResponse>.Create(
+            return Result<QueryPaymentResult>.Create(
                 BkashProblem.Create(statusCode: response?.Data?.StatusCode!, message: response?.Data?.StatusMessage!));
         }
 
-        return Result<PaymentQueryResponse>.Create(headerResult.Problem!);
+        return Result<QueryPaymentResult>.Create(headerResult.Problem!);
     }
 }

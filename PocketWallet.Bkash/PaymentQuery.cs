@@ -1,5 +1,8 @@
 ﻿namespace PocketWallet.Bkash.Models;
 
+/// <summary>
+/// Represents input for payment information query.
+/// </summary>
 public class PaymentQuery
 {
     /// <summary>

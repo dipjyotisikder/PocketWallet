@@ -20,7 +20,7 @@ namespace PocketWallet.Controllers
         }
 
         [HttpPost("bkash/createPayment")]
-        [ProducesResponseType(typeof(Result<CreatePaymentResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Result<CreatePaymentResult>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> CreateBkashPayment([FromBody] CreatePaymentCommand request)
@@ -30,7 +30,7 @@ namespace PocketWallet.Controllers
         }
 
         [HttpPost("bkash/queryPayment")]
-        [ProducesResponseType(typeof(Result<PaymentQueryResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Result<QueryPaymentResult>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> QueryBkashPayment([FromBody] PaymentQuery request)
@@ -40,7 +40,7 @@ namespace PocketWallet.Controllers
         }
 
         [HttpGet("bkash/callback")]
-        [ProducesResponseType(typeof(Result<ExecutePaymentResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Result<ExecutePaymentResult>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> PaymentCallback(
