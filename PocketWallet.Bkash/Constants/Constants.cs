@@ -21,6 +21,6 @@ internal static class Constants
     internal const string AGREEMENT_CODE = "0001";
     internal const string WITHOUT_AGREEMENT_CODE = "0011";
 
-    internal const string LIVE_BASEURL = "https://pay.bka.sh/";
+    internal const string LIVE_BASEURL = "https://tokenized.pay.bka.sh/v1.2.0-beta/";
     internal const string SANDBOX_BASEURL = "https://tokenized.sandbox.bka.sh/v1.2.0-beta/";
 }
