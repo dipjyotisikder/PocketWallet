@@ -8,7 +8,7 @@ public class QueryPaymentResult
     /// <summary>
     /// bKash generated payment ID for this payment creation request.
     /// </summary>
-    public string PaymentID { get; init; } = string.Empty;
+    public string PaymentId { get; init; } = string.Empty;
 
     /// <summary>
     /// bKash generated payment ID for this payment creation request.

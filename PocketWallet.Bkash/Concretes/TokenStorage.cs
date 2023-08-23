@@ -1,37 +1,46 @@
 ﻿namespace PocketWallet.Bkash.Concretes
 {
+    /// <summary>
+    /// Represents token storage mechanism tool.
+    /// </summary>
     internal class TokenStorage : ITokenStorage
     {
         private readonly IDateTimeProvider _timeProvider;
+        private DateTime _expiry;
+        private string _accessToken = string.Empty;
+        private string _refreshToken = string.Empty;
 
         public TokenStorage(IDateTimeProvider timeProvider)
         {
             _timeProvider = timeProvider;
         }
 
-        public string AccessToken { get; private set; } = string.Empty;
+        /// <inheritdoc/>
+        public string AccessToken => _accessToken;
 
-        public string RefreshToken { get; private set; } = string.Empty;
+        /// <inheritdoc/>
+        public string RefreshToken => _refreshToken;
 
-        public DateTime Expiry { get; private set; }
+        /// <inheritdoc/>
+        public bool IsAvailable() => !string.IsNullOrWhiteSpace(_accessToken);
 
-        public bool IsEmpty() => string.IsNullOrWhiteSpace(AccessToken);
-
+        /// <inheritdoc/>
         public bool IsExpired()
         {
-            if (IsEmpty())
+            if (!IsAvailable())
             {
                 return false;
             }
 
-            return Expiry < _timeProvider.UtcNow;
+            return _expiry < _timeProvider.UtcNow;
         }
 
+        /// <inheritdoc/>
         public void Set(string accessToken, string refreshToken, DateTime expiry)
         {
-            AccessToken = accessToken;
-            RefreshToken = refreshToken;
-            Expiry = expiry;
+            _accessToken = accessToken;
+            _refreshToken = refreshToken;
+            _expiry = expiry;
         }
     }
 }

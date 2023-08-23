@@ -9,5 +9,5 @@ public class QueryBkashPaymentRequest
     /// bKash generated paymentID provided in the response of Create Payment API.
     /// </summary>
     [JsonProperty("paymentID")]
-    public string? PaymentID { get; set; }
+    public string PaymentId { get; set; } = string.Empty;
 }

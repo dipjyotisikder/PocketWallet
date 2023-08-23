@@ -25,4 +25,11 @@ public interface IBkashPayment
     /// <param name="query">Params for payment creation.</param>
     /// <returns>A response provided by bkash.</returns>
     Task<Result<QueryPaymentResult>> Query(PaymentQuery query);
+
+    /// <summary>
+    /// API to provide the capability to refund Bkash Payment.
+    /// </summary>
+    /// <param name="request">Params for payment refund.</param>
+    /// <returns>A response provided by bkash.</returns>
+    Task<Result<RefundPaymentResult>> Refund(RefundPaymentCommand request);
 }

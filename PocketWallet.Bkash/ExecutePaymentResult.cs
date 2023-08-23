@@ -8,7 +8,7 @@ public class ExecutePaymentResult
     /// <summary>
     /// bKash generated payment ID for this payment creation request. This payment ID can be used later to track down the payment and in other payment related APIs.
     /// </summary>
-    public string PaymentID { get; init; } = string.Empty;
+    public string PaymentId { get; init; } = string.Empty;
 
     /// <summary>
     /// The payer reference value that was provided during the create payment API call.
@@ -23,7 +23,7 @@ public class ExecutePaymentResult
     /// <summary>
     /// A transaction ID created after the successful completion of this payment request. This ID can be used later to get the details of this transaction.
     /// </summary>
-    public string TransactionID { get; init; } = string.Empty;
+    public string TransactionId { get; init; } = string.Empty;
 
     /// <summary>
     /// Amount of the payment transaction.

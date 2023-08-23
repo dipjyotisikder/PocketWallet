@@ -18,7 +18,7 @@ internal class HttpResponse<TOut> where TOut : BaseBkashResponse
         if (httpResponse.IsSuccessStatusCode
             && Data is not null
             && !string.IsNullOrWhiteSpace(Data.StatusCode)
-            && Data.StatusCode is CONSTANTS.SUCCESS_RESPONSE_CODE
+            && Data.StatusCode is CONSTANTS.BKASH_SUCCESS_RESPONSE_CODE
             && string.IsNullOrWhiteSpace(Data.ErrorCode))
         {
             Success = true;
@@ -38,7 +38,7 @@ internal class HttpResponse<TOut> where TOut : BaseBkashResponse
         if (success
             && Data is not null
             && !string.IsNullOrWhiteSpace(Data.StatusCode)
-            && Data.StatusCode is CONSTANTS.SUCCESS_RESPONSE_CODE
+            && Data.StatusCode is CONSTANTS.BKASH_SUCCESS_RESPONSE_CODE
             && string.IsNullOrWhiteSpace(Data.ErrorCode))
         {
             Success = true;

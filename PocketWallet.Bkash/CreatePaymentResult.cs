@@ -8,7 +8,7 @@
         /// <summary>
         /// bKash generated payment ID for this payment creation request. This payment ID can be used later to track down the payment and in other payment related APIs.
         /// </summary>
-        public string PaymentID { get; init; } = string.Empty;
+        public string PaymentId { get; init; } = string.Empty;
 
         /// <summary>
         /// The URL of bKash where the customer should be forwarded to enter his wallet number, OTP and wallet PIN.

@@ -9,7 +9,7 @@ namespace PocketWallet.Bkash.Concretes;
 /// </summary>
 internal class BkashPayment : IBkashPayment
 {
-    private readonly IBkashToken _bkashToken;
+    private readonly IBkashAuthorizationHandler _bkashAuthorizationHandler;
     private readonly HttpClient _httpClient;
     private readonly BkashConfigurationOptions _bkashConfigurationOptions;
     private readonly IMapper _mapper;
@@ -17,17 +17,17 @@ internal class BkashPayment : IBkashPayment
     /// <summary>
     /// Creates the Bkash Payment object to interact with Bkash.
     /// </summary>
-    /// <param name="bkashToken"><see cref="BkashToken"/> object created by Bkash.</param>
+    /// <param name="bkashAuthorizationHandler"><see cref="BkashAuthorizationHandler"/> object created by Bkash.</param>
     /// <param name="httpClient"><see cref="HttpClient"/> object to call Bkash endpoints.</param>
     /// <param name="bkashConfigurationOptions"><see cref="BkashConfigurationOptions"/> object.</param>
     /// <param name="mapper"><see cref="IMapper"/> object.</param>
     public BkashPayment(
-        IBkashToken bkashToken,
+        IBkashAuthorizationHandler bkashAuthorizationHandler,
         HttpClient httpClient,
         BkashConfigurationOptions bkashConfigurationOptions,
         IMapper mapper)
     {
-        _bkashToken = bkashToken;
+        _bkashAuthorizationHandler = bkashAuthorizationHandler;
         _httpClient = httpClient;
         _bkashConfigurationOptions = bkashConfigurationOptions;
         _mapper = mapper;
@@ -40,20 +40,26 @@ internal class BkashPayment : IBkashPayment
             && request.Mode != CONSTANTS.WITHOUT_AGREEMENT_CODE)
         {
             return Result<CreatePaymentResult>.Create(
-               BkashProblem.Create(statusCode: "9999", message: "Payment mode is invalid."));
+               BkashProblem.Create(statusCode: CONSTANTS.APP_ERROR_RESPONSE_CODE, message: "Payment mode is invalid."));
         }
 
         if (_bkashConfigurationOptions.PaymentMode == PaymentModes.WithAgreement
             && request.Mode != CONSTANTS.AGREEMENT_CODE)
         {
             return Result<CreatePaymentResult>.Create(
-               BkashProblem.Create(statusCode: "9999", message: "Payment mode is invalid."));
+               BkashProblem.Create(statusCode: CONSTANTS.APP_ERROR_RESPONSE_CODE, message: "Payment mode is invalid."));
         }
 
-        var headerResult = await _bkashToken.GetAuthorizationHeaders();
+        if (request.PayerReference == null)
+        {
+            return Result<CreatePaymentResult>.Create(
+               BkashProblem.Create(statusCode: CONSTANTS.APP_ERROR_RESPONSE_CODE, message: "Payer reference is invalid."));
+        }
+
+        var headerResult = await _bkashAuthorizationHandler.GetAuthorizationHeaders();
         if (headerResult.IsSucceeded)
         {
-            var response = await _httpClient.PostAsync<CreateBkashPaymentResponse>(
+            var response = await _httpClient.PostAsync<CreateBkashPaymentRequest, CreateBkashPaymentResponse>(
                 endpoint: CONSTANTS.PAYMENT_CREATE_URL,
                 body: _mapper.Map<CreateBkashPaymentRequest>(request),
                 headers: headerResult.Data);
@@ -73,10 +79,16 @@ internal class BkashPayment : IBkashPayment
     /// <inheritdoc/>
     public async Task<Result<ExecutePaymentResult>> Execute(ExecutePaymentCommand request)
     {
-        var headerResult = await _bkashToken.GetAuthorizationHeaders();
+        if (string.IsNullOrWhiteSpace(request.PaymentId))
+        {
+            return Result<ExecutePaymentResult>.Create(
+               BkashProblem.Create(statusCode: CONSTANTS.APP_ERROR_RESPONSE_CODE, message: "Payment Id is invalid."));
+        }
+
+        var headerResult = await _bkashAuthorizationHandler.GetAuthorizationHeaders();
         if (headerResult.IsSucceeded)
         {
-            var response = await _httpClient.PostAsync<ExecuteBkashPaymentResponse>(
+            var response = await _httpClient.PostAsync<ExecuteBkashPaymentRequest, ExecuteBkashPaymentResponse>(
                 endpoint: CONSTANTS.PAYMENT_EXECUTE_URL,
                 body: _mapper.Map<ExecuteBkashPaymentRequest>(request),
                 headers: headerResult.Data);
@@ -96,10 +108,10 @@ internal class BkashPayment : IBkashPayment
     /// <inheritdoc/>
     public async Task<Result<QueryPaymentResult>> Query(PaymentQuery request)
     {
-        var headerResult = await _bkashToken.GetAuthorizationHeaders();
+        var headerResult = await _bkashAuthorizationHandler.GetAuthorizationHeaders();
         if (headerResult.IsSucceeded)
         {
-            var response = await _httpClient.PostAsync<QueryBkashPaymentResponse>(
+            var response = await _httpClient.PostAsync<QueryBkashPaymentRequest, QueryBkashPaymentResponse>(
                 endpoint: CONSTANTS.PAYMENT_STATUS_URL,
                 body: _mapper.Map<QueryBkashPaymentRequest>(request),
                 headers: headerResult.Data);
@@ -115,5 +127,58 @@ internal class BkashPayment : IBkashPayment
         }
 
         return Result<QueryPaymentResult>.Create(headerResult.Problem!);
+    }
+
+    /// <inheritdoc/>
+    public async Task<Result<RefundPaymentResult>> Refund(RefundPaymentCommand command)
+    {
+        var headerResult = await _bkashAuthorizationHandler.GetAuthorizationHeaders();
+        if (headerResult.IsSucceeded)
+        {
+            var refundStatusResponse = await GetRefundStatus(
+                headers: headerResult.Data!,
+                request: new RefundStatusRequest
+                {
+                    PaymentId = command.PaymentId,
+                    TransactionId = command.TransactionId
+                });
+
+            if (refundStatusResponse.Success)
+            {
+                if (refundStatusResponse.Data!.TransactionStatus == CONSTANTS.BKASH_REFUND_SUCCESS_RESPONSE_CODE)
+                {
+                    return Result<RefundPaymentResult>.Create(_mapper.Map<RefundPaymentResult>(refundStatusResponse.Data!));
+                }
+            }
+
+            var refundResponse = await _httpClient.PostAsync<RefundBkashPaymentRequest, RefundBkashPaymentResponse>(
+                   endpoint: CONSTANTS.PAYMENT_REFUND_URL,
+                   body: _mapper.Map<RefundBkashPaymentRequest>(command),
+                   headers: headerResult.Data);
+
+            if (refundResponse.Success)
+            {
+                return Result<RefundPaymentResult>.Create(_mapper.Map<RefundPaymentResult>(refundResponse.Data!));
+            }
+
+            return Result<RefundPaymentResult>.Create(
+                BkashProblem.Create(
+                    statusCode: refundResponse?.Data?.StatusCode!,
+                    message: refundResponse?.Data?.StatusMessage!));
+        }
+
+        return Result<RefundPaymentResult>.Create(headerResult.Problem!);
+    }
+
+    private async Task<HttpResponse<RefundBkashPaymentResponse>> GetRefundStatus(
+        Dictionary<string, string> headers,
+        RefundStatusRequest request)
+    {
+        var response = await _httpClient.PostAsync<RefundStatusRequest, RefundBkashPaymentResponse>(
+                endpoint: CONSTANTS.PAYMENT_REFUND_URL,
+                body: request,
+                headers: headers);
+
+        return response;
     }
 }

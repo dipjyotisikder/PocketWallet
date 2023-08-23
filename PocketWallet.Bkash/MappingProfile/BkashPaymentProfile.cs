@@ -16,12 +16,13 @@ namespace PocketWallet.Bkash.MappingProfile
             CreateMap<CreateBkashPaymentResponse, CreatePaymentResult>();
 
             CreateMap<ExecutePaymentCommand, ExecuteBkashPaymentRequest>();
-            CreateMap<ExecuteBkashPaymentResponse, ExecutePaymentResult>()
-                .ForMember(x => x.CustomerMSISDN, x => x.MapFrom(y => y.CustomerMsisdn))
-                .ForMember(x => x.TransactionID, x => x.MapFrom(y => y.TrxID));
+            CreateMap<ExecuteBkashPaymentResponse, ExecutePaymentResult>();
 
             CreateMap<PaymentQuery, QueryBkashPaymentRequest>();
             CreateMap<QueryBkashPaymentResponse, QueryPaymentResult>();
+
+            CreateMap<RefundPaymentCommand, RefundBkashPaymentRequest>();
+            CreateMap<RefundBkashPaymentResponse, RefundPaymentResult>();
         }
     }
 }

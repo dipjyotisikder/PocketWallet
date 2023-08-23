@@ -2,15 +2,18 @@
 using PocketWallet.Bkash.Http;
 
 namespace PocketWallet.Bkash.Concretes;
-internal class BkashToken : IBkashToken
+
+/// <summary>
+/// Represents bkash authorization handling tool.
+/// </summary>
+internal class BkashAuthorizationHandler : IBkashAuthorizationHandler
 {
     private readonly IDateTimeProvider _dateTimeProvider;
     private readonly ITokenStorage _tokenStorage;
-
     private readonly HttpClient _httpClient;
     private readonly BkashConfigurationOptions _bkashConfigurationOptions;
 
-    public BkashToken(
+    public BkashAuthorizationHandler(
         HttpClient httpClient,
         BkashConfigurationOptions bkashConfigurationOptions,
         IDateTimeProvider dateTimeProvider,
@@ -22,6 +25,7 @@ internal class BkashToken : IBkashToken
         _tokenStorage = tokenStorage;
     }
 
+    /// <inheritdoc/>
     public async Task<Result<Dictionary<string, string>>> GetAuthorizationHeaders()
     {
         var tokenResult = await CreateToken();
@@ -39,7 +43,7 @@ internal class BkashToken : IBkashToken
 
     private async Task<Result<string>> CreateToken()
     {
-        if (_tokenStorage.IsEmpty())
+        if (!_tokenStorage.IsAvailable())
         {
             var tokenResponse = await InitialToken();
             if (tokenResponse.IsSucceeded)
@@ -47,7 +51,7 @@ internal class BkashToken : IBkashToken
                 _tokenStorage.Set(
                     tokenResponse.Data!.IdToken!,
                     tokenResponse.Data.RefreshToken!,
-                    _dateTimeProvider.UtcNow.AddSeconds(3500));
+                    _dateTimeProvider.UtcNow.AddSeconds(CONSTANTS.TOKEN_EXPIRATION_SECONDS));
 
                 return Result<string>.Create(_tokenStorage.AccessToken);
             }
@@ -62,7 +66,7 @@ internal class BkashToken : IBkashToken
                 _tokenStorage.Set(
                     refreshedTokenResponse.Data!.IdToken!,
                     refreshedTokenResponse.Data.RefreshToken!,
-                    _dateTimeProvider.UtcNow.AddSeconds(3500));
+                    _dateTimeProvider.UtcNow.AddSeconds(CONSTANTS.TOKEN_EXPIRATION_SECONDS));
 
                 return Result<string>.Create(_tokenStorage.AccessToken);
             }
@@ -75,9 +79,13 @@ internal class BkashToken : IBkashToken
 
     private async Task<Result<BkashTokenResponse>> InitialToken()
     {
-        var response = await _httpClient.PostAsync<BkashTokenResponse>(
+        var response = await _httpClient.PostAsync<BkashTokenRequest, BkashTokenResponse>(
             endpoint: CONSTANTS.TOKEN_URL,
-            body: new { app_key = _bkashConfigurationOptions.AppKey, app_secret = _bkashConfigurationOptions.AppSecret });
+            body: new()
+            {
+                AppKey = _bkashConfigurationOptions.AppKey,
+                AppSecret = _bkashConfigurationOptions.AppSecret
+            });
 
         if (response.Success)
         {
@@ -92,9 +100,14 @@ internal class BkashToken : IBkashToken
 
     private async Task<Result<BkashTokenResponse>> RefreshToken(string refreshToken)
     {
-        var response = await _httpClient.PostAsync<BkashTokenResponse>(
+        var response = await _httpClient.PostAsync<BkashRefreshTokenRequest, BkashTokenResponse>(
               endpoint: CONSTANTS.REFRESH_TOKEN_URL,
-              body: new { app_key = _bkashConfigurationOptions.AppKey, app_secret = _bkashConfigurationOptions.AppSecret, refresh_token = refreshToken });
+              body: new()
+              {
+                  AppKey = _bkashConfigurationOptions.AppKey,
+                  AppSecret = _bkashConfigurationOptions.AppSecret,
+                  RefreshToken = refreshToken
+              });
 
         if (response.Success)
         {

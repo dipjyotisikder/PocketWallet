@@ -1,16 +1,35 @@
-﻿namespace PocketWallet.Bkash.Abstraction
+﻿namespace PocketWallet.Bkash.Abstraction;
+
+/// <summary>
+/// Represents token storage mechanism tool.
+/// </summary>
+internal interface ITokenStorage
 {
-    internal interface ITokenStorage
-    {
-        string AccessToken { get; }
+    /// <summary>
+    /// Gets current access token.
+    /// </summary>
+    string AccessToken { get; }
 
-        string RefreshToken { get; }
+    /// <summary>
+    /// Gets current refresh token.
+    /// </summary>
+    string RefreshToken { get; }
 
-        bool IsExpired();
+    /// <summary>
+    /// Gets current access token expiration status.
+    /// </summary>
+    bool IsExpired();
 
-        bool IsEmpty();
+    /// <summary>
+    /// Gets current access token's availability.
+    /// </summary>
+    bool IsAvailable();
 
-        void Set(string accessToken, string refreshToken, DateTime expiry);
-
-    }
+    /// <summary>
+    /// Sets complete access token object.
+    /// </summary>
+    /// <param name="accessToken">Access token.</param>
+    /// <param name="refreshToken">Refresh token.</param>
+    /// <param name="expiry">Access token expiration time.</param>
+    void Set(string accessToken, string refreshToken, DateTime expiry);
 }

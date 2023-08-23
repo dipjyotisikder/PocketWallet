@@ -15,13 +15,27 @@ internal static class HttpProxy
             headers: headers);
     }
 
-    internal static async Task<HttpResponse<TOut>> PostAsync<TOut>(
+    internal static async Task<HttpResponse<TOut>> GetAsync<TIn, TOut>(
         this HttpClient httpClient,
         string endpoint,
-        object body,
+        TIn body,
         Dictionary<string, string>? headers = null) where TOut : BaseBkashResponse
     {
-        return await Request<TOut>(
+        return await Request<TIn, TOut>(
+            httpClient: httpClient,
+            method: HttpMethod.Get,
+            endpoint: endpoint,
+            body: body,
+            headers: headers);
+    }
+
+    internal static async Task<HttpResponse<TOut>> PostAsync<TIn, TOut>(
+        this HttpClient httpClient,
+        string endpoint,
+        TIn body,
+        Dictionary<string, string>? headers = null) where TOut : BaseBkashResponse
+    {
+        return await Request<TIn, TOut>(
             httpClient: httpClient,
             method: HttpMethod.Post,
             endpoint: endpoint,
@@ -29,13 +43,13 @@ internal static class HttpProxy
             headers: headers);
     }
 
-    internal static async Task<HttpResponse<TOut>> PutAsync<TOut>(
+    internal static async Task<HttpResponse<TOut>> PutAsync<TIn, TOut>(
         this HttpClient httpClient,
         string endpoint,
-        object body,
+        TIn body,
         Dictionary<string, string>? headers = null) where TOut : BaseBkashResponse
     {
-        return await Request<TOut>(
+        return await Request<TIn, TOut>(
             httpClient: httpClient,
             method: HttpMethod.Put,
             endpoint: endpoint,
@@ -46,10 +60,22 @@ internal static class HttpProxy
     internal static async Task<HttpResponse<TOut>> DeleteAsync<TOut>(
         this HttpClient httpClient,
         string endpoint,
-        object? body = null,
         Dictionary<string, string>? headers = null) where TOut : BaseBkashResponse
     {
         return await Request<TOut>(
+            httpClient: httpClient,
+            method: HttpMethod.Delete,
+            endpoint: endpoint,
+            headers: headers);
+    }
+
+    internal static async Task<HttpResponse<TOut>> DeleteAsync<TIn, TOut>(
+        this HttpClient httpClient,
+        string endpoint,
+        TIn body,
+        Dictionary<string, string>? headers = null) where TOut : BaseBkashResponse
+    {
+        return await Request<TIn, TOut>(
             httpClient: httpClient,
             method: HttpMethod.Delete,
             endpoint: endpoint,
@@ -57,11 +83,11 @@ internal static class HttpProxy
             headers: headers);
     }
 
-    private static async Task<HttpResponse<TOut>> Request<TOut>(
+    private static async Task<HttpResponse<TOut>> Request<TIn, TOut>(
         HttpClient httpClient,
         HttpMethod method,
         string endpoint,
-        object? body = null,
+        TIn body,
         Dictionary<string, string>? headers = null) where TOut : BaseBkashResponse
     {
         var requestMessage = new HttpRequestMessage
@@ -79,6 +105,34 @@ internal static class HttpProxy
         {
             var jsonPayload = JsonConvert.SerializeObject(body);
             requestMessage.Content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
+        }
+
+        if (headers is not null)
+        {
+            foreach (KeyValuePair<string, string> header in headers)
+            {
+                requestMessage.Headers.Add(header.Key, header.Value);
+            }
+        }
+
+        return await HandleRequest<TOut>(httpClient, requestMessage);
+    }
+
+    private static async Task<HttpResponse<TOut>> Request<TOut>(
+        HttpClient httpClient,
+        HttpMethod method,
+        string endpoint,
+        Dictionary<string, string>? headers = null) where TOut : BaseBkashResponse
+    {
+        var requestMessage = new HttpRequestMessage
+        {
+            RequestUri = new Uri(httpClient.BaseAddress!, endpoint),
+            Method = method
+        };
+
+        foreach (var x in httpClient.DefaultRequestHeaders)
+        {
+            requestMessage.Headers.Add(x.Key, x.Value);
         }
 
         if (headers is not null)

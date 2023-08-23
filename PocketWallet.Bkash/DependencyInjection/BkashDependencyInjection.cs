@@ -30,7 +30,7 @@ public static class BkashDependencyInjection
 
         services.AddSingleton(x => options);
 
-        services.AddHttpClient<IBkashToken, BkashToken>(x =>
+        services.AddHttpClient<IBkashAuthorizationHandler, BkashAuthorizationHandler>(x =>
         {
             x.BaseAddress = new Uri(options.BaseURL, UriKind.Absolute);
             x.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));

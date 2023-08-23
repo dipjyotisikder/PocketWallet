@@ -18,7 +18,7 @@ namespace PocketWallet.Bkash
         /// <example>A predefined phone/account number.</example>
         /// <remarks>Space acceptable, String required. Null is not accepted. (Its optional)</remarks>
         [DefaultValue(" ")]
-        public string? PayerReference { get; set; } = " ";
+        public string PayerReference { get; set; } = " ";
 
         /// <summary>
         /// The base URL of merchant's platform based on which bKash will generate separate callback URLs for success, failure and canceled transactions. bKash will send transaction verification result in these URLs based on the result.

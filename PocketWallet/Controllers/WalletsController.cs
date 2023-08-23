@@ -53,12 +53,22 @@ namespace PocketWallet.Controllers
                 // If not
                 var result = await _bkashPayment.Execute(new ExecutePaymentCommand
                 {
-                    PaymentID = paymentID
+                    PaymentId = paymentID
                 });
 
                 return Ok(result);
             }
             return Ok();
+        }
+
+        [HttpPost("bkash/refund")]
+        [ProducesResponseType(typeof(Result<ExecutePaymentResult>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> PaymentRefund([FromBody] RefundPaymentCommand command)
+        {
+            var result = await _bkashPayment.Refund(command);
+            return Ok(result);
         }
     }
 }
