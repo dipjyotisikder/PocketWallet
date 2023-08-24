@@ -11,10 +11,10 @@ The library is developed using the following technologies:
 
 
 ## Features
-- Payment Creation Process
-- Payment Execution Process
-- Check Payment Status
-- Payment Refund
+- [Payment Creation Process](#create-payment-section)
+- [Payment Execution Process](#execute-payment-section)
+- [Check Payment Status](#query-payment-section)
+- [Payment Refund](#refund-payment-section)
 
 
 ## Configuration and Dependency Resolution
@@ -65,7 +65,7 @@ public WalletsController(IBkashPayment bkashPayment)
 ```
 
 
-## Payment Creation Process {#payment-create-section}
+## Payment Creation Process {#create-payment-section}
 1. Payment creation is a part of complete payment flow.
 2. In this process, we create a payment instance against an unique invoice number.
 3. We will get a bkashURL from response
@@ -129,7 +129,7 @@ public async Task<IActionResult> PaymentCallback(
 ```
 
 
-## Check Payment Status
+## Check Payment Status {#query-payment-section}
 ###### Call the query method as follows:
 ```
 var query = new PaymentQuery
@@ -140,7 +140,7 @@ Result<QueryPaymentResult> result = await _bkashPayment.Query(query);
 ```
 
 
-## Payment refund
+## Payment refund {#refund-payment-section}
 ###### Call the query method as follows:
 ```
        var command = new RefundPaymentCommand
@@ -160,7 +160,7 @@ Result<QueryPaymentResult> result = await _bkashPayment.Query(query);
 Bkash callback is a mechanism of Bkash with what they sends a status/result of user interaction between user and Bkash, to merchant after payment creation.
 #### Complete Flow:
 The resolution will be, What user clicks/interacts and what we do in background.
-1. User clicks on Bkash Button for payment for his current order/invoice, we do [create the payment](#payment-create-section).
+1. User clicks on Bkash Button for payment for his current order/invoice, we do [create the payment](#create-payment-section).
 2. Immediately after that user sees, he is automatically being redirected to Bkash page, but we actually redirected him to "bkashURL" of [create payment response](#create-payment-response).
 3. Ok. So, now we don't have any control over the user. User interacts with bkash page now. After he provide his all the credentials, Bkash redirects that user to our Callback Url we have provided in [create payment request](#create-payment-request). This Url is basically our frontend URL or Backend Url, where we would like to get notified by Bkash after user is successfully provided his credentials. We will also be notified if the user fails.
 4. When we will get that call in our callback URL, we will take the decision if we are going to [execute the payment](#execute-payment-section) to fully confirm the payment transaction or display an error to user.
