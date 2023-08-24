@@ -129,7 +129,7 @@ public async Task<IActionResult> PaymentCallback(
 ```
 
 
-## Check Payment Status {#query-payment-section}
+## Check Payment Status
 ###### Call the query method as follows:
 ```
 var query = new PaymentQuery
@@ -140,7 +140,7 @@ Result<QueryPaymentResult> result = await _bkashPayment.Query(query);
 ```
 
 
-## Payment refund {#refund-payment-section}
+## Payment refund
 ###### Call the query method as follows:
 ```
        var command = new RefundPaymentCommand
