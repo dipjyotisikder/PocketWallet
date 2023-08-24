@@ -18,12 +18,12 @@ internal interface ITokenStorage
     /// <summary>
     /// Gets current access token expiration status.
     /// </summary>
-    bool IsExpired();
+    bool IsTokenAlive { get; }
 
     /// <summary>
     /// Gets current access token's availability.
     /// </summary>
-    bool IsAvailable();
+    bool IsTokenAvailable { get; }
 
     /// <summary>
     /// Sets complete access token object.

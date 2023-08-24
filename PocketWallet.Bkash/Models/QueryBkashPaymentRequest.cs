@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents request object used to query payment information.
 /// </summary>
-public class QueryBkashPaymentRequest
+internal class QueryBkashPaymentRequest
 {
     /// <summary>
     /// bKash generated paymentID provided in the response of Create Payment API.

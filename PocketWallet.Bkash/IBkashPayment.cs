@@ -8,16 +8,16 @@ public interface IBkashPayment
     /// <summary>
     /// API to provide the capability to create Bkash Payment.
     /// </summary>
-    /// <param name="request">Params for payment creation.</param>
+    /// <param name="command">Params for payment creation.</param>
     /// <returns>A response provided by bkash.</returns>
-    Task<Result<CreatePaymentResult>> Create(CreatePaymentCommand request);
+    Task<Result<CreatePaymentResult>> Create(CreatePaymentCommand command);
 
     /// <summary>
     /// API to provide the capability to execute Bkash Payment.
     /// </summary>
-    /// <param name="request">Params for payment creation.</param>
+    /// <param name="command">Params for payment creation.</param>
     /// <returns>A response provided by bkash.</returns>
-    Task<Result<ExecutePaymentResult>> Execute(ExecutePaymentCommand request);
+    Task<Result<ExecutePaymentResult>> Execute(ExecutePaymentCommand command);
 
     /// <summary>
     /// API to provide the capability to query Bkash Payment.
@@ -29,7 +29,7 @@ public interface IBkashPayment
     /// <summary>
     /// API to provide the capability to refund Bkash Payment.
     /// </summary>
-    /// <param name="request">Params for payment refund.</param>
+    /// <param name="command">Object for payment refund.</param>
     /// <returns>A response provided by bkash.</returns>
-    Task<Result<RefundPaymentResult>> Refund(RefundPaymentCommand request);
+    Task<Result<RefundPaymentResult>> Refund(RefundPaymentCommand command);
 }

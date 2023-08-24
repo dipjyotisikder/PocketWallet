@@ -34,23 +34,23 @@ internal class BkashPayment : IBkashPayment
     }
 
     /// <inheritdoc/>
-    public async Task<Result<CreatePaymentResult>> Create(CreatePaymentCommand request)
+    public async Task<Result<CreatePaymentResult>> Create(CreatePaymentCommand command)
     {
         if (_bkashConfigurationOptions.PaymentMode == PaymentModes.WithoutAgreement
-            && request.Mode != CONSTANTS.WITHOUT_AGREEMENT_CODE)
+            && command.Mode != CONSTANTS.WITHOUT_AGREEMENT_CODE)
         {
             return Result<CreatePaymentResult>.Create(
                BkashProblem.Create(statusCode: CONSTANTS.APP_ERROR_RESPONSE_CODE, message: "Payment mode is invalid."));
         }
 
         if (_bkashConfigurationOptions.PaymentMode == PaymentModes.WithAgreement
-            && request.Mode != CONSTANTS.AGREEMENT_CODE)
+            && command.Mode != CONSTANTS.AGREEMENT_CODE)
         {
             return Result<CreatePaymentResult>.Create(
                BkashProblem.Create(statusCode: CONSTANTS.APP_ERROR_RESPONSE_CODE, message: "Payment mode is invalid."));
         }
 
-        if (request.PayerReference == null)
+        if (command.PayerReference == null)
         {
             return Result<CreatePaymentResult>.Create(
                BkashProblem.Create(statusCode: CONSTANTS.APP_ERROR_RESPONSE_CODE, message: "Payer reference is invalid."));
@@ -61,7 +61,7 @@ internal class BkashPayment : IBkashPayment
         {
             var response = await _httpClient.PostAsync<CreateBkashPaymentRequest, CreateBkashPaymentResponse>(
                 endpoint: CONSTANTS.PAYMENT_CREATE_URL,
-                body: _mapper.Map<CreateBkashPaymentRequest>(request),
+                body: _mapper.Map<CreateBkashPaymentRequest>(command),
                 headers: headerResult.Data);
 
             if (response.Success)
@@ -77,9 +77,9 @@ internal class BkashPayment : IBkashPayment
     }
 
     /// <inheritdoc/>
-    public async Task<Result<ExecutePaymentResult>> Execute(ExecutePaymentCommand request)
+    public async Task<Result<ExecutePaymentResult>> Execute(ExecutePaymentCommand command)
     {
-        if (string.IsNullOrWhiteSpace(request.PaymentId))
+        if (string.IsNullOrWhiteSpace(command.PaymentId))
         {
             return Result<ExecutePaymentResult>.Create(
                BkashProblem.Create(statusCode: CONSTANTS.APP_ERROR_RESPONSE_CODE, message: "Payment Id is invalid."));
@@ -90,7 +90,7 @@ internal class BkashPayment : IBkashPayment
         {
             var response = await _httpClient.PostAsync<ExecuteBkashPaymentRequest, ExecuteBkashPaymentResponse>(
                 endpoint: CONSTANTS.PAYMENT_EXECUTE_URL,
-                body: _mapper.Map<ExecuteBkashPaymentRequest>(request),
+                body: _mapper.Map<ExecuteBkashPaymentRequest>(command),
                 headers: headerResult.Data);
 
             if (response.Success)
@@ -106,14 +106,14 @@ internal class BkashPayment : IBkashPayment
     }
 
     /// <inheritdoc/>
-    public async Task<Result<QueryPaymentResult>> Query(PaymentQuery request)
+    public async Task<Result<QueryPaymentResult>> Query(PaymentQuery query)
     {
         var headerResult = await _bkashAuthorizationHandler.GetAuthorizationHeaders();
         if (headerResult.IsSucceeded)
         {
             var response = await _httpClient.PostAsync<QueryBkashPaymentRequest, QueryBkashPaymentResponse>(
                 endpoint: CONSTANTS.PAYMENT_STATUS_URL,
-                body: _mapper.Map<QueryBkashPaymentRequest>(request),
+                body: _mapper.Map<QueryBkashPaymentRequest>(query),
                 headers: headerResult.Data);
 
             if (response.Success)

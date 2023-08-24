@@ -15,20 +15,6 @@ internal static class HttpProxy
             headers: headers);
     }
 
-    internal static async Task<HttpResponse<TOut>> GetAsync<TIn, TOut>(
-        this HttpClient httpClient,
-        string endpoint,
-        TIn body,
-        Dictionary<string, string>? headers = null) where TOut : BaseBkashResponse
-    {
-        return await Request<TIn, TOut>(
-            httpClient: httpClient,
-            method: HttpMethod.Get,
-            endpoint: endpoint,
-            body: body,
-            headers: headers);
-    }
-
     internal static async Task<HttpResponse<TOut>> PostAsync<TIn, TOut>(
         this HttpClient httpClient,
         string endpoint,

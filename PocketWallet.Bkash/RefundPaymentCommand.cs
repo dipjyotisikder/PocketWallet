@@ -6,7 +6,7 @@
 public class RefundPaymentCommand
 {
     /// <summary>
-    /// Payment ID received during create call
+    /// Payment Id received during create call.
     /// </summary>
     public string PaymentId { get; set; } = string.Empty;
 
@@ -23,12 +23,12 @@ public class RefundPaymentCommand
     /// <summary>
     /// To have a tagging of product information from merchant website.
     /// </summary>
-    /// <remarks>Limit: String (Max Length - 255)</remarks>
+    /// <remarks>Use string having maximum length of 255 characters.</remarks>
     public string SKU { get; set; } = string.Empty;
 
     /// <summary>
     /// The reason to refund the payment. Ex. faulty product, product not received, etc.
     /// </summary>
-    /// <remarks>Limit: String (Max Length - 255)</remarks>
+    /// <remarks>Use string having maximum length of 255 characters.</remarks>
     public string Reason { get; set; } = string.Empty;
 }

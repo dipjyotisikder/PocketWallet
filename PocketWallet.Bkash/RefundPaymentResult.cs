@@ -21,7 +21,7 @@ public class RefundPaymentResult
     public string OriginalTransactionId { get; set; } = string.Empty;
 
     /// <summary>
-    /// The transaction ID of that refund action itself.
+    /// The Transaction Id of that refund action itself.
     /// </summary>
     public string RefundTransactionId { get; set; } = string.Empty;
 

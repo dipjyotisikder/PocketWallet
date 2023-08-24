@@ -43,7 +43,7 @@ internal class BkashAuthorizationHandler : IBkashAuthorizationHandler
 
     private async Task<Result<string>> CreateToken()
     {
-        if (!_tokenStorage.IsAvailable())
+        if (!_tokenStorage.IsTokenAvailable)
         {
             var tokenResponse = await InitialToken();
             if (tokenResponse.IsSucceeded)
@@ -58,7 +58,7 @@ internal class BkashAuthorizationHandler : IBkashAuthorizationHandler
 
             return Result<string>.Create(tokenResponse.Problem!);
         }
-        else if (_tokenStorage.IsExpired())
+        else if (!_tokenStorage.IsTokenAlive)
         {
             var refreshedTokenResponse = await RefreshToken(_tokenStorage.RefreshToken);
             if (refreshedTokenResponse.IsSucceeded)

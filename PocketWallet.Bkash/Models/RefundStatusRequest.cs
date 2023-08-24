@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents request object used to know refund status.
 /// </summary>
-public class RefundStatusRequest
+internal class RefundStatusRequest
 {
     /// <summary>
     /// Payment Id received during create call.

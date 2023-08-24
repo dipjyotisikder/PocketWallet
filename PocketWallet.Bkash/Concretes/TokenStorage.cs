@@ -6,6 +6,7 @@
     internal class TokenStorage : ITokenStorage
     {
         private readonly IDateTimeProvider _timeProvider;
+
         private DateTime _expiry;
         private string _accessToken = string.Empty;
         private string _refreshToken = string.Empty;
@@ -22,18 +23,10 @@
         public string RefreshToken => _refreshToken;
 
         /// <inheritdoc/>
-        public bool IsAvailable() => !string.IsNullOrWhiteSpace(_accessToken);
+        public bool IsTokenAvailable => !string.IsNullOrWhiteSpace(_accessToken);
 
         /// <inheritdoc/>
-        public bool IsExpired()
-        {
-            if (!IsAvailable())
-            {
-                return false;
-            }
-
-            return _expiry < _timeProvider.UtcNow;
-        }
+        public bool IsTokenAlive => IsTokenAvailable && _expiry > _timeProvider.UtcNow;
 
         /// <inheritdoc/>
         public void Set(string accessToken, string refreshToken, DateTime expiry)
