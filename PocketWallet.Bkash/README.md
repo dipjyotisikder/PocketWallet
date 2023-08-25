@@ -2,7 +2,6 @@
 PocketWallet.Bkash is a library that is built with .NET 6, offering integration with Bkash, a popular Bangladeshi e-wallet system. The application is designed to streamline the payment process for businesses and users by providing seamless support for Bkash transactions.
 
 
-
 ## Technologies Used
 The library is developed using the following technologies:
 - .NET 6
@@ -28,7 +27,7 @@ The library is developed using the following technologies:
     "ProductionMode": false
 }
 ```
- Please collect   ***MerchantUserName***,  ***MerchantPassword***, ***AppKey***, ***AppSecret*** from Bkash support.
+ Please collect ***MerchantUserName***, ***MerchantPassword***, ***AppKey***, ***AppSecret*** from Bkash support.
 ######  Create a class named "BkashOptions" to inject the configuration values as follows:
 ```
 public class BkashOptions
@@ -54,7 +53,6 @@ builder.Services.AddBkash(option =>
     option.ProductionMode = bkashOptions.ProductionMode;
 });
 ```
-
 ###### Add "IBkashPayment" interface in the constructor of any class as follows:
 ```
 private readonly IBkashPayment _bkashPayment;

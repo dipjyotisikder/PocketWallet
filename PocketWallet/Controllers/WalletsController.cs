@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using PocketWallet.Bkash;
-using PocketWallet.Bkash.Models;
 
 namespace PocketWallet.Controllers
 {

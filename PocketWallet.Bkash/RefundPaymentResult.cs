@@ -1,4 +1,4 @@
-﻿namespace PocketWallet.Bkash.Models;
+﻿namespace PocketWallet.Bkash;
 
 /// <summary>
 /// Represents response object used to refund payment.
