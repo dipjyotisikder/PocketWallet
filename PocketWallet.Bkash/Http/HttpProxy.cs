@@ -76,29 +76,12 @@ internal static class HttpProxy
         TIn body,
         Dictionary<string, string>? headers = null) where TOut : BaseBkashResponse
     {
-        var requestMessage = new HttpRequestMessage
-        {
-            RequestUri = new Uri(httpClient.BaseAddress!, endpoint),
-            Method = method
-        };
-
-        foreach (var x in httpClient.DefaultRequestHeaders)
-        {
-            requestMessage.Headers.Add(x.Key, x.Value);
-        }
+        var requestMessage = ProcessRequestMessage(httpClient, method, endpoint, headers);
 
         if (body is not null)
         {
             var jsonPayload = JsonConvert.SerializeObject(body);
             requestMessage.Content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
-        }
-
-        if (headers is not null)
-        {
-            foreach (KeyValuePair<string, string> header in headers)
-            {
-                requestMessage.Headers.Add(header.Key, header.Value);
-            }
         }
 
         return await HandleRequest<TOut>(httpClient, requestMessage);
@@ -110,15 +93,21 @@ internal static class HttpProxy
         string endpoint,
         Dictionary<string, string>? headers = null) where TOut : BaseBkashResponse
     {
+        var requestMessage = ProcessRequestMessage(httpClient, method, endpoint, headers);
+        return await HandleRequest<TOut>(httpClient, requestMessage);
+    }
+
+    private static HttpRequestMessage ProcessRequestMessage(HttpClient httpClient, HttpMethod method, string endpoint, Dictionary<string, string>? headers)
+    {
         var requestMessage = new HttpRequestMessage
         {
             RequestUri = new Uri(httpClient.BaseAddress!, endpoint),
             Method = method
         };
 
-        foreach (var x in httpClient.DefaultRequestHeaders)
+        foreach (var header in httpClient.DefaultRequestHeaders)
         {
-            requestMessage.Headers.Add(x.Key, x.Value);
+            requestMessage.Headers.Add(header.Key, header.Value);
         }
 
         if (headers is not null)
@@ -129,10 +118,11 @@ internal static class HttpProxy
             }
         }
 
-        return await HandleRequest<TOut>(httpClient, requestMessage);
+        return requestMessage;
     }
 
-    private static async Task<HttpResponse<TOut>> HandleRequest<TOut>(HttpClient httpClient, HttpRequestMessage requestMessage) where TOut : BaseBkashResponse
+    private static async Task<HttpResponse<TOut>> HandleRequest<TOut>(HttpClient httpClient, HttpRequestMessage requestMessage)
+        where TOut : BaseBkashResponse
     {
         try
         {
