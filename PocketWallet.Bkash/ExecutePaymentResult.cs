@@ -16,7 +16,7 @@ public class ExecutePaymentResult
     public string PayerReference { get; init; } = string.Empty;
 
     /// <summary>
-    /// MSISDN of the customer or phone number who performed the payment.
+    /// MSISDN or phone number of the customer/bkash user who performed the payment.
     /// </summary>
     public string CustomerMSISDN { get; init; } = string.Empty;
 
