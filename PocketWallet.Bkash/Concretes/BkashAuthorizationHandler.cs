@@ -41,6 +41,10 @@ internal class BkashAuthorizationHandler : IBkashAuthorizationHandler
         return Result<Dictionary<string, string>>.Create(tokenResult.Problem!);
     }
 
+    /// <summary>
+    /// Creates and stores token.
+    /// </summary>
+    /// <returns>A token string.</returns>
     private async Task<Result<string>> CreateToken()
     {
         if (!_tokenStorage.IsTokenAvailable)
@@ -77,6 +81,10 @@ internal class BkashAuthorizationHandler : IBkashAuthorizationHandler
         return Result<string>.Create(_tokenStorage.AccessToken);
     }
 
+    /// <summary>
+    /// Gets initial token with network call.
+    /// </summary>
+    /// <returns>A token response.</returns>
     private async Task<Result<BkashTokenResponse>> InitialToken()
     {
         var response = await _httpClient.PostAsync<BkashTokenRequest, BkashTokenResponse>(
@@ -98,6 +106,11 @@ internal class BkashAuthorizationHandler : IBkashAuthorizationHandler
                     message: response?.Data?.StatusMessage!));
     }
 
+    /// <summary>
+    /// Refreshes an expired token.
+    /// </summary>
+    /// <param name="refreshToken">Refresh token.</param>
+    /// <returns>A refreshed token response.</returns>
     private async Task<Result<BkashTokenResponse>> RefreshToken(string refreshToken)
     {
         var response = await _httpClient.PostAsync<BkashRefreshTokenRequest, BkashTokenResponse>(
