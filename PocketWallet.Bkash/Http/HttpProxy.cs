@@ -131,7 +131,7 @@ internal static class HttpProxy
         catch (Exception e)
         {
             var message = string.Format("Exception Message: {0} | Inner Exception Message: {1}", e.Message, e.InnerException?.Message);
-            return HttpResponse<TOut>.Create(success: false, response: message);
+            return HttpResponse<TOut>.Create(isSuccessStatusCode: false, responseString: message);
         }
     }
 }
