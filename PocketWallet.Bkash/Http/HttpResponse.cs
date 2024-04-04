@@ -5,7 +5,7 @@ using System.Net;
 namespace PocketWallet.Bkash.Http;
 
 /// <summary>
-/// Represents a generic class to create an interpreted object of Bkash response.
+/// Represents a generic class to create an interpreted object of BKash response.
 /// </summary>
 /// <typeparam name="TOut">Expected output object type.</typeparam>
 internal class HttpResponse<TOut> where TOut : BaseBkashResponse
@@ -69,14 +69,14 @@ internal class HttpResponse<TOut> where TOut : BaseBkashResponse
     internal TOut? Data { get; }
 
     /// <summary>
-    /// Creates final http response result based on network response.
+    /// Creates final HTTP response result based on network response.
     /// </summary>
     /// <param name="httpResponse">Network response.</param>
     /// <returns>An interpreted object of network response.</returns>
     internal static HttpResponse<TOut> Create(HttpResponseMessage httpResponse) => new(httpResponse);
 
     /// <summary>
-    /// Creates final http response result based on network response.
+    /// Creates final HTTP response result based on network response.
     /// </summary>
     /// <param name="isSuccessStatusCode">Network response success status.</param>
     /// <param name="responseString">Network response string.</param>
