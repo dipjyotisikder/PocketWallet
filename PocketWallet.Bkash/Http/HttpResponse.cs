@@ -5,7 +5,7 @@ using System.Net;
 namespace PocketWallet.Bkash.Http;
 
 /// <summary>
-/// Represents a generic class to create an interpreted object of BKash response.
+/// Represents a generic class to create an interpreted object of Bkash response.
 /// </summary>
 /// <typeparam name="TOut">Expected output object type.</typeparam>
 internal class HttpResponse<TOut> where TOut : BaseBkashResponse
@@ -89,7 +89,7 @@ internal class HttpResponse<TOut> where TOut : BaseBkashResponse
     /// Checks if request is overall indicates fine or not.
     /// </summary>
     /// <param name="isSuccessStatusCode">Network success status.</param>
-    /// <param name="responseData">BKash Response.</param>
+    /// <param name="responseData">Bkash Response.</param>
     /// <returns>Overall response status.</returns>
     private static bool CheckIfOk(bool isSuccessStatusCode, TOut? responseData) => isSuccessStatusCode
             && responseData is not null
