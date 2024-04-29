@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using PocketWallet.Bkash.DependencyInjection.Options;
 using PocketWallet.Bkash.Http;
 
 namespace PocketWallet.Bkash.Concretes;
@@ -11,7 +10,6 @@ internal class BkashPayment : IBkashPayment
 {
     private readonly IBkashAuthorizationHandler _bkashAuthorizationHandler;
     private readonly HttpClient _httpClient;
-    private readonly BkashConfigurationOptions _bkashConfigurationOptions;
     private readonly IMapper _mapper;
 
     /// <summary>
@@ -19,17 +17,14 @@ internal class BkashPayment : IBkashPayment
     /// </summary>
     /// <param name="bkashAuthorizationHandler"><see cref="BkashAuthorizationHandler"/> object created by Bkash.</param>
     /// <param name="httpClient"><see cref="HttpClient"/> object to call Bkash endpoints.</param>
-    /// <param name="bkashConfigurationOptions"><see cref="BkashConfigurationOptions"/> object.</param>
     /// <param name="mapper"><see cref="IMapper"/> object.</param>
     public BkashPayment(
         IBkashAuthorizationHandler bkashAuthorizationHandler,
         HttpClient httpClient,
-        BkashConfigurationOptions bkashConfigurationOptions,
         IMapper mapper)
     {
         _bkashAuthorizationHandler = bkashAuthorizationHandler;
         _httpClient = httpClient;
-        _bkashConfigurationOptions = bkashConfigurationOptions;
         _mapper = mapper;
     }
 
