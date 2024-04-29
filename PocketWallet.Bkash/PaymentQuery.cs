@@ -6,7 +6,7 @@
 public class PaymentQuery
 {
     /// <summary>
-    /// bKash generated paymentID provided in the response of Create Payment API.
+    /// bkash generated paymentID provided in the response of Create Payment API.
     /// </summary>
     public string PaymentId { get; set; } = string.Empty;
 }

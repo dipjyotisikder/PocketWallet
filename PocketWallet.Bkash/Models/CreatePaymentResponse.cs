@@ -3,22 +3,22 @@
 /// <summary>
 /// Represents payment creation response object.
 /// </summary>
-internal class CreateBkashPaymentResponse : BaseBkashResponse
+internal class CreatePaymentResponse : BaseBkashResponse
 {
     /// <summary>
-    /// bKash generated payment ID for this payment creation request. This payment ID can be used later to track down the payment and in other payment related APIs.
+    /// bkash generated payment ID for this payment creation request. This payment ID can be used later to track down the payment and in other payment related APIs.
     /// </summary>
     [JsonProperty("paymentID")]
     public string PaymentId { get; init; } = string.Empty;
 
     /// <summary>
-    /// The URL of bKash where the customer should be forwarded to enter his wallet number, OTP and wallet PIN.
+    /// The URL of bkash where the customer should be forwarded to enter his wallet number, OTP and wallet PIN.
     /// </summary>
     [JsonProperty("bkashURL")]
     public string BkashURL { get; init; } = string.Empty;
 
     /// <summary>
-    /// The base URL of merchant's platform based on which bKash will generate separate callback URLs for success, failure and canceled transactions. bKash will send transaction verification result in these URLs based on the result.
+    /// The base URL of merchant's platform based on which bkash will generate separate callback URLs for success, failure and canceled transactions. bkash will send transaction verification result in these URLs based on the result.
     /// </summary>
     [JsonProperty("callbackURL")]
     public string CallbackURL { get; init; } = string.Empty;

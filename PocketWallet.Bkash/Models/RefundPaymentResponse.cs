@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents response object used to refund payment.
 /// </summary>
-internal class RefundBkashPaymentResponse : BaseBkashResponse
+internal class RefundPaymentResponse : BaseBkashResponse
 {
     /// <summary>
     /// When the action of refund is done.

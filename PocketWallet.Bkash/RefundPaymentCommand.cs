@@ -13,10 +13,10 @@ public class RefundPaymentCommand
     /// <summary>
     /// Amount to refund, Maximum two decimals after amount. Ex. 25.20.
     /// </summary>
-    public string Amount { get; set; } = string.Empty;
+    public float Amount { get; set; }
 
     /// <summary>
-    /// trxID received during execute call.
+    /// Represents <see cref="ExecutePaymentResult.TransactionId"/> of <see cref="IBkashPayment.Execute(ExecutePaymentCommand)"/> call.
     /// </summary>
     public string TransactionId { get; set; } = string.Empty;
 
