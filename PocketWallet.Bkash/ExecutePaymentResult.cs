@@ -6,7 +6,7 @@
 public class ExecutePaymentResult
 {
     /// <summary>
-    /// bkash generated payment ID for this payment creation request. This payment ID can be used later to track down the payment and in other payment related APIs.
+    /// Bkash generated payment ID for this payment creation request. This payment ID can be used later to track down the payment and in other payment related APIs.
     /// </summary>
     public string PaymentId { get; init; } = string.Empty;
 

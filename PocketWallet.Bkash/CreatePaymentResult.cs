@@ -6,12 +6,12 @@
 public class CreatePaymentResult
 {
     /// <summary>
-    /// bkash generated payment ID for this payment creation request. This payment ID can be used later to track down the payment and in other payment related APIs.
+    /// Bkash generated payment ID for this payment creation request. This payment ID can be used later to track down the payment and in other payment related APIs.
     /// </summary>
     public string PaymentId { get; init; } = string.Empty;
 
     /// <summary>
-    /// The base URL of merchant's platform based on which bkash will generate separate callback URLs for success, failure and canceled transactions. bkash will send transaction verification result in these URLs based on the result.
+    /// The base URL of merchant's platform based on which Bkash will generate separate callback URLs for success, failure and canceled transactions. Bkash will send transaction verification result in these URLs based on the result.
     /// </summary>
     public string CallbackURL { get; init; } = string.Empty;
 
@@ -21,7 +21,7 @@ public class CreatePaymentResult
     public float Amount { get; init; }
 
     /// <summary>
-    /// The URL of bkash where the customer should be forwarded to enter his wallet number, OTP and wallet PIN.
+    /// The URL of Bkash where the customer should be forwarded to enter his wallet number, OTP and wallet PIN.
     /// </summary>
     public string BkashURL { get; init; } = string.Empty;
 

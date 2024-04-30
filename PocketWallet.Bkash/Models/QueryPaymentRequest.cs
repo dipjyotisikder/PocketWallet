@@ -6,7 +6,7 @@
 internal class QueryPaymentRequest
 {
     /// <summary>
-    /// bkash generated paymentID provided in the response of Create Payment API.
+    /// Bkash generated paymentID provided in the response of Create Payment API.
     /// </summary>
     [JsonProperty("paymentID")]
     public string PaymentId { get; set; } = string.Empty;

@@ -1,12 +1,12 @@
 ﻿namespace PocketWallet.Bkash.Models;
 
 /// <summary>
-/// Represents bkash payment creation request object.
+/// Represents Bkash payment creation request object.
 /// </summary>
 internal class CreatePaymentRequest
 {
     /// <summary>
-    /// Any related reference value which can be passed along with the payment request. If the wallet number is passed here, then it will be pre-populated in bkash's wallet number entry page.
+    /// Any related reference value which can be passed along with the payment request. If the wallet number is passed here, then it will be pre-populated in Bkash's wallet number entry page.
     /// </summary>
     /// <example>A predefined phone/account number.</example>
     /// <remarks>Space acceptable, String required. Null is not accepted. (Its optional)</remarks>
@@ -14,7 +14,7 @@ internal class CreatePaymentRequest
     public string PayerReference { get; set; } = " ";
 
     /// <summary>
-    /// The base URL of merchant's platform based on which bkash will generate separate callback URLs for success, failure and canceled transactions. bkash will send transaction verification result in these URLs based on the result.
+    /// The base URL of merchant's platform based on which Bkash will generate separate callback URLs for success, failure and canceled transactions. Bkash will send transaction verification result in these URLs based on the result.
     /// </summary>
     [JsonProperty("callbackURL")]
     public string CallbackURL { get; set; } = string.Empty;
