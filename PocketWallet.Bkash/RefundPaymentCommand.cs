@@ -8,6 +8,7 @@ public class RefundPaymentCommand
     /// <summary>
     /// Payment Id received during create call.
     /// </summary>
+    /// <remarks>This field is required.</remarks>
     public string PaymentId { get; set; } = string.Empty;
 
     /// <summary>
@@ -18,6 +19,7 @@ public class RefundPaymentCommand
     /// <summary>
     /// Represents <see cref="ExecutePaymentResult.TransactionId"/> of <see cref="IBkashPayment.Execute(ExecutePaymentCommand)"/> call.
     /// </summary>
+    /// <remarks>This field is required.</remarks>
     public string TransactionId { get; set; } = string.Empty;
 
     /// <summary>
