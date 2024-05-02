@@ -28,7 +28,7 @@ public class RefundPaymentResult
     /// <summary>
     /// How much money refunded.
     /// </summary>
-    public string Amount { get; set; } = string.Empty;
+    public float Amount { get; set; }
 
     /// <summary>
     /// The refund amount currency.

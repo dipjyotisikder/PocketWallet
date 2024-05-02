@@ -1,15 +1,15 @@
 ﻿namespace PocketWallet.Bkash;
 
 /// <summary>
-/// Represents the problem details for all the bkash operations.
+/// Represents the problem details for all the Bkash operations.
 /// </summary>
 public class BkashProblem
 {
     /// <summary>
     /// Helps initiate problem object.
     /// </summary>
-    /// <param name="statusCode">Problem status code that is received from bkash.</param>
-    /// <param name="message">Problem message received from bkash. </param>
+    /// <param name="statusCode">Problem status code that is received from Bkash.</param>
+    /// <param name="message">Problem message received from Bkash. </param>
     private BkashProblem(string statusCode, string message)
     {
         StatusCode = statusCode;
@@ -29,8 +29,8 @@ public class BkashProblem
     /// <summary>
     /// Returns an object of <see cref="BkashProblem"/>.
     /// </summary>
-    /// <param name="statusCode">Problem status code that is received from bkash.</param>
-    /// <param name="message">Problem message received from bkash. </param>
+    /// <param name="statusCode">Problem status code that is received from Bkash.</param>
+    /// <param name="message">Problem message received from Bkash. </param>
     /// <returns>Object of <see cref="BkashProblem"/>.</returns>
     public static BkashProblem Create(string statusCode, string message)
     {

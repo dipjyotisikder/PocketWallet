@@ -1,12 +1,12 @@
 ﻿namespace PocketWallet.Bkash.Models;
 
 /// <summary>
-/// Represents actual bkash response for execution of payment.
+/// Represents actual Bkash response for execution of payment.
 /// </summary>
-internal class ExecuteBkashPaymentResponse : BaseBkashResponse
+internal class ExecutePaymentResponse : BaseBkashResponse
 {
     /// <summary>
-    /// bKash generated payment ID for this payment creation request. This payment ID can be used later to track down the payment and in other payment related APIs.
+    /// Bkash generated payment ID for this payment creation request. This payment ID can be used later to track down the payment and in other payment related APIs.
     /// </summary>
     [JsonProperty("paymentID")]
     public string PaymentId { get; init; } = string.Empty;
