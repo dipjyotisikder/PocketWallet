@@ -72,7 +72,7 @@ The library is developed using the following technologies:
     ````
 
 ## Actions
-### Payment Creation Process:
+### Payment Creation Process: <a name="payment-creation-process"></a>
 Payment Creation is the __First Step__ to the complete payment flow. 
 In this step, you as merchant, need to provide some information such as,
 - Total __Amount__ of money you want to charge from you customer need to be provided in the field __Amount__.
@@ -120,12 +120,12 @@ From the response, you need to store **paymentId**, **Invoice** etc. so that you
 As you see, there's a property named **callbackURL**, is the URL where you have to redirect user immediately after you get this response, so that user can provide there credentions to Bkash and pay the amount successfully.
 Based on the Customers input, 
 
-### Payment Execution Process
-Payment execution process will start if the user/customer provided credentials are valid and everything was fine after redirection to BkashURL.
+### Payment Execution Process <a name="payment-execution-process"></a>
+Payment execution process will happen when callback will be successful, that means if customer's credentials are valid after redirection to BkashURL.
 
 #### Call the payment method as follows:
 *Note:* A sample callback method is provided below for better clarification and understanding of the significance of ___status___ and ___paymentID___ param received from Bkash callback.
-In previous [payment creation process](#payment-create-method-request) we have provided our server URL ___"https://example_server_or_client.com/api/wallets/bkash/callback"___ as a callback URL so that Bkash can send a success or error status after the user completes his part.
+In previous [payment creation process](#payment-create-method-request) we have provided our server URL ___"https://EXAMPLE_SERVER.com/api/wallets/bkash/callback"___ as a callback URL so that Bkash can send a success or error status after the user completes his part.
 We could have provided a front-end URL there too. To know more about how the callback mechanism works, please have a look at the [end of this documentation](#bkash-callback-mechanism).
 ````
 [HttpGet("bkash/callback")]
@@ -145,7 +145,7 @@ public async Task<IActionResult> PaymentCallback([FromQuery] string paymentID,[F
 }
 ````
 
-### Check Payment Status
+### Check Payment Status <a name="check-payment-status"></a>
 #### Call the query method as follows:
 Note: PaymentId that is shown below can be received from the response of [payment create request](#payment-create-method-response).
 ````
@@ -156,7 +156,7 @@ var query = new PaymentQuery
 Result<QueryPaymentResult> result = await _bkashPayment.Query(query);
 ````
 
-### Payment refund
+### Payment refund <a name="payment-refund"></a>
 Payment can be refunded providing amount, reason such as ___"faulty product", "product not received"___ etc, Unique Payment ID, Product SKU and Transaction Id.
 Call the query method as follows:
 ````
@@ -171,7 +171,7 @@ var command = new RefundPaymentCommand
 Result<RefundPaymentResult> result = await _bkashPayment.Refund(command);
 ````
 
-### Bkash Callback Mechanism
+### Bkash Callback Mechanism <a name="bkash-callback-mechanism"></a>
 #### What is Bkash callback?
 Bkash callback is a mechanism by which Bkash sends a status or result of user interaction after payment creation.
 
