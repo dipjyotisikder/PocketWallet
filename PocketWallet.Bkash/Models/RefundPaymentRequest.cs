@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents request object used to refund payment.
 /// </summary>
-internal class RefundBkashPaymentRequest
+internal class RefundPaymentRequest
 {
     /// <summary>
     /// Payment ID received during create call

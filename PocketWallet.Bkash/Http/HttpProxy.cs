@@ -8,12 +8,12 @@ namespace PocketWallet.Bkash.Http;
 internal static class HttpProxy
 {
     /// <summary>
-    /// Represents a HTTP POST request to BKash API.
+    /// Represents a HTTP POST request to Bkash API.
     /// </summary>
     /// <typeparam name="TIn">Input body object type.</typeparam>
     /// <typeparam name="TOut">Output data type.</typeparam>
     /// <param name="httpClient">HTTP client object.</param>
-    /// <param name="endpoint">Endpoint URL of BKash.</param>
+    /// <param name="endpoint">Endpoint URL of Bkash.</param>
     /// <param name="body">Input request body object.</param>
     /// <param name="headers">Additional header parameters.</param>
     /// <returns>HTTP response object.</returns>
@@ -35,7 +35,7 @@ internal static class HttpProxy
     /// <typeparam name="TOut">Output data type.</typeparam>
     /// <param name="httpClient">HTTP client object.</param>
     /// <param name="method">HTTP request method. (GET, POST etc.)</param>
-    /// <param name="endpoint">Endpoint URL of BKash.</param>
+    /// <param name="endpoint">Endpoint URL of Bkash.</param>
     /// <param name="body">Input request body object.</param>
     /// <param name="headers">Additional header parameters.</param>
     /// <returns>HTTP response object.</returns>
@@ -64,7 +64,7 @@ internal static class HttpProxy
     /// </summary>
     /// <param name="httpClient">HTTP client object.</param>
     /// <param name="method">HTTP request method. (GET, POST etc.)</param>
-    /// <param name="endpoint">Endpoint URL of BKash.</param>
+    /// <param name="endpoint">Endpoint URL of Bkash.</param>
     /// <param name="headers">Additional header parameters.</param>
     /// <returns>HTTP request message object.</returns>
     private static HttpRequestMessage ProcessRequestMessage(HttpClient httpClient, HttpMethod method, string endpoint, Dictionary<string, string>? headers)
@@ -97,7 +97,7 @@ internal static class HttpProxy
     /// <typeparam name="TOut">Output data type.</typeparam>
     /// <param name="httpClient">HTTP client object.</param>
     /// <param name="requestMessage">HTTP request message object.</param>
-    /// <returns>A HTTP response object after calling BKash API.</returns>
+    /// <returns>A HTTP response object after calling Bkash API.</returns>
     private static async Task<HttpResponse<TOut>> HandleRequest<TOut>(HttpClient httpClient, HttpRequestMessage requestMessage)
         where TOut : BaseBkashResponse
     {

@@ -46,14 +46,6 @@ public record BkashConfigurationOptions
     public string AppSecret { get; set; } = string.Empty;
 
     /// <summary>
-    /// Takes the value of Bkash API payment mode.
-    /// </summary>
-    /// <remarks>
-    /// Payment process can be done in two ways. One is Agreement, another is without agreement with users. Agreement mode helps to remove pin providing step.
-    /// </remarks>
-    public PaymentModes PaymentMode { get; set; } = PaymentModes.WithoutAgreement;
-
-    /// <summary>
     /// Returns the appropriate Base URL according to selected mode.
     /// </summary>
     internal string BaseURL => ProductionMode ? CONSTANTS.LIVE_BASEURL : CONSTANTS.SANDBOX_BASEURL;
