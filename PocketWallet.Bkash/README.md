@@ -83,7 +83,7 @@ In this step, you as merchant, need to provide some information such as,
 
 *An example Request & Response is provided below*:
 
-- Payment **Request**:
+- Payment **Request**: <a name="payment-request"></a>
     ````
     var command = new CreatePaymentCommand
     {
@@ -96,7 +96,7 @@ In this step, you as merchant, need to provide some information such as,
     };
     Result<QueryPaymentResult> result = await _bkashPayment.Create(command);
     ````
-- Payment **Response**:
+- Payment **Response**: <a name="payment-response"></a>
 ````
 // Its the json formatted Result<QueryPaymentResult>
 {
@@ -147,7 +147,7 @@ public async Task<IActionResult> PaymentCallback([FromQuery] string paymentID,[F
 
 ### Check Payment Status <a name="check-payment-status"></a>
 #### Call the query method as follows:
-Note: PaymentId that is shown below can be received from the response of [payment create request](#payment-create-method-response).
+Note: PaymentId that is shown below can be received from this [response](#payment-response).
 ````
 var query = new PaymentQuery
 {
@@ -177,8 +177,9 @@ Bkash callback is a mechanism by which Bkash sends a status or result of user in
 
 #### How we can interpret Bkash Callback?
 1. User clicks on Bkash Button for payment for his current order/invoice [Internally, we will create a [payment](#payment-creation-process)].
-2. User should automatically be redirected to Bkash page. [Internally, we redirected him to "bkashURL" mentioned [here](#payment-create-method-response)].
-3. User provides his credentials and after that, Bkash redirects that user to the Callback Url of our server/client app, [we have provided.](#payment-create-method-request) 
+2. Then, User should automatically be redirected to Bkash page. [Internally, we redirected him to [bkashURL](#payment-response)].
+3. Now, User can provide their credentials.
+4. After credential is provided, Bkash redirects that user to the [Callback Url](#payment-request).
     - If credential is OK, in the [callback URL](#payment-execution-process) we get paymentID and status as "success".
     - If fails, similarly, we get the "error" status.
-4. Based on the status we received, we will be going to [execute the payment](#payment-execution-process) to fully confirm the payment transaction.
+5. Based on the status we received, we will be going to [execute the payment](#payment-execution-process) to fully confirm the payment transaction.
