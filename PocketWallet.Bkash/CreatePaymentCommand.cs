@@ -1,48 +1,42 @@
-﻿using System.ComponentModel;
-
-namespace PocketWallet.Bkash
+﻿namespace PocketWallet.Bkash
 {
     /// <summary>
     /// Represents payment creation object.
     /// </summary>
-    public class CreatePaymentCommand
+    public sealed class CreatePaymentCommand
     {
         /// <summary>
-        /// This parameter indicates the mode of payment. For Checkout (URL based), the value of this parameter should be "0011".
+        /// A predefined phone/account number or any related reference, which can be passed along with the payment request. If provided, it will be pre-populated in Bkash's wallet number entry page.
         /// </summary>
-        public string Mode { get; set; } = string.Empty;
-
-        /// <summary>
-        /// Any related reference value which can be passed along with the payment request. If the wallet number is passed here, then it will be pre-populated in bKash's wallet number entry page.
-        /// </summary>
-        /// <example>A predefined phone/account number.</example>
-        /// <remarks>Space acceptable, String required. Null is not accepted. (Its optional)</remarks>
-        [DefaultValue(" ")]
+        /// <remarks>This field is optional.</remarks>
         public string PayerReference { get; set; } = " ";
-
-        /// <summary>
-        /// The base URL of merchant's platform based on which bKash will generate separate callback URLs for success, failure and canceled transactions. bKash will send transaction verification result in these URLs based on the result.
-        /// </summary>
-        public string CallbackURL { get; set; } = string.Empty;
-
-        /// <summary>
-        /// Amount of the payment to be made.
-        /// </summary>
-        public string Amount { get; set; } = string.Empty;
-
-        /// <summary>
-        /// Currency of the mentioned amount. Currently, only "BDT" value is acceptable.
-        /// </summary>
-        public string Currency { get; set; } = string.Empty;
-
-        /// <summary>
-        /// Intent of the payment. For checkout the value should be "sale".
-        /// </summary>
-        public string Intent { get; set; } = string.Empty;
 
         /// <summary>
         /// Unique invoice number used at merchant side for this specific payment.
         /// </summary>
+        /// <remarks>This field is required.</remarks>
         public string MerchantInvoiceNumber { get; set; } = string.Empty;
+
+        /// <summary>
+        /// The base URL of merchant's platform based on which Bkash will generate separate callback URLs for success, failure and canceled transactions. Bkash will send transaction verification result in these URLs based on the result.
+        /// </summary>
+        /// <remarks>This field is required.</remarks>
+        public string CallbackURL { get; init; } = string.Empty;
+
+        /// <summary>
+        /// Amount of the payment transaction.
+        /// </summary>
+        /// <remarks>This field is required.</remarks>
+        public float Amount { get; init; }
+
+        /// <summary>
+        /// Intent for the payment transaction. For checkout, the value will be "sale".
+        /// </summary>
+        public string Intent { get; init; } = CONSTANTS.SALE;
+
+        /// <summary>
+        /// Currency of the mentioned amount. Currently only "BDT" value is supported.
+        /// </summary>
+        public string Currency { get; init; } = CONSTANTS.BDT;
     }
 }

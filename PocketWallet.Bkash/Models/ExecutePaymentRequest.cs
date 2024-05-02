@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents payment execution request object.
 /// </summary>
-internal class ExecuteBkashPaymentRequest
+internal class ExecutePaymentRequest
 {
     /// <summary>
     /// PaymentID returned in the response of Create Payment API.

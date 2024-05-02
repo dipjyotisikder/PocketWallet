@@ -6,12 +6,12 @@
 public class QueryPaymentResult
 {
     /// <summary>
-    /// bKash generated payment ID for this payment creation request.
+    /// Bkash generated payment ID for this payment creation request.
     /// </summary>
     public string PaymentId { get; init; } = string.Empty;
 
     /// <summary>
-    /// bKash generated payment ID for this payment creation request.
+    /// Bkash generated payment ID for this payment creation request.
     /// </summary>
     public string Mode { get; init; } = string.Empty;
 
@@ -23,7 +23,7 @@ public class QueryPaymentResult
     /// <summary>
     /// Amount of the payment transaction.
     /// </summary>
-    public string Amount { get; init; } = string.Empty;
+    public float Amount { get; init; }
 
     /// <summary>
     /// Currency of the mentioned amount. Currently only "BDT" value is supported.
@@ -51,7 +51,7 @@ public class QueryPaymentResult
     public string VerificationStatus { get; init; } = string.Empty;
 
     /// <summary>
-    /// Any related reference value which was passed along with the payment request. If the wallet number is passed , then it will be pre-populated in bKash's wallet number entry page.
+    /// Any related reference value which was passed along with the payment request. If the wallet number is passed , then it will be pre-populated in Bkash's wallet number entry page.
     /// </summary>
     public string PayerReference { get; init; } = string.Empty;
 
