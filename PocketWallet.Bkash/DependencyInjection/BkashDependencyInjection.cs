@@ -12,10 +12,10 @@ namespace PocketWallet.Bkash.DependencyInjection;
 public static class BkashDependencyInjection
 {
     /// <summary>
-    /// Adds Bkash specific dependencies.
+    /// Adds bkash specific dependencies.
     /// </summary>
     /// <param name="services"><see cref="IServiceCollection"/> object.</param>
-    /// <param name="optionsAction">Action that helps to fill Bkash options.</param>
+    /// <param name="optionsAction">Action that helps to fill bkash options.</param>
     /// <returns></returns>
     public static IServiceCollection AddBkash(
         this IServiceCollection services,

@@ -6,7 +6,7 @@
 public class ExecutePaymentResult
 {
     /// <summary>
-    /// Bkash generated payment ID for this payment creation request. This payment ID can be used later to track down the payment and in other payment related APIs.
+    /// bKash generated payment ID for this payment creation request. This payment ID can be used later to track down the payment and in other payment related APIs.
     /// </summary>
     public string PaymentId { get; init; } = string.Empty;
 
@@ -28,7 +28,7 @@ public class ExecutePaymentResult
     /// <summary>
     /// Amount of the payment transaction.
     /// </summary>
-    public float Amount { get; init; }
+    public string Amount { get; init; } = string.Empty;
 
     /// <summary>
     /// Final status of the transaction. For a successful payment, this status should be "Completed".

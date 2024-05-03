@@ -4,7 +4,7 @@ using PocketWallet.Bkash.Http;
 namespace PocketWallet.Bkash.Concretes;
 
 /// <summary>
-/// Represents Bkash authorization handling tool.
+/// Represents bkash authorization handling tool.
 /// </summary>
 internal class BkashAuthorizationHandler : IBkashAuthorizationHandler
 {
