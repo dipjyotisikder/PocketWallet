@@ -94,4 +94,14 @@ internal static class Constants
     /// A code that satisfies payment mechanism without agreement.
     /// </summary>
     internal const string WITHOUT_AGREEMENT_CODE = "0011";
+
+    /// <summary>
+    /// Currency type of Bangladesh.
+    /// </summary>
+    internal const string BDT = "BDT";
+
+    /// <summary>
+    /// Intent of merchant for Url Based Checkout.
+    /// </summary>
+    internal const string SALE = "sale";
 }

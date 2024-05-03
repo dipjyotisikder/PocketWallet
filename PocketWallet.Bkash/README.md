@@ -1,118 +1,133 @@
-## What is PocketWallet.Bkash?
+## Introduction
+### What is PocketWallet.Bkash?
 PocketWallet.Bkash is a library that is built with .NET 6, offering integration with Bkash, a popular Bangladeshi e-wallet system. 
 The library application is designed to streamline the payment process for businesses and users by providing seamless support for Bkash transactions.
 
-## What are the benefits PocketWallet.Bkash serves with?
+### What are the benefits of using PocketWallet.Bkash?
 - Well designed Bkash API support.
 - Simple method call can do it all.
 - Network call and token management is internally-handled.
 - Unclear Bkash property names are interpreted in .NET way.
+- It reduces the Bkash integration time. 
+- It is completely open sourcea and transparent. Anyone can contribute to the codebase.
 
-## Technologies Used
+### Technologies Used
 The library is developed using the following technologies:
 - C#, .NET 6
 - Bkash API
 
-## Features
+### Features
 - [Payment Creation Process](#payment-creation-process)
 - [Payment Execution Process](#payment-execution-process)
 - [Check Payment Status](#check-payment-status)
 - [Payment Refund](#payment-refund)
 
-## Configuration and Dependency Resolution
-### Add this appsettings.json configuration block and provide appropriate values.
-```
-"BkashOptions": {
-    "MerchantUserName": "",
-    "MerchantPassword": "",
-    "AppKey": "",
-    "AppSecret": "",
-    "ProductionMode": false
-}
-```
-Please collect ***MerchantUserName***, ***MerchantPassword***, ***AppKey***, ***AppSecret*** from Bkash support.
-### Create a class named "BkashOptions" to inject the configuration values as follows:
-```
-public class BkashOptions
-{
-    public string MerchantUserName { get; set; }
-    public string MerchantPassword { get; set; }
-    public string AppKey { get; set; }
-    public string AppSecret { get; set; }
-    public bool ProductionMode { get; set; }
-    public PaymentModes PaymentMode { get; set; }
-}
-```
-### Add Bkash Dependency:
-```
-var bkashOptions = new BkashOptions();
-builder.Configuration.GetSection("BkashOptions").Bind(bkashOptions);
-builder.Services.AddBkash(option =>
-{
-    option.MerchantUserName = bkashOptions.MerchantUserName;
-    option.MerchantPassword = bkashOptions.MerchantPassword;
-    option.AppKey = bkashOptions.AppKey;
-    option.AppSecret = bkashOptions.AppSecret;
-    option.ProductionMode = bkashOptions.ProductionMode;
-});
-```
-### Add "IBkashPayment" interface in the constructor of any class as follows:
-```
-private readonly IBkashPayment _bkashPayment;
-public WalletsController(IBkashPayment bkashPayment)
-{
-    _bkashPayment = bkashPayment;
-}
-```
+## Configuration and Dependency
+1. Collect ***MerchantUserName***, ***MerchantPassword***, ***AppKey***, ***AppSecret*** from Bkash support.
+2. Add this configuration block into ___appsettings.json___ file and provide appropriate values. You have to collect all the required values and informations from Bkash officials. Such as, for production, collect and set production information and set "ProductionMode" value as true. And for sandbox/testing mode, similarly set sandbox/testing information and set "ProductionMode" to false as follows:
+    ````
+    "BkashOptions": {
+        "MerchantUserName": "ExampleUserName",
+        "MerchantPassword": "ExamplePassword",
+        "AppKey": "ExampleAppKey",
+        "AppSecret": "ExampleAppSecret",
+        "ProductionMode": false
+    }
+    ````
+3. To retrive BkashOptions from ___appsettings.json___ file you can create a class as follows:
+    ````
+    public class BkashOptions
+    {
+        public string MerchantUserName { get; set; }
+        public string MerchantPassword { get; set; }
+        public string AppKey { get; set; }
+        public string AppSecret { get; set; }
+        public bool ProductionMode { get; set; }
+    }
+    ````
+4. Go to your ___program.cs___ file and add dependency by calling __AddBkash__ extension method under the namespace __PocketWallet.Bkash.DependencyInjection__ as follows:
+    - Firstly, Bind AppSettings configuration information from "BkashOptions". This approach is commonly known as "Options Pattern" in .NET Core.
+        ````
+        var bkashOptions = new BkashOptions();
+        builder.Configuration.GetSection("BkashOptions").Bind(bkashOptions);
+        ````
+    - Then, simply call AddBkash to add bkash functionality into your application IOC.
+        ````
+        builder.Services.AddBkash(option =>
+        {
+            option.MerchantUserName = bkashOptions.MerchantUserName;
+            option.MerchantPassword = bkashOptions.MerchantPassword;
+            option.AppKey = bkashOptions.AppKey;
+            option.AppSecret = bkashOptions.AppSecret;
+            option.ProductionMode = bkashOptions.ProductionMode;
+        });
+        ````
+5. Lastly, Inject "IBkashPayment" object into the constructor of any component (i.e Controller, service etc.) as follows:
+    ````
+    private readonly IBkashPayment _bkashPayment;
+    public WalletsController(IBkashPayment bkashPayment)
+    {
+        _bkashPayment = bkashPayment;
+    }
+    ````
 
-## Payment Creation Process
-1. Payment creation is part of the complete payment flow.
-2. In this process, we create a payment instance against a unique invoice number.
-3. We will get a bkashURL from the response.
-4. We will send the user to that BkashURL immediately after getting the response.
-5. User will provide his Bkash credentials (account number, pin, OTP), etc.
-6. As soon as the user completes these tasks, he will be redirected to the callback URL(___"https://localhost:xxxx/api/wallets/bkash/callback"___) we provided below.
-7. This ___CallBack___ URL is basically our Server or Client's URL ([It can be a get method](#payment-execution-process)), where we want to receive user payment creation status is OK or not, so that we can proceed to [Payment Execution](#payment-execution-process).
-### Payment create method request:
-```
-var command = new CreatePaymentCommand
-{
-    Amount = "100",
-    PayerReference = " ", // Use a phone number here or " ". Do not use null or "" or string.Empty.
-    CallbackURL = "https://localhost:xxxx/api/wallets/bkash/callback", // Any callback URL you want to get a callback request from Bkash, to finally execute the payment.
-    Currency = "BDT",
-    Intent = "sale",
-    MerchantInvoiceNumber = "UNIQUE_INVOICE_NUMBER",
-};
-Result<QueryPaymentResult> result = await _bkashPayment.Create(command);
-```
-### Payment create method response:
-```
+## Actions
+### Payment Creation Process: <a name="payment-creation-process"></a>
+Payment Creation is the __First Step__ to the complete payment flow. 
+In this step, you as merchant, need to provide some information such as,
+- Total __Amount__ of money you want to charge from you customer need to be provided in the field __Amount__.
+- Customers __Phone Number__ need to be provided in the field __PayerReference__, if you want to pre-populate this number inside Bkash page. This field is optional.
+- You need to provide a server address to handle callback from Bkash in the field __CallbackURL__.
+- Unique __Invoice Number__ need to be provided in the field __MerchantInvoiceNumber__, for which you are going to charge your customer.
+- __Intent__ and __Currency__ field are provided below based on Bkash guideline as per this [Bkash documentation](https://developer.bka.sh/docs/create-payment-2#section-request-parameters).
+
+*An example Request & Response is provided below*:
+
+- Payment **Request**: <a name="payment-request"></a>
+    ````
+    var command = new CreatePaymentCommand
+    {
+        Amount = 100.50,
+        PayerReference = "EXAMPLE_PHONE_NUMBER",
+        CallbackURL = "https://EXAMPLE_SERVER.com/api/wallets/bkash/callback",
+        MerchantInvoiceNumber = "EXAMPLE_INVOICE_NUMBER",
+        Intent = "sale",
+        Currency = "BDT"
+    };
+    Result<QueryPaymentResult> result = await _bkashPayment.Create(command);
+    ````
+- Payment **Response**: <a name="payment-response"></a>
+````
 // Its the json formatted Result<QueryPaymentResult>
 {
-"data": {
-"paymentId": "TR001179l3aVM1692860485496",
-"bkashURL": "https://sandbox.payment.bkash.com/redirect/tokenized/?paymentID=TR001179l3aVM1692860485496&hash=CUCmcSv!OPMt)VB42QxS43Upu.kXOkXoHS0MZnXhZ(!1)3G0PLME(9-Vk4q1RhApNmeFHYfZSVhQbwgNS1692860485552&mode=0011&apiVersion=v1.2.0-beta",
-"callbackURL": "https://localhost:xxxx/api/wallets/bkash/callback",
-"amount": "10",
-"intent": "sale",
-"currency": "BDT",
-"paymentCreateTime": "2023-08-24T13:01:25:552 GMT+0600",
-"transactionStatus": "Initiated",
-"merchantInvoiceNumber": "XXXX-PAY-000"
-},
-"isSucceeded": true,
-"problem": null
+    "data": {
+        "paymentId": "TR001179l3aVM1692860485496",
+        "bkashURL": "https://sandbox.payment.bkash.com/redirect/tokenized/?paymentID=TR001179l3aVM1692860485496&hash=CUCmcSv!OPMt)VB42QxS43Upu.kXOkXoHS0MZnXhZ(!1)3G0PLME(9-Vk4q1RhApNmeFHYfZSVhQbwgNS1692860485552&mode=0011&apiVersion=v1.2.0-beta",
+        "callbackURL": "https://EXAMPLE_SERVER.com/api/wallets/bkash/callback",
+        "amount": 100.50,
+        "intent": "sale",
+        "currency": "BDT",
+        "paymentCreateTime": "0000-00-00T00:00:00:000 GMT+0000",
+        "transactionStatus": "Initiated",
+        "merchantInvoiceNumber": "XXXX-PAY-000"
+    },
+    "isSucceeded": true,
+    "problem": null
 }
-```
-Please check the property summary for a better understanding of the responsibility of the property.
+````
 
-## Payment Execution Process
-### Call the payment method as follows:
+From the response, you need to store **paymentId**, **Invoice** etc. so that you can track this payment later.
+As you see, there's a property named **callbackURL**, is the URL where you have to redirect user immediately after you get this response, so that user can provide there credentions to Bkash and pay the amount successfully.
+Based on the Customers input, 
+
+### Payment Execution Process <a name="payment-execution-process"></a>
+Payment execution process will happen when callback will be successful, that means if customer's credentials are valid after redirection to BkashURL.
+
+#### Call the payment method as follows:
 *Note:* A sample callback method is provided below for better clarification and understanding of the significance of ___status___ and ___paymentID___ param received from Bkash callback.
-In previous [payment creation process](#payment-create-method-request) we have provided our server URL ___"https://localhost:XXXX/api/wallets/bkash/callback"___ as a callback URL so that Bkash can send a success or error status after the user completes his part.
+In previous [payment creation process](#payment-create-method-request) we have provided our server URL ___"https://EXAMPLE_SERVER.com/api/wallets/bkash/callback"___ as a callback URL so that Bkash can send a success or error status after the user completes his part.
 We could have provided a front-end URL there too. To know more about how the callback mechanism works, please have a look at the [end of this documentation](#bkash-callback-mechanism).
-```
+````
 [HttpGet("bkash/callback")]
 public async Task<IActionResult> PaymentCallback([FromQuery] string paymentID,[FromQuery] string status)
 {
@@ -128,42 +143,43 @@ public async Task<IActionResult> PaymentCallback([FromQuery] string paymentID,[F
     }
     return Ok();
 }
-```
+````
 
-## Check Payment Status
-### Call the query method as follows:
-Note: PaymentId that is shown below can be received from the response of [payment create request](#payment-create-method-response).
-```
+### Check Payment Status <a name="check-payment-status"></a>
+#### Call the query method as follows:
+Note: PaymentId that is shown below can be received from this [response](#payment-response).
+````
 var query = new PaymentQuery
 {
     PaymentId = "UNIQUE_PAYMENT_ID" // Will be received after payment creation/execution.
 };
 Result<QueryPaymentResult> result = await _bkashPayment.Query(query);
-```
+````
 
-## Payment refund
+### Payment refund <a name="payment-refund"></a>
 Payment can be refunded providing amount, reason such as ___"faulty product", "product not received"___ etc, Unique Payment ID, Product SKU and Transaction Id.
 Call the query method as follows:
-```
-    var command = new RefundPaymentCommand
-    {
-        Amount = "100", // Amount to refund, Maximum two decimals after amount. Ex. 25.20
-        PaymentId = "UNIQUE_PAYMENT_ID", // Will be received after payment creation/execution.
-        Reason = "product not received", // example: "faulty product", "product not received"
-        SKU = "PRODUCT_INFORMATION_OF_MERCHANT", // Tag of product information from merchant's website.
-        TransactionId = "UNIQUE_TRANSACTION_ID" // Transaction Id will can be received after payment execution completed. That transaction id will be used here.
-    };
-    Result<RefundPaymentResult> result = await _bkashPayment.Refund(command);
-```
+````
+var command = new RefundPaymentCommand
+{
+    Amount = 100, // Amount to refund, Maximum two decimals after amount. Ex. 25.20
+    PaymentId = "UNIQUE_PAYMENT_ID", // Will be received after payment creation/execution.
+    Reason = "product not received", // example: "faulty product", "product not received"
+    SKU = "PRODUCT_INFORMATION_OF_MERCHANT", // Tag of product information from merchant's website.
+    TransactionId = "UNIQUE_TRANSACTION_ID" // Transaction Id will can be received after payment execution completed. That transaction id will be used here.
+};
+Result<RefundPaymentResult> result = await _bkashPayment.Refund(command);
+````
 
-## Bkash Callback Mechanism
-### What is Bkash callback?
+### Bkash Callback Mechanism <a name="bkash-callback-mechanism"></a>
+#### What is Bkash callback?
 Bkash callback is a mechanism by which Bkash sends a status or result of user interaction after payment creation.
 
-### How we can interpret Bkash Callback?
+#### How we can interpret Bkash Callback?
 1. User clicks on Bkash Button for payment for his current order/invoice [Internally, we will create a [payment](#payment-creation-process)].
-2. User should automatically be redirected to Bkash page. [Internally, we redirected him to "bkashURL" mentioned [here](#payment-create-method-response)].
-3. User provides his credentials and after that, Bkash redirects that user to the Callback Url of our server/client app, [we have provided.](#payment-create-method-request) 
+2. Then, User should automatically be redirected to Bkash page. [Internally, we redirected him to [bkashURL](#payment-response)].
+3. Now, User can provide their credentials.
+4. After credential is provided, Bkash redirects that user to the [Callback Url](#payment-request).
     - If credential is OK, in the [callback URL](#payment-execution-process) we get paymentID and status as "success".
     - If fails, similarly, we get the "error" status.
-4. Based on the status we received, we will be going to [execute the payment](#payment-execution-process) to fully confirm the payment transaction.
+5. Based on the status we received, we will be going to [execute the payment](#payment-execution-process) to fully confirm the payment transaction.
