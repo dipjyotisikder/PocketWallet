@@ -3,10 +3,10 @@
 /// <summary>
 /// Represents request object used to query payment information.
 /// </summary>
-internal class QueryPaymentRequest
+internal class QueryBkashPaymentRequest
 {
     /// <summary>
-    /// Bkash generated paymentID provided in the response of Create Payment API.
+    /// bKash generated paymentID provided in the response of Create Payment API.
     /// </summary>
     [JsonProperty("paymentID")]
     public string PaymentId { get; set; } = string.Empty;

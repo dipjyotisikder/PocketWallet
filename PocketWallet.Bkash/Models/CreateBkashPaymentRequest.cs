@@ -1,12 +1,18 @@
 ﻿namespace PocketWallet.Bkash.Models;
 
 /// <summary>
-/// Represents Bkash payment creation request object.
+/// Represents bkash payment creation request object.
 /// </summary>
-internal class CreatePaymentRequest
+internal class CreateBkashPaymentRequest
 {
     /// <summary>
-    /// Any related reference value which can be passed along with the payment request. If the wallet number is passed here, then it will be pre-populated in Bkash's wallet number entry page.
+    /// This parameter indicates the mode of payment. For Checkout (URL based), the value of this parameter should be "0011".
+    /// </summary>
+    [JsonProperty("mode")]
+    public string Mode { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Any related reference value which can be passed along with the payment request. If the wallet number is passed here, then it will be pre-populated in bKash's wallet number entry page.
     /// </summary>
     /// <example>A predefined phone/account number.</example>
     /// <remarks>Space acceptable, String required. Null is not accepted. (Its optional)</remarks>
@@ -14,7 +20,7 @@ internal class CreatePaymentRequest
     public string PayerReference { get; set; } = " ";
 
     /// <summary>
-    /// The base URL of merchant's platform based on which Bkash will generate separate callback URLs for success, failure and canceled transactions. Bkash will send transaction verification result in these URLs based on the result.
+    /// The base URL of merchant's platform based on which bKash will generate separate callback URLs for success, failure and canceled transactions. bKash will send transaction verification result in these URLs based on the result.
     /// </summary>
     [JsonProperty("callbackURL")]
     public string CallbackURL { get; set; } = string.Empty;
@@ -24,18 +30,6 @@ internal class CreatePaymentRequest
     /// </summary>
     [JsonProperty("amount")]
     public string Amount { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Unique invoice number used at merchant side for this specific payment.
-    /// </summary>
-    [JsonProperty("merchantInvoiceNumber")]
-    public string MerchantInvoiceNumber { get; set; } = string.Empty;
-
-    /// <summary>
-    /// This parameter indicates the mode of payment. For Checkout (URL based), the value of this parameter should be "0011".
-    /// </summary>
-    [JsonProperty("mode")]
-    public string Mode { get; set; } = string.Empty;
 
     /// <summary>
     /// Currency of the mentioned amount. Currently, only "BDT" value is acceptable.
@@ -48,4 +42,10 @@ internal class CreatePaymentRequest
     /// </summary>
     [JsonProperty("intent")]
     public string Intent { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Unique invoice number used at merchant side for this specific payment.
+    /// </summary>
+    [JsonProperty("merchantInvoiceNumber")]
+    public string MerchantInvoiceNumber { get; set; } = string.Empty;
 }

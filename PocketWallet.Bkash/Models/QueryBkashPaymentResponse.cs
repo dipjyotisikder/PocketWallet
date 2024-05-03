@@ -3,16 +3,16 @@
 /// <summary>
 /// Represents actual response received from Bkash.
 /// </summary>
-internal class QueryPaymentResponse : BaseBkashResponse
+internal class QueryBkashPaymentResponse : BaseBkashResponse
 {
     /// <summary>
-    /// Bkash generated payment ID for this payment creation request.
+    /// bKash generated payment ID for this payment creation request.
     /// </summary>
     [JsonProperty("paymentID")]
     public string PaymentId { get; init; } = string.Empty;
 
     /// <summary>
-    /// Bkash generated payment ID for this payment creation request.
+    /// bKash generated payment ID for this payment creation request.
     /// </summary>
     [JsonProperty("mode")]
     public string Mode { get; init; } = string.Empty;
@@ -72,7 +72,7 @@ internal class QueryPaymentResponse : BaseBkashResponse
     public string UserVerificationStatus { get; init; } = string.Empty;
 
     /// <summary>
-    /// Any related reference value which was passed along with the payment request. If the wallet number is passed , then it will be pre-populated in Bkash's wallet number entry page.
+    /// Any related reference value which was passed along with the payment request. If the wallet number is passed , then it will be pre-populated in bKash's wallet number entry page.
     /// </summary>
     [JsonProperty("payerReference")]
     public string PayerReference { get; init; } = string.Empty;

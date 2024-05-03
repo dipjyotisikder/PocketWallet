@@ -8,18 +8,16 @@ public class RefundPaymentCommand
     /// <summary>
     /// Payment Id received during create call.
     /// </summary>
-    /// <remarks>This field is required.</remarks>
     public string PaymentId { get; set; } = string.Empty;
 
     /// <summary>
     /// Amount to refund, Maximum two decimals after amount. Ex. 25.20.
     /// </summary>
-    public float Amount { get; set; }
+    public string Amount { get; set; } = string.Empty;
 
     /// <summary>
-    /// Represents <see cref="ExecutePaymentResult.TransactionId"/> of <see cref="IBkashPayment.Execute(ExecutePaymentCommand)"/> call.
+    /// trxID received during execute call.
     /// </summary>
-    /// <remarks>This field is required.</remarks>
     public string TransactionId { get; set; } = string.Empty;
 
     /// <summary>
