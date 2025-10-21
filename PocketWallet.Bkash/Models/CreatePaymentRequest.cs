@@ -10,42 +10,42 @@ internal class CreatePaymentRequest
     /// </summary>
     /// <example>A predefined phone/account number.</example>
     /// <remarks>Space acceptable, String required. Null is not accepted. (Its optional)</remarks>
-    [JsonProperty("payerReference")]
+    [JsonPropertyName("payerReference")]
     public string PayerReference { get; set; } = " ";
 
     /// <summary>
     /// The base URL of merchant's platform based on which Bkash will generate separate callback URLs for success, failure and canceled transactions. Bkash will send transaction verification result in these URLs based on the result.
     /// </summary>
-    [JsonProperty("callbackURL")]
+    [JsonPropertyName("callbackURL")]
     public string CallbackURL { get; set; } = string.Empty;
 
     /// <summary>
     /// Amount of the payment to be made.
     /// </summary>
-    [JsonProperty("amount")]
+    [JsonPropertyName("amount")]
     public string Amount { get; set; } = string.Empty;
 
     /// <summary>
     /// Unique invoice number used at merchant side for this specific payment.
     /// </summary>
-    [JsonProperty("merchantInvoiceNumber")]
+    [JsonPropertyName("merchantInvoiceNumber")]
     public string MerchantInvoiceNumber { get; set; } = string.Empty;
 
     /// <summary>
     /// This parameter indicates the mode of payment. For Checkout (URL based), the value of this parameter should be "0011".
     /// </summary>
-    [JsonProperty("mode")]
+    [JsonPropertyName("mode")]
     public string Mode { get; set; } = string.Empty;
 
     /// <summary>
     /// Currency of the mentioned amount. Currently, only "BDT" value is acceptable.
     /// </summary>
-    [JsonProperty("currency")]
+    [JsonPropertyName("currency")]
     public string Currency { get; set; } = string.Empty;
 
     /// <summary>
     /// Intent of the payment. For checkout the value should be "sale".
     /// </summary>
-    [JsonProperty("intent")]
+    [JsonPropertyName("intent")]
     public string Intent { get; set; } = string.Empty;
 }

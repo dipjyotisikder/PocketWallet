@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using System.Text.Json;
 
 namespace PocketWallet.Bkash.Http;
 
@@ -7,6 +8,12 @@ namespace PocketWallet.Bkash.Http;
 /// </summary>
 internal static class HttpProxy
 {
+    private static readonly JsonSerializerOptions JsonOptions = new()
+    {
+        PropertyNameCaseInsensitive = true,
+        DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.Never
+    };
+
     /// <summary>
     /// Represents a HTTP POST request to Bkash API.
     /// </summary>
@@ -51,7 +58,7 @@ internal static class HttpProxy
         if (body is not null)
         {
             requestMessage.Content = new StringContent(
-                content: JsonConvert.SerializeObject(body),
+                content: JsonSerializer.Serialize(body, JsonOptions),
                 encoding: Encoding.UTF8,
                 mediaType: "application/json");
         }
