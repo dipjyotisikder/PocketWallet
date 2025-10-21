@@ -8,23 +8,36 @@
 		<PackageId>Dipjyoti.PocketWallet.Bkash</PackageId>
 		<Authors>Dipjyoti Sikder</Authors>
 		<Company>Dipjyoti</Company>
-		<Description>Library that helps with Bkash Payment.</Description>
+		<Description>Library that helps with Bkash Payment integration for .NET 6. Package version aligns with .NET version (6.x for .NET 6, 8.x for .NET 8, etc.).</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageTags>E-Wallet, Wallet, Bkash, Money, Payment, Payment Gateway, Gateway</PackageTags>
-		<RepositoryUrl>https://github.com/jyotidips/PocketWallet/tree/master/PocketWallet.Bkash</RepositoryUrl>
+		<RepositoryUrl>https://github.com/jyotidips/PocketWallet</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageProjectUrl>https://github.com/jyotidips/PocketWallet</PackageProjectUrl>
 		<Copyright>Copyright (c) Dipjyoti 2023.</Copyright>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<Version>1.1.1</Version>
+		<PackageIcon>icon.png</PackageIcon>
+		<Version>6.0.0</Version>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<Title>Dipjyoti.PocketWallet.Bkash</Title>
+		<Title>Dipjyoti.PocketWallet.Bkash for .NET 6</Title>
 		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.2.3" />
-		<None Include="README.md" Pack="true" PackagePath="\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="README.md" Pack="true" PackagePath="/" />
+		<None Include="icon.png" Pack="true" PackagePath="/" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\PocketWallet.Bkash.Common\PocketWallet.Bkash.Common.csproj" />
 	</ItemGroup>
 
 </Project>
