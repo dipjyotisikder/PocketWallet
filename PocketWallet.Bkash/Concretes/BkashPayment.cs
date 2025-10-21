@@ -145,6 +145,12 @@ internal class BkashPayment : IBkashPayment
         return Result<RefundPaymentResult>.Create(headerResult.Problem!);
     }
 
+    /// <summary>
+    /// Queries Bkash to determine the latest refund status for a transaction.
+    /// </summary>
+    /// <param name="headers">Authorized headers for the Bkash call.</param>
+    /// <param name="request">Refund status request payload.</param>
+    /// <returns>HTTP response representing the refund status.</returns>
     private async Task<HttpResponse<RefundPaymentResponse>> GetRefundStatus(
         Dictionary<string, string> headers,
         RefundStatusRequest request)

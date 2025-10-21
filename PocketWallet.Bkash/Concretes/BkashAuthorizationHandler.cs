@@ -13,6 +13,13 @@ internal class BkashAuthorizationHandler : IBkashAuthorizationHandler
     private readonly HttpClient _httpClient;
     private readonly BkashConfigurationOptions _bkashConfigurationOptions;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="BkashAuthorizationHandler"/> class.
+    /// </summary>
+    /// <param name="httpClient">HTTP client configured for Bkash endpoints.</param>
+    /// <param name="bkashConfigurationOptions">Bkash configuration values.</param>
+    /// <param name="dateTimeProvider">Date and time provider instance.</param>
+    /// <param name="tokenStorage">Token persistence store.</param>
     public BkashAuthorizationHandler(
         HttpClient httpClient,
         BkashConfigurationOptions bkashConfigurationOptions,

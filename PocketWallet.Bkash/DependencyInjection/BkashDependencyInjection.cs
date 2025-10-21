@@ -16,7 +16,7 @@ public static class BkashDependencyInjection
     /// </summary>
     /// <param name="services"><see cref="IServiceCollection"/> object.</param>
     /// <param name="optionsAction">Action that helps to fill Bkash options.</param>
-    /// <returns></returns>
+    /// <returns>The updated service collection.</returns>
     public static IServiceCollection AddBkash(
         this IServiceCollection services,
         Action<BkashConfigurationOptions> optionsAction)
