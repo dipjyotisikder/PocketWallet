@@ -8,12 +8,12 @@ internal class RefundStatusRequest
     /// <summary>
     /// Payment Id received during create call.
     /// </summary>
-    [JsonProperty("paymentID")]
+    [JsonPropertyName("paymentID")]
     public string PaymentId { get; set; } = string.Empty;
 
     /// <summary>
     /// TransactionId received during execute call.
     /// </summary>
-    [JsonProperty("trxID")]
+    [JsonPropertyName("trxID")]
     public string TransactionId { get; set; } = string.Empty;
 }

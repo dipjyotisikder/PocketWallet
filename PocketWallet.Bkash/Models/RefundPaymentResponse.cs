@@ -8,42 +8,42 @@ internal class RefundPaymentResponse : BaseBkashResponse
     /// <summary>
     /// When the action of refund is done.
     /// </summary>
-    [JsonProperty("completedTime")]
+    [JsonPropertyName("completedTime")]
     public string CompletedTime { get; set; } = string.Empty;
 
     /// <summary>
     /// Last status of the transaction.
     /// </summary>
-    [JsonProperty("transactionStatus")]
+    [JsonPropertyName("transactionStatus")]
     public string TransactionStatus { get; set; } = string.Empty;
 
     /// <summary>
     /// The main or originator transaction ID of that payment.
     /// </summary>
-    [JsonProperty("originalTrxID")]
+    [JsonPropertyName("originalTrxID")]
     public string OriginalTransactionId { get; set; } = string.Empty;
 
     /// <summary>
     /// The transaction ID of that refund action itself.
     /// </summary>
-    [JsonProperty("refundTrxID")]
+    [JsonPropertyName("refundTrxID")]
     public string RefundTransactionId { get; set; } = string.Empty;
 
     /// <summary>
     /// How much money refunded.
     /// </summary>
-    [JsonProperty("amount")]
+    [JsonPropertyName("amount")]
     public string Amount { get; set; } = string.Empty;
 
     /// <summary>
     /// The refund amount currency.
     /// </summary>
-    [JsonProperty("currency")]
+    [JsonPropertyName("currency")]
     public string Currency { get; set; } = string.Empty;
 
     /// <summary>
     /// If there are any charge to refund that amount, it will reflect here.
     /// </summary>
-    [JsonProperty("charge")]
+    [JsonPropertyName("charge")]
     public string Charge { get; set; } = string.Empty;
 }

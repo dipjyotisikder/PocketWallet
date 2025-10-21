@@ -17,6 +17,7 @@
 		<Copyright>Copyright (c) Dipjyoti 2023.</Copyright>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageIcon>icon.png</PackageIcon>
+		<PackageReleaseNotes>Major release with .NET version-aligned versioning (6.x for .NET 6). Migrated from Newtonsoft.Json to System.Text.Json for better performance and modern .NET support. Internal architecture improvements with InternalsVisibleTo for better encapsulation. Added package icon, enhanced documentation, improved metadata. 100% backward compatible with 1.x.</PackageReleaseNotes>
 		<Version>6.0.0</Version>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -27,8 +28,7 @@
 	<ItemGroup>
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-		<PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.2.3" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -37,7 +37,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\PocketWallet.Bkash.Common\PocketWallet.Bkash.Common.csproj" />
+		<ProjectReference Include="..\PocketWallet.Bkash.Common\PocketWallet.Bkash.Common.csproj" PrivateAssets="All" />
 	</ItemGroup>
 
 </Project>

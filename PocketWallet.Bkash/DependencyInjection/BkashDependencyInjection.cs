@@ -48,8 +48,6 @@ public static class BkashDependencyInjection
 
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
-        services.AddSwaggerGenNewtonsoftSupport();
-
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
         services.AddSingleton<ITokenStorage, TokenStorage>();

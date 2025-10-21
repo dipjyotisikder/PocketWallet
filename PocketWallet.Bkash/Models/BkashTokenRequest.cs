@@ -8,12 +8,12 @@ internal class BkashTokenRequest
     /// <summary>
     /// Application Key value shared by Bkash during on-boarding.
     /// </summary>
-    [JsonProperty("app_key")]
+    [JsonPropertyName("app_key")]
     internal string AppKey { get; init; } = string.Empty;
 
     /// <summary>
     /// Application Secret value shared by Bkash during on-boarding.
     /// </summary>
-    [JsonProperty("app_secret")]
+    [JsonPropertyName("app_secret")]
     internal string AppSecret { get; init; } = string.Empty;
 }

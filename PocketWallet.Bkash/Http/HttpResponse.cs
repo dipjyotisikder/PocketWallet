@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json.Linq;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Net;
+using System.Text.Json;
 
 namespace PocketWallet.Bkash.Http;
 
@@ -10,6 +10,13 @@ namespace PocketWallet.Bkash.Http;
 /// <typeparam name="TOut">Expected output object type.</typeparam>
 internal class HttpResponse<TOut> where TOut : BaseBkashResponse
 {
+    private static readonly JsonSerializerOptions JsonOptions = new()
+    {
+        PropertyNameCaseInsensitive = true,
+        DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.Never,
+        NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowReadingFromString
+    };
+
     /// <summary>
     /// Initiates <see cref="HttpResponse{T}"/> object.
     /// </summary>
@@ -21,7 +28,7 @@ internal class HttpResponse<TOut> where TOut : BaseBkashResponse
 
         if (httpResponse.IsSuccessStatusCode)
         {
-            Data = JObject.Parse(Response).ToObject<TOut>();
+            Data = JsonSerializer.Deserialize<TOut>(Response, JsonOptions);
         }
 
         Success = CheckIfOk(httpResponse.IsSuccessStatusCode, Data);
@@ -40,7 +47,7 @@ internal class HttpResponse<TOut> where TOut : BaseBkashResponse
 
         if (isSuccessStatusCode)
         {
-            Data = JObject.Parse(Response).ToObject<TOut>();
+            Data = JsonSerializer.Deserialize<TOut>(Response, JsonOptions);
         }
 
         Success = CheckIfOk(isSuccessStatusCode, Data);
