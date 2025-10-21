@@ -11,6 +11,10 @@ internal class TokenStorage : ITokenStorage
     private string _accessToken = string.Empty;
     private string _refreshToken = string.Empty;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="TokenStorage"/> class.
+    /// </summary>
+    /// <param name="timeProvider">Date and time provider instance.</param>
     public TokenStorage(IDateTimeProvider timeProvider)
     {
         _timeProvider = timeProvider;
