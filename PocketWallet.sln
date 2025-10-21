@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PocketWallet.Bkash", "Pocke
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PocketWallet.Nagad", "PocketWallet.Nagad\PocketWallet.Nagad.csproj", "{0E10DE37-58CF-405A-985C-3AB586D93DAA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PocketWallet.Bkash", "PocketWallet.Bkash", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PocketWallet.Bkash.Common", "PocketWallet.Bkash.Common\PocketWallet.Bkash.Common.csproj", "{CC79EB16-B6C8-48D1-A729-E2A890EC7C02}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,9 +31,17 @@ Global
 		{0E10DE37-58CF-405A-985C-3AB586D93DAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E10DE37-58CF-405A-985C-3AB586D93DAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E10DE37-58CF-405A-985C-3AB586D93DAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC79EB16-B6C8-48D1-A729-E2A890EC7C02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC79EB16-B6C8-48D1-A729-E2A890EC7C02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC79EB16-B6C8-48D1-A729-E2A890EC7C02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC79EB16-B6C8-48D1-A729-E2A890EC7C02}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{18AFC518-FF5E-44DC-8D1F-697743EDC148} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{CC79EB16-B6C8-48D1-A729-E2A890EC7C02} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {15410E4F-7E96-48FC-AEC4-20354F5B85C8}
