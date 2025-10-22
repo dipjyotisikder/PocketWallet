@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using PocketWallet.Bkash.Http;
+using PocketWallet.Bkash.Common.Http;
 
 namespace PocketWallet.Bkash.Concretes;
 

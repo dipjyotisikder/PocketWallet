@@ -1,5 +1,6 @@
-﻿using PocketWallet.Bkash.DependencyInjection.Options;
-using PocketWallet.Bkash.Http;
+﻿using PocketWallet.Bkash.Common.Abstractions;
+using PocketWallet.Bkash.Common.Http;
+using PocketWallet.Bkash.DependencyInjection.Options;
 
 namespace PocketWallet.Bkash.Concretes;
 
@@ -9,7 +10,7 @@ namespace PocketWallet.Bkash.Concretes;
 internal class BkashAuthorizationHandler : IBkashAuthorizationHandler
 {
     private readonly IDateTimeProvider _dateTimeProvider;
-    private readonly ITokenStorage _tokenStorage;
+    private readonly ITokenProvider _tokenStorage;
     private readonly HttpClient _httpClient;
     private readonly BkashConfigurationOptions _bkashConfigurationOptions;
 
@@ -24,7 +25,7 @@ internal class BkashAuthorizationHandler : IBkashAuthorizationHandler
         HttpClient httpClient,
         BkashConfigurationOptions bkashConfigurationOptions,
         IDateTimeProvider dateTimeProvider,
-        ITokenStorage tokenStorage)
+        ITokenProvider tokenStorage)
     {
         _httpClient = httpClient;
         _bkashConfigurationOptions = bkashConfigurationOptions;
