@@ -1,60 +1,64 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using PocketWallet.Bkash.Abstraction;
 using PocketWallet.Bkash.Common.Abstractions;
 using PocketWallet.Bkash.Common.Providers;
 using PocketWallet.Bkash.Concretes;
 using PocketWallet.Bkash.DependencyInjection.Options;
 using PocketWallet.Bkash.MappingProfile;
+using System;
 using System.Net.Http.Headers;
+using CONSTANTS = PocketWallet.Bkash.Common.Constants.Constants;
 
-namespace PocketWallet.Bkash.DependencyInjection;
-
-/// <summary>
-/// Adds service dependencies.
-/// </summary>
-public static class BkashDependencyInjection
+namespace PocketWallet.Bkash.DependencyInjection
 {
     /// <summary>
-    /// Adds Bkash specific dependencies.
+    /// Adds service dependencies.
     /// </summary>
-    /// <param name="services"><see cref="IServiceCollection"/> object.</param>
-    /// <param name="optionsAction">Action that helps to fill Bkash options.</param>
-    /// <returns>The updated service collection.</returns>
-    public static IServiceCollection AddBkash(
-        this IServiceCollection services,
-        Action<BkashConfigurationOptions> optionsAction)
+    public static class BkashDependencyInjection
     {
-        var options = new BkashConfigurationOptions
+        /// <summary>
+        /// Adds Bkash specific dependencies.
+        /// </summary>
+        /// <param name="services"><see cref="IServiceCollection"/> object.</param>
+        /// <param name="optionsAction">Action that helps to fill Bkash options.</param>
+        /// <returns>The updated service collection.</returns>
+        public static IServiceCollection AddBkash(
+            this IServiceCollection services,
+            Action<BkashConfigurationOptions> optionsAction)
         {
-            ProductionMode = false
-        };
+            var options = new BkashConfigurationOptions
+            {
+                ProductionMode = false
+            };
 
-        optionsAction.Invoke(options);
+            optionsAction.Invoke(options);
 
-        services.AddSingleton(x => options);
+            services.AddSingleton(x => options);
 
-        services.AddHttpClient<IBkashAuthorizationHandler, BkashAuthorizationHandler>(x =>
-        {
-            x.BaseAddress = new Uri(options.BaseURL, UriKind.Absolute);
-            x.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            x.DefaultRequestHeaders.Add(CONSTANTS.USERNAME_HEADER_KEY, options.MerchantUserName);
-            x.DefaultRequestHeaders.Add(CONSTANTS.PASSWORD_HEADER_KEY, options.MerchantPassword);
-        });
+            services.AddHttpClient<IBkashAuthorizationHandler, BkashAuthorizationHandler>(x =>
+            {
+                x.BaseAddress = new Uri(options.BaseURL, UriKind.Absolute);
+                x.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                x.DefaultRequestHeaders.Add(CONSTANTS.USERNAME_HEADER_KEY, options.MerchantUserName);
+                x.DefaultRequestHeaders.Add(CONSTANTS.PASSWORD_HEADER_KEY, options.MerchantPassword);
+            });
 
-        services.AddHttpClient<IBkashPayment, BkashPayment>(x =>
-        {
-            x.BaseAddress = new Uri(options.BaseURL, UriKind.Absolute);
-            x.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            x.DefaultRequestHeaders.Add(CONSTANTS.USERNAME_HEADER_KEY, options.MerchantUserName);
-            x.DefaultRequestHeaders.Add(CONSTANTS.PASSWORD_HEADER_KEY, options.MerchantPassword);
-        });
+            services.AddHttpClient<IBkashPayment, BkashPayment>(x =>
+            {
+                x.BaseAddress = new Uri(options.BaseURL, UriKind.Absolute);
+                x.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                x.DefaultRequestHeaders.Add(CONSTANTS.USERNAME_HEADER_KEY, options.MerchantUserName);
+                x.DefaultRequestHeaders.Add(CONSTANTS.PASSWORD_HEADER_KEY, options.MerchantPassword);
+            });
 
-        services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
+            services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
-        // Configure SimpleMapper mappings
-        SimpleMapperProfile.Configure();
+            // Configure SimpleMapper mappings
+            SimpleMapperProfile.Configure();
 
-        services.AddSingleton<ITokenProvider, TokenProvider>();
+            services.AddSingleton<ITokenProvider, TokenProvider>();
 
-        return services;
+            return services;
+        }
     }
 }

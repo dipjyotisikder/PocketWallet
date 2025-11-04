@@ -1,13 +1,17 @@
-﻿namespace PocketWallet.Bkash.Abstraction;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
-/// <summary>
-/// Represents Bkash authorization handling tool.
-/// </summary>
-internal interface IBkashAuthorizationHandler
+namespace PocketWallet.Bkash.Abstraction
 {
     /// <summary>
-    /// Gets Bkash authorization headers.
+    /// Represents Bkash authorization handling tool.
     /// </summary>
-    /// <returns>A dictionary of authorization headers.</returns>
-    Task<Result<Dictionary<string, string>>> GetAuthorizationHeaders();
+    internal interface IBkashAuthorizationHandler
+    {
+        /// <summary>
+        /// Gets Bkash authorization headers.
+        /// </summary>
+        /// <returns>A dictionary of authorization headers.</returns>
+        Task<Result<Dictionary<string, string>>> GetAuthorizationHeaders();
+    }
 }

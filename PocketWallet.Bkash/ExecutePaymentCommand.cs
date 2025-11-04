@@ -1,13 +1,16 @@
-﻿namespace PocketWallet.Bkash;
+﻿using System;
 
-/// <summary>
-/// Represents input object for executing the payment to accomplishment.
-/// </summary>
-public class ExecutePaymentCommand
+namespace PocketWallet.Bkash
 {
     /// <summary>
-    /// PaymentID returned in the response of Create Payment API.
+    /// Represents input object for executing the payment to accomplishment.
     /// </summary>
-    /// <remarks>This field is required.</remarks>
-    public string PaymentId { get; set; } = string.Empty;
+    public class ExecutePaymentCommand
+    {
+        /// <summary>
+        /// PaymentID returned in the response of Create Payment API.
+        /// </summary>
+        /// <remarks>This field is required.</remarks>
+        public string PaymentId { get; set; } = string.Empty;
+    }
 }

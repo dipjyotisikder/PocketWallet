@@ -1,12 +1,12 @@
 ﻿# PocketWallet.Bkash
 
-A modern .NET 6 library for seamless Bkash payment integration in your applications.
+A modern .NET Standard 2.0 library for seamless Bkash payment integration in your applications.
 
 ## Introduction
 
 ### What is PocketWallet.Bkash?
 
-PocketWallet.Bkash is a comprehensive .NET 6 library that simplifies integration with Bkash, Bangladesh's leading mobile financial service. This library streamlines payment processing for businesses and developers by providing an easy-to-use interface for Bkash transactions.
+PocketWallet.Bkash is a comprehensive .NET Standard 2.0 library that simplifies integration with Bkash, Bangladesh's leading mobile financial service. This library streamlines payment processing for businesses and developers by providing an easy-to-use interface for Bkash transactions.
 
 ### Why Choose PocketWallet.Bkash?
 
@@ -17,12 +17,24 @@ PocketWallet.Bkash is a comprehensive .NET 6 library that simplifies integration
 - ✅ **Faster Development** - Significantly reduces Bkash integration time
 - ✅ **Open Source** - Fully transparent and open for community contributions
 - ✅ **Production Ready** - Supports both sandbox and production environments
+- ✅ **Wide Compatibility** - Works with .NET Framework 4.6.1+, .NET Core 2.0+, .NET 5+, Xamarin, and more
+
+### Compatibility
+
+This library targets .NET Standard 2.0, making it compatible with:
+- ✅ .NET Framework 4.6.1 and above
+- ✅ .NET Core 2.0 and above
+- ✅ .NET 5, 6, 7, 8, and future versions
+- ✅ Xamarin.iOS, Xamarin.Android
+- ✅ Universal Windows Platform (UWP)
+
+For a complete compatibility matrix, see [.NET Standard compatibility](https://docs.microsoft.com/en-us/dotnet/standard/net-standard).
 
 ### Technologies Used
 
-- C# / .NET 6
+- C# / .NET Standard 2.0
 - Bkash Payment Gateway API
-- AutoMapper for object mapping
+- System.Text.Json for JSON serialization
 - Dependency Injection for clean architecture
 
 ### Supported Features
@@ -101,9 +113,9 @@ public class BkashOptions
 }
 ```
 
-### Step 4: Register Services in Program.cs
+### Step 4: Register Services
 
-Add the Bkash service to your application's dependency injection container:
+#### For .NET 6+ (Minimal APIs / Program.cs)
 
 ```csharp
 using PocketWallet.Bkash.DependencyInjection;
@@ -123,6 +135,34 @@ builder.Services.AddBkash(option =>
 });
 ```
 
+#### For .NET Framework / .NET Core 3.1 and earlier (Startup.cs)
+
+```csharp
+using PocketWallet.Bkash.DependencyInjection;
+
+public class Startup
+{
+    public void ConfigureServices(IServiceCollection services)
+    {
+        // Bind configuration using the Options Pattern
+        var bkashOptions = new BkashOptions();
+     Configuration.GetSection("BkashOptions").Bind(bkashOptions);
+
+        // Register Bkash services
+        services.AddBkash(option =>
+        {
+            option.MerchantUserName = bkashOptions.MerchantUserName;
+         option.MerchantPassword = bkashOptions.MerchantPassword;
+        option.AppKey = bkashOptions.AppKey;
+            option.AppSecret = bkashOptions.AppSecret;
+            option.ProductionMode = bkashOptions.ProductionMode;
+        });
+
+        // ... other service registrations
+    }
+}
+```
+
 ### Step 5: Inject IBkashPayment Interface
 
 Inject the `IBkashPayment` interface into your controller, service, or component:
@@ -132,7 +172,7 @@ using PocketWallet.Bkash;
 
 public class PaymentController : ControllerBase
 {
-    private readonly IBkashPayment _bkashPayment;
+  private readonly IBkashPayment _bkashPayment;
 
     public PaymentController(IBkashPayment bkashPayment)
     {
@@ -167,7 +207,7 @@ For more details, refer to the [official Bkash documentation](https://developer.
 ```csharp
 var command = new CreatePaymentCommand
 {
-    Amount = 100.50m,
+    Amount = 100.50f,
     PayerReference = "01712345678", // Optional: Customer's phone number
     CallbackURL = "https://yourserver.com/api/payment/bkash/callback",
     MerchantInvoiceNumber = "INV-2024-001",
@@ -228,14 +268,14 @@ After payment creation, Bkash redirects the user to your callback URL with payme
 ```csharp
 [HttpGet("bkash/callback")]
 public async Task<IActionResult> PaymentCallback(
-    [FromQuery] string paymentID, 
+    [FromQuery] string paymentID,
     [FromQuery] string status)
 {
     if (status == "success")
     {
         // Verify this paymentID doesn't already exist in your database
         // to prevent duplicate processing
-        
+
         var result = await _bkashPayment.Execute(new ExecutePaymentCommand
         {
             PaymentId = paymentID
@@ -246,10 +286,10 @@ public async Task<IActionResult> PaymentCallback(
             // Payment successful - Update your database
             // Grant access to product/service
             // Send confirmation email, etc.
-            
+
             var transactionId = result.Data.TransactionId;
             var amount = result.Data.Amount;
-            
+
             return Ok(new { message = "Payment successful", transactionId });
         }
         else
@@ -320,7 +360,7 @@ Refund a completed payment to the customer.
 ```csharp
 var command = new RefundPaymentCommand
 {
-    Amount = 100.50m,
+    Amount = 100.50f,
     PaymentId = "TR001179l3aVM1692860485496",
     Reason = "Product not delivered",
     SKU = "PROD-12345",
@@ -437,11 +477,13 @@ You can use either:
 
 ## Version Information
 
-This package version aligns with the .NET version it targets:
-- **6.x.x** - Built for .NET 6
-- **8.x.x** - Built for .NET 8 (future release)
+This package targets .NET Standard 2.0 for maximum compatibility across the .NET ecosystem.
 
-Minor and patch versions indicate feature updates and bug fixes within the same .NET version.
+**Current Version:** 2.0.0
+
+### Version History
+- **2.x.x** - .NET Standard 2.0 (Wide compatibility: .NET Framework 4.6.1+, .NET Core 2.0+, .NET 5+)
+- **6.x.x** - .NET 6 specific (Legacy version)
 
 ---
 
@@ -450,7 +492,8 @@ Minor and patch versions indicate feature updates and bug fixes within the same 
 ### Getting Help
 - 📚 [Bkash Official Documentation](https://developer.bka.sh/)
 - 🐛 [Report Issues](https://github.com/jyotidips/PocketWallet/issues)
-- 💬 [GitHub Discussions](https://github.com/jyotidips/PocketWallet/discussions)
+- 💡 [Feature Requests](https://github.com/jyotidips/PocketWallet/issues/new)
+- ❓ [Ask Questions](https://github.com/jyotidips/PocketWallet/issues)
 
 ### Contributing
 Contributions are welcome! Please feel free to submit pull requests or open issues on GitHub.
