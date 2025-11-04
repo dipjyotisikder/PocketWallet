@@ -3,6 +3,7 @@ using PocketWallet.Bkash.Common.Abstractions;
 using PocketWallet.Bkash.Common.Providers;
 using PocketWallet.Bkash.Concretes;
 using PocketWallet.Bkash.DependencyInjection.Options;
+using PocketWallet.Bkash.MappingProfile;
 using System.Net.Http.Headers;
 
 namespace PocketWallet.Bkash.DependencyInjection;
@@ -49,7 +50,8 @@ public static class BkashDependencyInjection
 
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
-        services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+        // Configure SimpleMapper mappings
+        SimpleMapperProfile.Configure();
 
         services.AddSingleton<ITokenProvider, TokenProvider>();
 
