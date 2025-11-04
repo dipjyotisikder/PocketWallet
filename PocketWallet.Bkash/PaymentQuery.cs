@@ -1,12 +1,13 @@
-﻿namespace PocketWallet.Bkash;
-
-/// <summary>
-/// Represents input for payment information query.
-/// </summary>
-public class PaymentQuery
+﻿namespace PocketWallet.Bkash
 {
     /// <summary>
-    /// Bkash generated paymentID provided in the response of Create Payment API.
+    /// Represents input for payment information query.
     /// </summary>
-    public string PaymentId { get; set; } = string.Empty;
+  public class PaymentQuery
+    {
+        /// <summary>
+    /// Bkash generated paymentID provided in the response of Create Payment API.
+        /// </summary>
+        public string PaymentId { get; set; } = string.Empty;
+    }
 }

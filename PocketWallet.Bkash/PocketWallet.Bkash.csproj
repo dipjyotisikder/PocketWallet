@@ -1,14 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
-		<ImplicitUsings>enable</ImplicitUsings>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<LangVersion>latest</LangVersion>
 		<Nullable>enable</Nullable>
 
 		<PackageId>Dipjyoti.PocketWallet.Bkash</PackageId>
 		<Authors>Dipjyoti Sikder</Authors>
 		<Company>Dipjyoti</Company>
-		<Description>Library that helps with Bkash Payment integration for .NET 6. Package version aligns with .NET version (6.x for .NET 6, 8.x for .NET 8, etc.).</Description>
+		<Description>Library that helps with Bkash Payment integration for .NET Standard 2.0+. Compatible with .NET Framework 4.6.1+, .NET Core 2.0+, and .NET 5+.</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageTags>E-Wallet, Wallet, Bkash, Money, Payment, Payment Gateway, Gateway</PackageTags>
 		<RepositoryUrl>https://github.com/jyotidips/PocketWallet</RepositoryUrl>
@@ -17,17 +17,17 @@
 		<Copyright>Copyright (c) Dipjyoti 2023.</Copyright>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageIcon>icon.png</PackageIcon>
-		<PackageReleaseNotes>Major release with .NET version-aligned versioning (6.x for .NET 6). Migrated from Newtonsoft.Json to System.Text.Json for better performance and modern .NET support. Internal architecture improvements with InternalsVisibleTo for better encapsulation. Added package icon, enhanced documentation, improved metadata. 100% backward compatible with 1.x.</PackageReleaseNotes>
-		<Version>6.0.0</Version>
+		<PackageReleaseNotes>Migrated to .NET Standard 2.0 for maximum compatibility across .NET Framework 4.6.1+, .NET Core 2.0+, and .NET 5+. Uses System.Text.Json for modern JSON serialization. Backward compatible API.</PackageReleaseNotes>
+		<Version>2.0.0</Version>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<Title>Dipjyoti.PocketWallet.Bkash for .NET 6</Title>
+		<Title>Dipjyoti.PocketWallet.Bkash for .NET Standard 2.0</Title>
 		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.1.0" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="2.1.0" />
 	</ItemGroup>
 
 	<ItemGroup>
