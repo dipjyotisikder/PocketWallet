@@ -1,7 +1,6 @@
 ﻿using PocketWallet.Bkash.Abstraction;
 using PocketWallet.Bkash.Common.Http;
 using PocketWallet.Bkash.Common.Models;
-using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -10,7 +9,7 @@ using CONSTANTS = PocketWallet.Bkash.Common.Constants.Constants;
 namespace PocketWallet.Bkash.Concretes
 {
     /// <summary>
-  /// Class that provides the functionality to interact with Bkash Payment APIs.
+    /// Class that provides the functionality to interact with Bkash Payment APIs.
     /// </summary>
     internal class BkashPayment : IBkashPayment
     {
@@ -22,9 +21,7 @@ namespace PocketWallet.Bkash.Concretes
         /// </summary>
         /// <param name="bkashAuthorizationHandler"><see cref="BkashAuthorizationHandler"/> object created by Bkash.</param>
         /// <param name="httpClient"><see cref="HttpClient"/> object to call Bkash endpoints.</param>
-        public BkashPayment(
-     IBkashAuthorizationHandler bkashAuthorizationHandler,
-        HttpClient httpClient)
+        public BkashPayment(IBkashAuthorizationHandler bkashAuthorizationHandler, HttpClient httpClient)
         {
             _bkashAuthorizationHandler = bkashAuthorizationHandler;
             _httpClient = httpClient;
@@ -104,8 +101,7 @@ namespace PocketWallet.Bkash.Concretes
                     return Result<QueryPaymentResult>.Create(result);
                 }
 
-                return Result<QueryPaymentResult>.Create(
-           BkashProblem.Create(statusCode: response?.Data?.StatusCode!, message: response?.Data?.StatusMessage!));
+                return Result<QueryPaymentResult>.Create(BkashProblem.Create(statusCode: response?.Data?.StatusCode!, message: response?.Data?.StatusMessage!));
             }
 
             return Result<QueryPaymentResult>.Create(headerResult.Problem!);
@@ -147,10 +143,9 @@ namespace PocketWallet.Bkash.Concretes
                     return Result<RefundPaymentResult>.Create(result);
                 }
 
-                return Result<RefundPaymentResult>.Create(
-                BkashProblem.Create(
-                 statusCode: refundResponse?.Data?.StatusCode!,
-                 message: refundResponse?.Data?.StatusMessage!));
+                return Result<RefundPaymentResult>.Create(BkashProblem.Create(
+                    statusCode: refundResponse?.Data?.StatusCode!,
+                    message: refundResponse?.Data?.StatusMessage!));
             }
 
             return Result<RefundPaymentResult>.Create(headerResult.Problem!);

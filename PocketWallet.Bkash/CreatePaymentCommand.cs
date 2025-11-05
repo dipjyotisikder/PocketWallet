@@ -1,6 +1,4 @@
-﻿using PocketWallet.Bkash.Abstraction;
-using PocketWallet.Bkash.Common.Models;
-using CONSTANTS = PocketWallet.Bkash.Common.Constants.Constants;
+﻿using CONSTANTS = PocketWallet.Bkash.Common.Constants.Constants;
 
 namespace PocketWallet.Bkash
 {
