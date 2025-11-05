@@ -3,10 +3,10 @@
     /// <summary>
     /// Represents input for payment information query.
     /// </summary>
-  public class PaymentQuery
+    public class PaymentQuery
     {
         /// <summary>
-    /// Bkash generated paymentID provided in the response of Create Payment API.
+        /// Bkash generated paymentID provided in the response of Create Payment API.
         /// </summary>
         public string PaymentId { get; set; } = string.Empty;
     }
