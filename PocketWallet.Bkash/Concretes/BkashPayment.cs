@@ -1,4 +1,5 @@
-﻿using PocketWallet.Bkash.Abstraction;
+﻿using Knot;
+using PocketWallet.Bkash.Abstraction;
 using PocketWallet.Bkash.Common.Http;
 using PocketWallet.Bkash.Common.Models;
 using System.Collections.Generic;
@@ -15,16 +16,18 @@ namespace PocketWallet.Bkash.Concretes
     {
         private readonly IBkashAuthorizationHandler _bkashAuthorizationHandler;
         private readonly HttpClient _httpClient;
+        private readonly IMapper _mapper;
 
         /// <summary>
         /// Creates the Bkash Payment object to interact with Bkash.
         /// </summary>
         /// <param name="bkashAuthorizationHandler"><see cref="BkashAuthorizationHandler"/> object created by Bkash.</param>
         /// <param name="httpClient"><see cref="HttpClient"/> object to call Bkash endpoints.</param>
-        public BkashPayment(IBkashAuthorizationHandler bkashAuthorizationHandler, HttpClient httpClient)
+        public BkashPayment(IBkashAuthorizationHandler bkashAuthorizationHandler, HttpClient httpClient, IMapper mapper)
         {
             _bkashAuthorizationHandler = bkashAuthorizationHandler;
             _httpClient = httpClient;
+            _mapper = mapper;
         }
 
         /// <inheritdoc/>
@@ -33,7 +36,7 @@ namespace PocketWallet.Bkash.Concretes
             var headerResult = await _bkashAuthorizationHandler.GetAuthorizationHeaders();
             if (headerResult.IsSucceeded)
             {
-                var request = SimpleMapper.Map<CreatePaymentCommand, CreatePaymentRequest>(command);
+                var request = _mapper.Map<CreatePaymentCommand, CreatePaymentRequest>(command);
 
                 var response = await _httpClient.PostAsync<CreatePaymentRequest, CreatePaymentResponse>(endpoint: CONSTANTS.PAYMENT_CREATE_URL,
                                                                                                         body: request,
@@ -41,7 +44,7 @@ namespace PocketWallet.Bkash.Concretes
 
                 if (response.Success)
                 {
-                    var result = SimpleMapper.Map<CreatePaymentResponse, CreatePaymentResult>(response.Data!);
+                    var result = _mapper.Map<CreatePaymentResponse, CreatePaymentResult>(response.Data!);
                     return Result<CreatePaymentResult>.Create(result);
                 }
 
@@ -64,7 +67,7 @@ namespace PocketWallet.Bkash.Concretes
             var headerResult = await _bkashAuthorizationHandler.GetAuthorizationHeaders();
             if (headerResult.IsSucceeded)
             {
-                var request = SimpleMapper.Map<ExecutePaymentCommand, ExecutePaymentRequest>(command);
+                var request = _mapper.Map<ExecutePaymentCommand, ExecutePaymentRequest>(command);
 
                 var response = await _httpClient.PostAsync<ExecutePaymentRequest, ExecutePaymentResponse>(endpoint: CONSTANTS.PAYMENT_EXECUTE_URL,
                                                                                                           body: request,
@@ -72,7 +75,7 @@ namespace PocketWallet.Bkash.Concretes
 
                 if (response.Success)
                 {
-                    var result = SimpleMapper.Map<ExecutePaymentResponse, ExecutePaymentResult>(response.Data!);
+                    var result = _mapper.Map<ExecutePaymentResponse, ExecutePaymentResult>(response.Data!);
                     return Result<ExecutePaymentResult>.Create(result);
                 }
 
@@ -89,7 +92,7 @@ namespace PocketWallet.Bkash.Concretes
             var headerResult = await _bkashAuthorizationHandler.GetAuthorizationHeaders();
             if (headerResult.IsSucceeded)
             {
-                var request = SimpleMapper.Map<PaymentQuery, QueryPaymentRequest>(query);
+                var request = _mapper.Map<PaymentQuery, QueryPaymentRequest>(query);
 
                 var response = await _httpClient.PostAsync<QueryPaymentRequest, QueryPaymentResponse>(endpoint: CONSTANTS.PAYMENT_STATUS_URL,
                                                                                                       body: request,
@@ -97,7 +100,7 @@ namespace PocketWallet.Bkash.Concretes
 
                 if (response.Success)
                 {
-                    var result = SimpleMapper.Map<QueryPaymentResponse, QueryPaymentResult>(response.Data!);
+                    var result = _mapper.Map<QueryPaymentResponse, QueryPaymentResult>(response.Data!);
                     return Result<QueryPaymentResult>.Create(result);
                 }
 
@@ -126,12 +129,12 @@ namespace PocketWallet.Bkash.Concretes
                 {
                     if (refundStatusResponse.Data!.TransactionStatus == CONSTANTS.BKASH_REFUND_SUCCESS_RESPONSE_CODE)
                     {
-                        var result = SimpleMapper.Map<RefundPaymentResponse, RefundPaymentResult>(refundStatusResponse.Data!);
+                        var result = _mapper.Map<RefundPaymentResponse, RefundPaymentResult>(refundStatusResponse.Data!);
                         return Result<RefundPaymentResult>.Create(result);
                     }
                 }
 
-                var request = SimpleMapper.Map<RefundPaymentCommand, RefundPaymentRequest>(command);
+                var request = _mapper.Map<RefundPaymentCommand, RefundPaymentRequest>(command);
 
                 var refundResponse = await _httpClient.PostAsync<RefundPaymentRequest, RefundPaymentResponse>(endpoint: CONSTANTS.PAYMENT_REFUND_URL,
                                                                                                               body: request,
@@ -139,7 +142,7 @@ namespace PocketWallet.Bkash.Concretes
 
                 if (refundResponse.Success)
                 {
-                    var result = SimpleMapper.Map<RefundPaymentResponse, RefundPaymentResult>(refundResponse.Data!);
+                    var result = _mapper.Map<RefundPaymentResponse, RefundPaymentResult>(refundResponse.Data!);
                     return Result<RefundPaymentResult>.Create(result);
                 }
 

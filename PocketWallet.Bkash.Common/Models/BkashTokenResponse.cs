@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace PocketWallet.Bkash.Common.Models
 {
@@ -10,25 +10,25 @@ namespace PocketWallet.Bkash.Common.Models
         /// <summary>
         /// The expiry time of the token. By default the lifetime is 3600 seconds.
         /// </summary>
-        [JsonPropertyName("expires_in")]
+        [JsonProperty("expires_in")]
         internal string ExpiresIn { get; set; } = string.Empty;
 
         /// <summary>
         /// Corresponding token value to be used for future authorization.
         /// </summary>
-        [JsonPropertyName("id_token")]
+        [JsonProperty("id_token")]
         internal string IdToken { get; set; } = string.Empty;
 
         /// <summary>
         /// This value should be used in Refresh Token API for getting a new token against the current token value. New tokens using this refresh_token can be found for at most 28 days. After that new token has to be created using Grant Token.
         /// </summary>
-        [JsonPropertyName("refresh_token")]
+        [JsonProperty("refresh_token")]
         internal string RefreshToken { get; set; } = string.Empty;
 
         /// <summary>
         /// Token type for whom the token is being granted. Default value is "Bearer".
         /// </summary>
-        [JsonPropertyName("token_type")]
+        [JsonProperty("token_type")]
         internal string TokenType { get; set; } = string.Empty;
     }
 }

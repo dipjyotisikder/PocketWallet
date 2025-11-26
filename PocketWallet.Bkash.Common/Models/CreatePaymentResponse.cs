@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace PocketWallet.Bkash.Common.Models
 {
@@ -10,73 +10,73 @@ namespace PocketWallet.Bkash.Common.Models
         /// <summary>
         /// Bkash generated payment ID for this payment creation request. This payment ID can be used later to track down the payment and in other payment related APIs.
         /// </summary>
-        [JsonPropertyName("paymentID")]
+        [JsonProperty("paymentID")]
         public string PaymentId { get; set; } = string.Empty;
 
         /// <summary>
         /// The URL of Bkash where the customer should be forwarded to enter his wallet number, OTP and wallet PIN.
         /// </summary>
-        [JsonPropertyName("bkashURL")]
+        [JsonProperty("bkashURL")]
         public string BkashURL { get; set; } = string.Empty;
 
         /// <summary>
         /// The base URL of merchant's platform based on which Bkash will generate separate callback URLs for success, failure and canceled transactions. Bkash will send transaction verification result in these URLs based on the result.
         /// </summary>
-        [JsonPropertyName("callbackURL")]
+        [JsonProperty("callbackURL")]
         public string CallbackURL { get; set; } = string.Empty;
 
         /// <summary>
         /// The success callback URL where Bkash will inform merchant about the transaction result in case of a successful transaction.
         /// </summary>
-        [JsonPropertyName("successCallbackURL")]
+        [JsonProperty("successCallbackURL")]
         public string SuccessCallbackURL { get; set; } = string.Empty;
 
         /// <summary>
         /// The failure callback URL where Bkash will inform merchant about the transaction result in case of a failed transaction.
         /// </summary>
-        [JsonPropertyName("failureCallbackURL")]
+        [JsonProperty("failureCallbackURL")]
         public string FailureCallbackURL { get; set; } = string.Empty;
 
         /// <summary>
         /// The canceled callback URL where Bkash will inform merchant about the transaction result in case of a canceled transaction.
         /// </summary>
-        [JsonPropertyName("cancelledCallbackURL")]
+        [JsonProperty("cancelledCallbackURL")]
         public string CanceledCallbackURL { get; set; } = string.Empty;
 
         /// <summary>
         /// Amount of the payment transaction.
         /// </summary>
-        [JsonPropertyName("amount")]
+        [JsonProperty("amount")]
         public string Amount { get; set; } = string.Empty;
 
         /// <summary>
         /// Intent for the payment transaction. For checkout, the value will be "sale".
         /// </summary>
-        [JsonPropertyName("intent")]
+        [JsonProperty("intent")]
         public string Intent { get; set; } = string.Empty;
 
         /// <summary>
         /// Currency of the mentioned amount. Currently only "BDT" value is supported.
         /// </summary>
-        [JsonPropertyName("currency")]
+        [JsonProperty("currency")]
         public string Currency { get; set; } = string.Empty;
 
         /// <summary>
         /// The payment creation time. Format is** **- "yyyy-MM-dd'T'HH:mm:ss 'GMT'Z".
         /// </summary>
-        [JsonPropertyName("paymentCreateTime")]
+        [JsonProperty("paymentCreateTime")]
         public string PaymentCreateTime { get; set; } = string.Empty;
 
         /// <summary>
         /// Status of the setiated transaction. After Create Payment request, the value will be "Initiated".
         /// </summary>
-        [JsonPropertyName("transactionStatus")]
+        [JsonProperty("transactionStatus")]
         public string TransactionStatus { get; set; } = string.Empty;
 
         /// <summary>
         /// Unique invoice number used at merchant side for this specific payment.
         /// </summary>
-        [JsonPropertyName("merchantInvoiceNumber")]
+        [JsonProperty("merchantInvoiceNumber")]
         public string MerchantInvoiceNumber { get; set; } = string.Empty;
     }
 }

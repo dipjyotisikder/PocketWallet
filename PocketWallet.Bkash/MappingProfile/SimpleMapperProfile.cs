@@ -1,3 +1,4 @@
+using Knot.Configuration;
 using PocketWallet.Bkash.Common.Models;
 using CONSTANTS = PocketWallet.Bkash.Common.Constants.Constants;
 
@@ -6,46 +7,58 @@ namespace PocketWallet.Bkash.MappingProfile
     /// <summary>
     /// Configures SimpleMapper mappings for payment models (alternative to AutoMapper).
     /// </summary>
-    public static class SimpleMapperProfile
+    public class SimpleMapperProfile : Profile
     {
         /// <summary>
-        /// Configures all mappings for SimpleMapper.
+        /// Configures all mappings for 
         /// </summary>
-        public static void Configure()
+        protected override void Configure()
         {
             // CreatePaymentCommand -> CreatePaymentRequest
-            SimpleMapper.CreateMap<CreatePaymentCommand, CreatePaymentRequest>()
-                .ForMember(x => x.PayerReference, m => m.MapFrom(z => string.IsNullOrWhiteSpace(z.PayerReference) ? " " : z.PayerReference))
-                .ForMember(x => x.Mode, m => m.MapFrom(z => CONSTANTS.WITHOUT_AGREEMENT_CODE))
-                .ForMember(x => x.Amount, m => m.MapFrom(z => z.Amount.ToString()))
-                .ForMember(x => x.Intent, m => m.MapFrom(z => string.IsNullOrWhiteSpace(z.Intent) ? CONSTANTS.SALE : z.Intent))
-                .ForMember(x => x.Currency, m => m.MapFrom(z => string.IsNullOrWhiteSpace(z.Currency) ? CONSTANTS.BDT : z.Currency));
+            CreateMap<CreatePaymentCommand, CreatePaymentRequest>(map =>
+            {
+                map.ForMember(dest => dest.PayerReference, src => string.IsNullOrWhiteSpace(src.PayerReference) ? " " : src.PayerReference);
+                map.ForMember(dest => dest.Mode, src => CONSTANTS.WITHOUT_AGREEMENT_CODE);
+                map.ForMember(dest => dest.Amount, src => src.Amount.ToString());
+                map.ForMember(dest => dest.Intent, src => string.IsNullOrWhiteSpace(src.Intent) ? CONSTANTS.SALE : src.Intent);
+                map.ForMember(dest => dest.Currency, src => string.IsNullOrWhiteSpace(src.Currency) ? CONSTANTS.BDT : src.Currency);
+            });
 
             // CreatePaymentResponse -> CreatePaymentResult
-            SimpleMapper.CreateMap<CreatePaymentResponse, CreatePaymentResult>()
-                .ForMember(x => x.Amount, m => m.MapFrom(z => float.Parse(z.Amount)));
+            CreateMap<CreatePaymentResponse, CreatePaymentResult>(map =>
+            {
+                map.ForMember(dest => dest.Amount, src => float.Parse(src.Amount));
+            });
 
             // ExecutePaymentCommand -> ExecutePaymentRequest
-            SimpleMapper.CreateMap<ExecutePaymentCommand, ExecutePaymentRequest>();
+            CreateMap<ExecutePaymentCommand, ExecutePaymentRequest>();
 
             // ExecutePaymentResponse -> ExecutePaymentResult
-            SimpleMapper.CreateMap<ExecutePaymentResponse, ExecutePaymentResult>()
-                .ForMember(x => x.Amount, m => m.MapFrom(z => float.Parse(z.Amount)));
+            CreateMap<ExecutePaymentResponse, ExecutePaymentResult>(map =>
+            {
+                map.ForMember(dest => dest.Amount, src => float.Parse(src.Amount));
+            });
 
             // PaymentQuery -> QueryPaymentRequest
-            SimpleMapper.CreateMap<PaymentQuery, QueryPaymentRequest>();
+            CreateMap<PaymentQuery, QueryPaymentRequest>();
 
             // QueryPaymentResponse -> QueryPaymentResult
-            SimpleMapper.CreateMap<QueryPaymentResponse, QueryPaymentResult>()
-                .ForMember(x => x.Amount, m => m.MapFrom(z => float.Parse(z.Amount)));
+            CreateMap<QueryPaymentResponse, QueryPaymentResult>(map =>
+            {
+                map.ForMember(dest => dest.Amount, src => float.Parse(src.Amount));
+            });
 
             // RefundPaymentCommand -> RefundPaymentRequest
-            SimpleMapper.CreateMap<RefundPaymentCommand, RefundPaymentRequest>()
-                .ForMember(x => x.Amount, m => m.MapFrom(z => z.Amount.ToString()));
+            CreateMap<RefundPaymentCommand, RefundPaymentRequest>(map =>
+            {
+                map.ForMember(dest => dest.Amount, src => src.Amount.ToString());
+            });
 
             // RefundPaymentResponse -> RefundPaymentResult
-            SimpleMapper.CreateMap<RefundPaymentResponse, RefundPaymentResult>()
-                .ForMember(x => x.Amount, m => m.MapFrom(z => float.Parse(z.Amount)));
+            CreateMap<RefundPaymentResponse, RefundPaymentResult>(map =>
+            {
+                map.ForMember(dest => dest.Amount, src => float.Parse(src.Amount));
+            });
         }
     }
 }

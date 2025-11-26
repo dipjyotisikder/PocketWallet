@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace PocketWallet.Bkash.Common.Models
 {
@@ -10,7 +10,7 @@ namespace PocketWallet.Bkash.Common.Models
         /// <summary>
         /// Bkash generated paymentID provided in the response of Create Payment API.
         /// </summary>
-        [JsonPropertyName("paymentID")]
+        [JsonProperty("paymentID")]
         public string PaymentId { get; set; } = string.Empty;
     }
 }

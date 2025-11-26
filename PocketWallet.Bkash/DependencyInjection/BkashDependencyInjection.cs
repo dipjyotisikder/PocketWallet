@@ -1,10 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Knot.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using PocketWallet.Bkash.Abstraction;
 using PocketWallet.Bkash.Common.Abstractions;
 using PocketWallet.Bkash.Common.Providers;
 using PocketWallet.Bkash.Concretes;
 using PocketWallet.Bkash.DependencyInjection.Options;
-using PocketWallet.Bkash.MappingProfile;
 using System;
 using System.Net.Http.Headers;
 using CONSTANTS = PocketWallet.Bkash.Common.Constants.Constants;
@@ -32,8 +32,14 @@ namespace PocketWallet.Bkash.DependencyInjection
             };
 
             optionsAction.Invoke(options);
-
             services.AddSingleton(x => options);
+
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfiles(typeof(BkashDependencyInjection).Assembly);
+            });
+
+            services.AddSingleton(config.CreateMapper());
 
             services.AddHttpClient<IBkashAuthorizationHandler, BkashAuthorizationHandler>(x =>
             {
@@ -52,9 +58,6 @@ namespace PocketWallet.Bkash.DependencyInjection
             });
 
             services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
-
-            // Configure SimpleMapper mappings
-            SimpleMapperProfile.Configure();
 
             services.AddSingleton<ITokenProvider, TokenProvider>();
 

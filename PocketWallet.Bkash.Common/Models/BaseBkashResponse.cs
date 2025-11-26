@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace PocketWallet.Bkash.Common.Models
 {
@@ -10,25 +10,25 @@ namespace PocketWallet.Bkash.Common.Models
         /// <summary>
         /// Unique code assigned to the API call status.
         /// </summary>
-        [JsonPropertyName("statusCode")]
+        [JsonProperty("statusCode")]
         public string StatusCode { get; set; } = string.Empty;
 
         /// <summary>
         /// Message associated with the status, explaining the status.
         /// </summary>
-        [JsonPropertyName("statusMessage")]
+        [JsonProperty("statusMessage")]
         public string StatusMessage { get; set; } = string.Empty;
 
         /// <summary>
         /// Unique code assigned to the occurred error.
         /// </summary>
-        [JsonPropertyName("errorCode")]
+        [JsonProperty("errorCode")]
         public string ErrorCode { get; set; } = string.Empty;
 
         /// <summary>
         /// Message associated with the error, explaining the error reason.
         /// </summary>
-        [JsonPropertyName("errorMessage")]
+        [JsonProperty("errorMessage")]
         public string ErrorMessage { get; set; } = string.Empty;
     }
 }
