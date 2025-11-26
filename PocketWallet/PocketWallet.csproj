@@ -11,13 +11,10 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.4" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
-		<PackageReference Include="System.Text.Json" Version="8.0.5" />
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-		<PackageReference Include="Knot" Version="1.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\PocketWallet.Bkash\PocketWallet.Bkash.csproj" />
+	  <ProjectReference Include="..\PocketWallet.Bkash\PocketWallet.Bkash.csproj" />
 	</ItemGroup>
 
 </Project>
