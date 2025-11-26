@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace PocketWallet.Bkash.Common.Models
 {
@@ -10,19 +10,19 @@ namespace PocketWallet.Bkash.Common.Models
         /// <summary>
         /// Application Key value shared by Bkash during on-boarding.
         /// </summary>
-        [JsonPropertyName("app_key")]
+        [JsonProperty("app_key")]
         internal string AppKey { get; set; } = string.Empty;
 
         /// <summary>
         /// Application Secret value shared by Bkash during on-boarding.
         /// </summary>
-        [JsonPropertyName("app_secret")]
+        [JsonProperty("app_secret")]
         internal string AppSecret { get; set; } = string.Empty;
 
         /// <summary>
         /// Refresh token value found in the Grant Token API against the original id_token.
         /// </summary>
-        [JsonPropertyName("refresh_token")]
+        [JsonProperty("refresh_token")]
         internal string RefreshToken { get; set; } = string.Empty;
     }
 }

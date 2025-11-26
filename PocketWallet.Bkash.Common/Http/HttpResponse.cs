@@ -2,8 +2,7 @@
 using System.ComponentModel;
 using System.Net;
 using System.Net.Http;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace PocketWallet.Bkash.Common.Http
 {
@@ -13,11 +12,10 @@ namespace PocketWallet.Bkash.Common.Http
     /// <typeparam name="TOut">Expected output object type.</typeparam>
     internal class HttpResponse<TOut> where TOut : BaseBkashResponse
     {
-        private static readonly JsonSerializerOptions JsonOptions = new JsonSerializerOptions()
+        private static readonly JsonSerializerSettings JsonSettings = new JsonSerializerSettings()
         {
-            PropertyNameCaseInsensitive = true,
-            DefaultIgnoreCondition = JsonIgnoreCondition.Never,
-            NumberHandling = JsonNumberHandling.AllowReadingFromString
+            NullValueHandling = NullValueHandling.Include,
+            MissingMemberHandling = MissingMemberHandling.Ignore
         };
 
         /// <summary>
@@ -31,7 +29,7 @@ namespace PocketWallet.Bkash.Common.Http
 
             if (httpResponse.IsSuccessStatusCode)
             {
-                Data = JsonSerializer.Deserialize<TOut>(Response, JsonOptions);
+                Data = JsonConvert.DeserializeObject<TOut>(Response, JsonSettings);
             }
 
             Success = CheckIfOk(httpResponse.IsSuccessStatusCode, Data);
@@ -50,7 +48,7 @@ namespace PocketWallet.Bkash.Common.Http
 
             if (isSuccessStatusCode)
             {
-                Data = JsonSerializer.Deserialize<TOut>(Response, JsonOptions);
+                Data = JsonConvert.DeserializeObject<TOut>(Response, JsonSettings);
             }
 
             Success = CheckIfOk(isSuccessStatusCode, Data);
@@ -58,7 +56,7 @@ namespace PocketWallet.Bkash.Common.Http
 
         /// <summary>
         /// Response success status.
-        /// </summary>
+        /// /// </summary>
         [DefaultValue(false)]
         internal bool Success { get; }
 

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
-using System.Text.Json;
+using Newtonsoft.Json;
 using System.Threading.Tasks;
 
 namespace PocketWallet.Bkash.Common.Http
@@ -13,10 +13,10 @@ namespace PocketWallet.Bkash.Common.Http
     /// </summary>
     internal static class HttpProxy
     {
-        private static readonly JsonSerializerOptions JsonOptions = new JsonSerializerOptions()
+        private static readonly JsonSerializerSettings JsonSettings = new JsonSerializerSettings()
         {
-            PropertyNameCaseInsensitive = true,
-            DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.Never
+            NullValueHandling = NullValueHandling.Include,
+            MissingMemberHandling = MissingMemberHandling.Ignore
         };
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace PocketWallet.Bkash.Common.Http
             if (body != null)
             {
                 requestMessage.Content = new StringContent(
-                    content: JsonSerializer.Serialize(body, JsonOptions),
+                    content: JsonConvert.SerializeObject(body, JsonSettings),
                     encoding: Encoding.UTF8,
                     mediaType: "application/json");
             }

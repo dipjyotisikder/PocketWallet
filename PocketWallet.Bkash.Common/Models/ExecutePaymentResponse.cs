@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace PocketWallet.Bkash.Common.Models
 {
@@ -10,61 +10,61 @@ namespace PocketWallet.Bkash.Common.Models
         /// <summary>
         /// Bkash generated payment ID for this payment creation request. This payment ID can be used later to track down the payment and in other payment related APIs.
         /// </summary>
-        [JsonPropertyName("paymentID")]
+        [JsonProperty("paymentID")]
         public string PaymentId { get; set; } = string.Empty;
 
         /// <summary>
         /// The payer reference value that was provided during the create payment API call.
         /// </summary>
-        [JsonPropertyName("payerReference")]
+        [JsonProperty("payerReference")]
         public string PayerReference { get; set; } = string.Empty;
 
         /// <summary>
         /// MSISDN of the customer who performed the payment.
         /// </summary>
-        [JsonPropertyName("customerMsisdn")]
+        [JsonProperty("customerMsisdn")]
         public string CustomerMSISDN { get; set; } = string.Empty;
 
         /// <summary>
         /// A transaction ID created after the successful completion of this payment request. This ID can be used later to get the details of this transaction.
         /// </summary>
-        [JsonPropertyName("trxID")]
+        [JsonProperty("trxID")]
         public string TransactionId { get; set; } = string.Empty;
 
         /// <summary>
         /// Amount of the payment transaction.
         /// </summary>
-        [JsonPropertyName("amount")]
+        [JsonProperty("amount")]
         public string Amount { get; set; } = string.Empty;
 
         /// <summary>
         /// Final status of the transaction. For a successful payment, this status should be "Completed".
         /// </summary>
-        [JsonPropertyName("transactionStatus")]
+        [JsonProperty("transactionStatus")]
         public string TransactionStatus { get; set; } = string.Empty;
 
         /// <summary>
         /// The time when the payment was executed. Format is** **- "yyyy-MM-dd'T'HH:mm:ss 'GMT'Z".
         /// </summary>
-        [JsonPropertyName("paymentExecuteTime")]
+        [JsonProperty("paymentExecuteTime")]
         public string PaymentExecuteTime { get; set; } = string.Empty;
 
         /// <summary>
         /// Currency of the mentioned amount. Currently only "BDT" value is supported.
         /// </summary>
-        [JsonPropertyName("currency")]
+        [JsonProperty("currency")]
         public string Currency { get; set; } = string.Empty;
 
         /// <summary>
         /// Intent for the payment transaction. For checkout, the value will be "sale".
         /// </summary>
-        [JsonPropertyName("intent")]
+        [JsonProperty("intent")]
         public string Intent { get; set; } = string.Empty;
 
         /// <summary>
         /// Unique invoice number used at merchant side for this specific payment.
         /// </summary>
-        [JsonPropertyName("merchantInvoiceNumber")]
+        [JsonProperty("merchantInvoiceNumber")]
         public string MerchantInvoiceNumber { get; set; } = string.Empty;
     }
 }
