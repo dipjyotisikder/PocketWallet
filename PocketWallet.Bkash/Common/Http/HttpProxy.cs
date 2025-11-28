@@ -13,7 +13,7 @@ namespace PocketWallet.Bkash.Common.Http
     /// </summary>
     internal static class HttpProxy
     {
-        private static readonly JsonSerializerSettings JsonSettings = new JsonSerializerSettings()
+        private static readonly JsonSerializerSettings JsonSettings = new()
         {
             NullValueHandling = NullValueHandling.Include,
             MissingMemberHandling = MissingMemberHandling.Ignore
@@ -30,7 +30,7 @@ namespace PocketWallet.Bkash.Common.Http
         /// <param name="headers">Additional header parameters.</param>
         /// <returns>HTTP response object.</returns>
         internal static async Task<HttpResponse<TOut>> PostAsync<TIn, TOut>(this HttpClient httpClient,
-            string endpoint, TIn body, Dictionary<string, string> headers = null) where TOut : BaseBkashResponse
+            string endpoint, TIn body, Dictionary<string, string>? headers = null) where TOut : BaseBkashResponse
         {
             return await Request<TIn, TOut>(
                 httpClient: httpClient,
@@ -56,7 +56,7 @@ namespace PocketWallet.Bkash.Common.Http
             HttpMethod method,
             string endpoint,
             TIn body,
-            Dictionary<string, string> headers = null) where TOut : BaseBkashResponse
+            Dictionary<string, string>? headers = null) where TOut : BaseBkashResponse
         {
             var requestMessage = ProcessRequestMessage(httpClient, method, endpoint, headers);
 
@@ -79,7 +79,7 @@ namespace PocketWallet.Bkash.Common.Http
         /// <param name="endpoint">Endpoint URL of Bkash.</param>
         /// <param name="headers">Additional header parameters.</param>
         /// <returns>HTTP request message object.</returns>
-        private static HttpRequestMessage ProcessRequestMessage(HttpClient httpClient, HttpMethod method, string endpoint, Dictionary<string, string> headers = null)
+        private static HttpRequestMessage ProcessRequestMessage(HttpClient httpClient, HttpMethod method, string endpoint, Dictionary<string, string>? headers = null)
         {
             var requestMessage = new HttpRequestMessage
             {
@@ -110,17 +110,27 @@ namespace PocketWallet.Bkash.Common.Http
         /// <param name="httpClient">HTTP client object.</param>
         /// <param name="requestMessage">HTTP request message object.</param>
         /// <returns>A HTTP response object after calling Bkash API.</returns>
-        private static async Task<HttpResponse<TOut>> HandleRequest<TOut>(HttpClient httpClient, HttpRequestMessage requestMessage)
-            where TOut : BaseBkashResponse
+        private static async Task<HttpResponse<TOut>> HandleRequest<TOut>(HttpClient httpClient, HttpRequestMessage requestMessage) where TOut : BaseBkashResponse
         {
             try
             {
-                return HttpResponse<TOut>.Create(await httpClient.SendAsync(requestMessage));
+                var response = await httpClient.SendAsync(requestMessage);
+                var responseString = await response.Content.ReadAsStringAsync();
+                return HttpResponse<TOut>.Create(new HttpResponse
+                {
+                    ResponseString = responseString,
+                    StatusCode = response.StatusCode,
+                    IsSuccessStatusCode = response.IsSuccessStatusCode
+                });
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                var message = string.Format(format: "Exception Message: {0} | Inner Exception Message: {1}", arg0: e.Message, arg1: e.InnerException?.Message);
-                return HttpResponse<TOut>.Create(isSuccessStatusCode: false, responseString: message);
+                return HttpResponse<TOut>.Create(new HttpResponse
+                {
+                    IsSuccessStatusCode = false,
+                    ResponseString = "Bkash request failed",
+                    StatusCode = System.Net.HttpStatusCode.InternalServerError
+                });
             }
         }
     }
