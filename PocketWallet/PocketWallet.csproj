@@ -9,14 +9,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Dipjyoti.PocketWallet.Bkash" Version="2.0.0" />
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.4" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.4" />
 		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="8.1.4" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <ProjectReference Include="..\PocketWallet.Bkash\PocketWallet.Bkash.csproj" />
-	  <ProjectReference Include="..\PocketWallet.Nagad\PocketWallet.Nagad.csproj" />
 	</ItemGroup>
 
 </Project>
