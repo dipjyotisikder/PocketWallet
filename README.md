@@ -14,10 +14,10 @@ To contribute to PocketWallet, you'll need a good understanding of .NET developm
 ## 1. Getting Started <a name="getting-started"></a>
 To get started with PocketWallet, follow these steps:
 
-- Install .NET 6 SDK: [Download .NET 6 SDK](https://dotnet.microsoft.com/download/dotnet/6.0)
+- Install .NET 6 SDK: [Download latest .NET SDK](https://dotnet.microsoft.com/en-us/download/dotnet/latest)
 - Clone the PocketWallet repository: `git clone https://github.com/dipjyotisikder/PocketWallet.git`
 - Navigate to the PocketWallet directory: `cd PocketWallet`
-- Now you can have a test with API project provided along with it or can go ahead to contribute to this project.
+- Now you can have a test with the API project provided along with it, or you can go ahead to contribute to this project.
 
 ## 2. Making Your First Contribution <a name="making-your-first-contribution"></a>
 
