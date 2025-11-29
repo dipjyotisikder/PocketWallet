@@ -11,10 +11,10 @@
 		<Description>Library that helps with Bkash Payment integration for .NET Standard 2.0+. Compatible with .NET Framework 4.6.1+, .NET Core 2.0+, and .NET 5+.</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageTags>E-Wallet, Wallet, Bkash, Money, Payment, Payment Gateway, Gateway</PackageTags>
-		<RepositoryUrl>https://github.com/jyotidips/PocketWallet</RepositoryUrl>
+		<RepositoryUrl>https://github.com/dipjyotisikder/PocketWallet</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
-		<PackageProjectUrl>https://github.com/jyotidips/PocketWallet</PackageProjectUrl>
-		<Copyright>Copyright (c) Dipjyoti 2023.</Copyright>
+		<PackageProjectUrl>https://github.com/dipjyotisikder/PocketWallet</PackageProjectUrl>
+		<Copyright>Copyright (c) Dipjyoti 2025.</Copyright>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageIcon>icon.png</PackageIcon>
 		<PackageReleaseNotes>Migrated to .NET Standard 2.0 for maximum compatibility across .NET Framework 4.6.1+, .NET Core 2.0+, and .NET 5+. Uses System.Text.Json for modern JSON serialization. Backward compatible API.</PackageReleaseNotes>

@@ -491,22 +491,22 @@ This package targets .NET Standard 2.0 for maximum compatibility across the .NET
 
 ### Getting Help
 - 📚 [Bkash Official Documentation](https://developer.bka.sh/)
-- 🐛 [Report Issues](https://github.com/jyotidips/PocketWallet/issues)
-- 💡 [Feature Requests](https://github.com/jyotidips/PocketWallet/issues/new)
-- ❓ [Ask Questions](https://github.com/jyotidips/PocketWallet/issues)
+- 🐛 [Report Issues](https://github.com/dipjyotisikder/PocketWallet/issues)
+- 💡 [Feature Requests](https://github.com/dipjyotisikder/PocketWallet/issues/new)
+- ❓ [Ask Questions](https://github.com/dipjyotisikder/PocketWallet/issues)
 
 ### Contributing
 Contributions are welcome! Please feel free to submit pull requests or open issues on GitHub.
 
 ### License
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/jyotidips/PocketWallet/blob/master/LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/dipjyotisikder/PocketWallet/blob/master/LICENSE) file for details.
 
 ---
 
 ## Credits
 
 **Author:** Dipjyoti Sikder  
-**Repository:** [PocketWallet on GitHub](https://github.com/jyotidips/PocketWallet)
+**Repository:** [PocketWallet on GitHub](https://github.com/dipjyotisikder/PocketWallet)
 
 ---
 
